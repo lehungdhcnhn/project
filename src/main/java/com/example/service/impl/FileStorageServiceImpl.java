@@ -17,23 +17,9 @@ import com.example.service.FileStorageService;
 @Service
 public class FileStorageServiceImpl implements FileStorageService{
 
-	private final Path fileStorageLocation ;
-	
-	@Autowired
-	public FileStorageServiceImpl(FileStorageProperties fileStorageProperties) {
-		this.fileStorageLocation=Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
-		try {
-			Files.createDirectories(this.fileStorageLocation);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	@Override
 	public String storeFile(MultipartFile file) throws IOException {
-		if(!(file.getOriginalFilename().endsWith(".jpg")||file.getOriginalFilename().endsWith(".jpeg")||file.getOriginalFilename().endsWith(".png")))
-			throw new FileStorageException("Only PNG, JPEG and JPG images are allowed");
-		//File f = new File(pathname)
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -42,5 +28,25 @@ public class FileStorageServiceImpl implements FileStorageService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	/*
+	 * private final Path fileStorageLocation ;
+	 * 
+	 * @Autowired public FileStorageServiceImpl(FileStorageProperties
+	 * fileStorageProperties) {
+	 * this.fileStorageLocation=Paths.get(fileStorageProperties.getUploadDir()).
+	 * toAbsolutePath().normalize(); try {
+	 * Files.createDirectories(this.fileStorageLocation); } catch (IOException e) {
+	 * e.printStackTrace(); } }
+	 * 
+	 * @Override public String storeFile(MultipartFile file) throws IOException {
+	 * if(!(file.getOriginalFilename().endsWith(".jpg")||file.getOriginalFilename().
+	 * endsWith(".jpeg")||file.getOriginalFilename().endsWith(".png"))) throw new
+	 * FileStorageException("Only PNG, JPEG and JPG images are allowed"); File f =
+	 * new File("E://TMP//"); return null; }
+	 * 
+	 * @Override public Resource loadFileAsResource(String filename) { // TODO
+	 * Auto-generated method stub return null; }
+	 */
 
 }

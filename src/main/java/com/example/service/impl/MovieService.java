@@ -41,7 +41,7 @@ public class MovieService implements IMovieService {
 	public Movie findById(Long movieId) {
 		Optional<Movie> entity =movieRepository.findById(movieId);
 		 if (!entity.isPresent()) {
-	            throw new RuntimeException("Book Not Found!");
+	            throw new RuntimeException("Movie Not Found!");
 	        }
 		return entity.get();
 	}
