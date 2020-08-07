@@ -11,6 +11,7 @@ public class MovieConverter {
 	public MovieDTO convertToMovieDTO(Movie movie)
 	{
 		MovieDTO movieDTO = modelMapper.map(movie, MovieDTO.class);
+		//movieDTO.setCategoryCode(movie.getCategory().getCode());
 		return movieDTO;
 	}
 	public Movie convertToMovieEntity(MovieDTO movieDTO)
@@ -22,7 +23,7 @@ public class MovieConverter {
 		movie.setContent(dto.getContent());
 		movie.setTitle(dto.getTitle());
 		
-		movie.setShortDescription(dto.getShortDesciption());
+		movie.setsDescription(dto.getsDescription());
 		movie.setThumbnail(dto.getThumbnail());
 		return movie;
 	}

@@ -1,14 +1,14 @@
 package com.example.entities;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,21 +18,26 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "code")
-	private String code;
+	
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(mappedBy = "category")
-	private List<Movie> news = new ArrayList<>();
 	
 	
-	public List<Movie> getNews() {
-		return news;
+
+	@ManyToMany(mappedBy = "categories")
+    private List<Movie> movies;
+	
+
+	
+	
+
+	public List<Movie> getMovies() {
+		return movies;
 	}
 
-	public void setNews(List<Movie> news) {
-		this.news = news;
+	public void setMovies(List<Movie> movies) {
+		this.movies = movies;
 	}
 
 	public Long getId() {
@@ -43,14 +48,7 @@ public class Category {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
+	
 	public String getName() {
 		return name;
 	}

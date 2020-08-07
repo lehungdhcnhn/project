@@ -1,5 +1,11 @@
 package com.example.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +16,11 @@ import com.example.entities.Movie;
 import com.example.repositories.CategoryRepository;
 import com.example.repositories.MovieRepository;
 import com.example.service.IMovieService;
-@Service
-public class MovieService implements IMovieService {
 
+import ch.qos.logback.core.joran.action.NewRuleAction;
+@Service
+
+public class MovieService implements IMovieService {
 	@Autowired
 	private MovieRepository movieRepository;
 	@Autowired 
@@ -20,27 +28,48 @@ public class MovieService implements IMovieService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	@Override
-	public MovieDTO save(MovieDTO movieDTO) {
-		Movie movie = new Movie();
-		
-		if (movieDTO.getId() != null) {
-			Movie oldMovieEntity = movieRepository.findOneById(movieDTO.getId());
-			movie = movieConverter.toEntity(movieDTO, oldMovieEntity);
-		} else {
-			movie = movieConverter.convertToMovieEntity(movieDTO);
+	public List<MovieDTO> getAll() {
+		List<MovieDTO> models = new ArrayList<>();
+		List<Movie> entities = (List<Movie>) movieRepository.findAll();
+		for (Movie item: entities) {
+			MovieDTO newDTO = movieConverter.convertToMovieDTO(item);
+			models.add(newDTO);
 		}
-		Category categoryEntity = categoryRepository.findOneByCode(movieDTO.getCategoryCode());
-		movie.setCategory(categoryEntity);
-		movie = movieRepository.save(movie);
-		return movieConverter.convertToMovieDTO(movie);
-	
+		return models;
 	}
-
 	@Override
-	public void delete(long[] ids) {
-		for(long item: ids) {
-			movieRepository.deleteById(item);
-		}
-
+	public Movie findById(Long movieId) {
+		Optional<Movie> entity =movieRepository.findById(movieId);
+		 if (!entity.isPresent()) {
+	            throw new RuntimeException("Book Not Found!");
+	        }
+		return entity.get();
 	}
+	@Override
+	public Long create(Movie movieDetails) {
+		movieRepository.save(movieDetails);
+		return movieDetails.getId();
+	}
+	
+	@Override
+	public void delete(Long movieId) {
+		movieRepository.deleteById(movieId);
+		
+	}
+	@Override
+	public void update(Long movieId, Movie movieDetails) {
+		Optional<Movie> currentMovie=movieRepository.findById(movieId);
+		currentMovie.get().setTitle(movieDetails.getTitle());
+		currentMovie.get().setThumbnail(movieDetails.getThumbnail());
+		currentMovie.get().setsDescription(movieDetails.getsDescription());
+		currentMovie.get().setContent(movieDetails.getContent());
+		currentMovie.get().setCategories(movieDetails.getCategories());
+		movieRepository.save(currentMovie.get());
+		
+	}
+	
+
+	
+
+	
 }

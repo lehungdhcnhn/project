@@ -1,7 +1,9 @@
 package com.example.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,7 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -22,8 +25,8 @@ public class Movie {
 	private Long id;
 	@Column(name="content")
 	private String content;
-	@Column(name="shortDescription")
-	private String shortDescription;
+	@Column(name="sdescription")
+	private String sDescription;
 	@Column(name="title")
 	private String title;
 	@Column(name="thumbnail")
@@ -34,19 +37,23 @@ public class Movie {
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
 	}
-	@ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+	
+	@ManyToMany(cascade=CascadeType.MERGE)
+	    @JoinTable(name = "movie_category",
+	        joinColumns = @JoinColumn(name = "movie_id" , referencedColumnName="ID"),
+	        inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName="ID")
+	    )
+	 private List<Category> categories = new ArrayList<Category>();
 	
 	
 
-	
-	public Category getCategory() {
-		return category;
+	public List<Category> getCategories() {
+		return categories;
 	}
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
+
 	@OneToMany(
 	        cascade = CascadeType.ALL,
 	        orphanRemoval = true
@@ -71,11 +78,12 @@ public class Movie {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getShortDescription() {
-		return shortDescription;
+	
+	public String getsDescription() {
+		return sDescription;
 	}
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
+	public void setsDescription(String sDescription) {
+		this.sDescription = sDescription;
 	}
 	public String getTitle() {
 		return title;

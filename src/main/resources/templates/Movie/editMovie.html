@@ -1,11 +1,13 @@
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <link rel="stylesheet" th:href="@{/admin/assets/css/bootstrap.min.css}" />
-<link rel="stylesheet"	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
-<link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"	class="ace-main-stylesheet" id="main-ace-style" />
+<link rel="stylesheet"
+	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"
+	class="ace-main-stylesheet" id="main-ace-style" />
 <script th:src="@{admin/assets/js/ace-extra.min.js}"></script>
 <link rel="stylesheet"
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -37,8 +39,8 @@
 		<!-- menu -->
 		<div th:replace="common/admin/menu :: copy-menu-admin"></div>
 		<!-- menu -->
-		
-		<div th:replace="Movie/edit :: edit-movie"></div>	
+
+		<div th:replace="Movie/edit :: edit-movie"></div>
 
 		<!-- footer -->
 		<div th:replace="common/admin/footer :: copy-footer-admin"></div>
@@ -64,6 +66,15 @@
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/paging/jquery.twbsPagination.js} "></script>
 	<!-- page specific plugin scripts -->
-	<script th:src="@{/admin/assets/js/jquery-ui.min.js}"></script>
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+
 </body>
 </html>

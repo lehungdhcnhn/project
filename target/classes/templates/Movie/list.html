@@ -53,31 +53,30 @@
 					<th>content</th>
 					<th>title</th>
 					<th>shortDescription</th>
-					<th>Category</th>
 					<th>Thumbnail</th>
 					<th></th>
 				</tr>
 			</thead>
 
 			<tbody>
-				<tr th:each="category : ${listCategory}">
+				<tr th:each="movie : ${listMovie.listResult}">
 					<td class="center"><label class="pos-rel"> <input
 							type="checkbox" class="ace" /> <span class="lbl"></span>
 					</label></td>
 
-					<td th:text="${category.code}"></td>
-					<td th:text="${category.name}"></td>
-					<td></td>
+					<td th:text="${movie.content}"></td>
+					<td th:text="${movie.title}"></td>
+					<td th:text="${movie.sDescription}"></td>
 					<td></td>
 					<td>
 						<div class="hidden-sm hidden-xs btn-group">
 
-							<a th:href=@{/updateCategory/{id}(id=${category.id})} class="btn btn-xs btn-info">
+								<a th:href=@{/updateMovie/{id}(id=${movie.id})} class="btn btn-xs btn-info">
 								<i class="ace-icon fa fa-pencil bigger-120">
 										
 								</i>
 							</a>
-							<a  th:href=@{/deleteCategory/{id}(id=${category.id})} class="btn btn-xs btn-danger">
+							<a  th:href=@{/deleteMovie/{id}(id=${movie.id})} class="btn btn-xs btn-danger">
 								<i class="ace-icon fa fa-trash-o bigger-120">
 									
 								</i>
