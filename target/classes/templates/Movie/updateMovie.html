@@ -38,7 +38,7 @@
 		<div th:replace="common/admin/menu :: copy-menu-admin"></div>
 		<!-- menu -->
 		
-		<div th:replace="Movie/edit :: edit-movie"></div>	
+		<div th:replace="Movie/update :: update-movie"></div>	
 
 		<!-- footer -->
 		<div th:replace="common/admin/footer :: copy-footer-admin"></div>
@@ -73,6 +73,22 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#fileImage').change(function() {
+				showImageThumbnail(this);
+			});
+		});
+		function showImageThumbnail(fileInput){
+			file = fileInput.files[0];
+			reader = new FileReader();
+			
+			reader.onload=function(e){
+				$('#thumbnail').attr('src',e.target.result);
+			};
+			
+			reader.readAsDataURL(file);
+		}
+	</script>
 </body>
 </html>

@@ -21,14 +21,16 @@
 		<div class="page-content">
 			<div class="row">
 				<div class="col-xs-12">
-					<form method="POST" class="form-horizontal" id="formSubmit">
+					<form  th:action="@{/updateMovieLate/{id}(id=${movie.id})}" th:object="${movie}" method="POST"class="form-horizontal"
+					enctype="multipart/form-data" id="formSubmit">
 						<div class="form-group">
+						<input type="hidden" th:field="*{id}" />
 							<label class="col-sm-3 control-label no-padding-right"
 								for="form-field-1"> Content </label>
 
 							<div class="col-sm-9">
 
-								<textarea rows="5" cols="10" class="form-control"></textarea>
+								<textarea rows="5" cols="10" id="content" name="content" class="form-control" th:field="*{content}"></textarea>
 							</div>
 
 						</div>
@@ -38,18 +40,18 @@
 								for="form-field-1"> Title </label>
 
 							<div class="col-sm-9">
-								<input type="text" class="col-xs-10 col-sm-5" id="code "
-									name="code" />
+								<input type="text" class="col-xs-10 col-sm-5" id="title"
+									name="title" th:field="*{title}" />
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> ShortDescription </label>
+								for="form-field-1" > ShortDescription </label>
 
 							<div class="col-sm-9">
 
-								<textarea rows="5" cols="10" class="form-control"></textarea>
+								<textarea rows="5" cols="10" class="form-control" th:field="*{sDescription}"></textarea>
 							</div>
 
 						</div>
@@ -58,11 +60,11 @@
 								class="col-sm-3 control-label no-padding-right">Thể loại:</label>
 							<div class="col-sm-9">
 
-								<select class="selectpicker" multiple data-live-search="true">
+								<select  th:field="*{categories}" class="selectpicker" multiple data-live-search="true" >
 									<option value="">--</option>
 									<option th:each="category : ${listCategory}"
-                           					 th:utext="${category.name}"
-                           					 th:value="${category.name}"
+                           					 th:text="${category.name}"
+                           					 th:value="${category.id}"
 									></option>
 								</select>
 							</div>
@@ -72,7 +74,8 @@
 								for="form-field-1"> Thumbnail </label>
 
 							<div class="col-sm-9">
-								<input type="file" id="myfile" name="myfile">
+								<input type="file" id="fileImage" name="fileImage" accept="image/png,image/jpeg"/>
+								<img id="thumbnail" alt="picture preview" style="width: 200px ;height: 150px"/>
 							</div>
 						</div>
 						<div class="clearfix form-actions">
@@ -80,7 +83,7 @@
 
 								<button class="btn btn-info" type="submit"
 									id="btnAddOrUpdateNew">
-									<i class="ace-icon fa fa-check bigger-110"></i> Thêm bài viết
+									<i class="ace-icon fa fa-check bigger-110"></i> Sửa bài viết
 								</button>
 
 

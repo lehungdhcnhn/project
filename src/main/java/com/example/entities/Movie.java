@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="movie")
@@ -91,5 +92,10 @@ public class Movie {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
+	@Transient
+	public String getThumbnailImagePath()
+	{
+		if(thumbnail==null||id==null) return null;
+		return "/thumbnail-pictures/"+id+"/"+thumbnail;
+	}
 }

@@ -59,7 +59,7 @@
 			</thead>
 
 			<tbody>
-				<tr th:each="movie : ${listMovie.listResult}">
+				<tr th:each="movie : ${listMovie}">
 					<td class="center"><label class="pos-rel"> <input
 							type="checkbox" class="ace" /> <span class="lbl"></span>
 					</label></td>
@@ -67,7 +67,7 @@
 					<td th:text="${movie.content}"></td>
 					<td th:text="${movie.title}"></td>
 					<td th:text="${movie.sDescription}"></td>
-					<td></td>
+					<td><img th:src="@{${movie.ThumbnailImagePath}}" style="width: 200px; height: 150px" /></td>
 					<td>
 						<div class="hidden-sm hidden-xs btn-group">
 
