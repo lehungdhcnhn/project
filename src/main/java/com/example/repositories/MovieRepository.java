@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.example.entities.Movie;
 
-public interface MovieRepository extends CrudRepository<Movie, Long> {
+public interface MovieRepository extends JpaRepository<Movie, Long> {
 
 
 

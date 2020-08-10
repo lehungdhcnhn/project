@@ -23,7 +23,19 @@
 				<div class="col-xs-12">
 					<form th:action="@{/saveMovie}" th:object="${movie}" method="POST"
 						class="form-horizontal" id="formSubmit" enctype="multipart/form-data">
+						
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right"
+								for="form-field-1"> Name </label>
 
+							<div class="col-sm-9">
+
+								<textarea rows="5" cols="10" class="form-control"
+									th:field="*{name}" name="name" id="name"></textarea>
+							</div>
+
+						</div>
+						
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,12 +33,23 @@ public class MovieService implements IMovieService {
 	private MovieConverter movieConverter;
 
 	/*
-	 * @Override public List<MovieDTO> getAll() { List<MovieDTO> models = new
-	 * ArrayList<>(); List<Movie> entities = (List<Movie>)
-	 * movieRepository.findAll(); for (Movie item: entities) { MovieDTO newDTO =
-	 * movieConverter.convertToMovieDTO(item); models.add(newDTO); } return models;
-	 * }
+	 * @Override public List<MovieDTO> getAll(Pageable pageable) { List<MovieDTO>
+	 * models = new ArrayList<>(); List<Movie> entities = (List<Movie>)
+	 * movieRepository.findAll(pageable).getContent(); for (Movie item : entities) {
+	 * MovieDTO newDTO = movieConverter.convertToMovieDTO(item); models.add(newDTO);
+	 * } return models; }
 	 */
+	@Override
+	public List<MovieDTO> getAll() {
+		List<MovieDTO> models = new ArrayList<>();
+		List<Movie> entities = (List<Movie>) movieRepository.findAll();
+		for (Movie item : entities) {
+			MovieDTO newDTO = movieConverter.convertToMovieDTO(item);
+			models.add(newDTO);
+		}
+		return models;
+	}
+
 	@Override
 	public Movie findById(Long movieId) {
 		Optional<Movie> entity = movieRepository.findById(movieId);
@@ -72,11 +84,10 @@ public class MovieService implements IMovieService {
 
 	}
 
-	@Override
-	public List<Movie> getAll() {
-		List<Movie> entities = (List<Movie>) movieRepository.findAll();
-		return entities;
-	}
+	/*
+	 * @Override public List<Movie> getAll() { List<Movie> entities = (List<Movie>)
+	 * movieRepository.findAll(); return entities; }
+	 */
 
 	@Override
 	public void deleleFile(Long id) {
@@ -104,7 +115,7 @@ public class MovieService implements IMovieService {
 	}
 
 	@Override
-	public void saveFile(Movie movie,String fileName,MultipartFile multipartFile) throws IOException {
+	public void saveFile(Movie movie, String fileName, MultipartFile multipartFile) throws IOException {
 		movie.setThumbnail(fileName);
 
 		Movie saveMovie = create(movie);
@@ -123,6 +134,12 @@ public class MovieService implements IMovieService {
 			throw new IOException("khong the upload file: " + fileName);
 		}
 
+	}
+
+	@Override
+	public int getToTalItem() {
+		// TODO Auto-generated method stub
+		return (int) movieRepository.count();
 	}
 
 }

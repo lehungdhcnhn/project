@@ -22,8 +22,9 @@ public class Room {
 	private String code;
 	@Column(name = "name")
 	private String name;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<schedule> schedules = new ArrayList<schedule>();
+	
+	@OneToMany(mappedBy = "room")
+	private List<schedule> schedules = new ArrayList<>();
 	public Long getId() {
 		return id;
 	}

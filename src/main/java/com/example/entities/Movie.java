@@ -32,6 +32,15 @@ public class Movie {
 	private String title;
 	@Column(name="thumbnail")
 	private String thumbnail;
+	@Column(name="name")
+	private String name;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getThumbnail() {
 		return thumbnail;
 	}
@@ -39,6 +48,23 @@ public class Movie {
 		this.thumbnail = thumbnail;
 	}
 	
+	public Movie(Long id, String content, String sDescription, String title, String thumbnail, String name,
+			List<Category> categories, List<schedule> schedules) {
+		super();
+		this.id = id;
+		this.content = content;
+		this.sDescription = sDescription;
+		this.title = title;
+		this.thumbnail = thumbnail;
+		this.name = name;
+		this.categories = categories;
+		this.schedules = schedules;
+	}
+
+	public Movie() {
+		super();
+	}
+
 	@ManyToMany(cascade=CascadeType.MERGE)
 	    @JoinTable(name = "movie_category",
 	        joinColumns = @JoinColumn(name = "movie_id" , referencedColumnName="ID"),
@@ -55,12 +81,8 @@ public class Movie {
 		this.categories = categories;
 	}
 
-	@OneToMany(
-	        cascade = CascadeType.ALL,
-	        orphanRemoval = true
-	    )
-	private List<schedule> schedules = new ArrayList<schedule>();
-	
+	@OneToMany(mappedBy = "movie")
+	private List<schedule> schedules = new ArrayList<>();
 	public List<schedule> getSchedules() {
 		return schedules;
 	}

@@ -1,15 +1,10 @@
 package com.example.admin;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.DirectoryNotEmptyException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -17,11 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.MovieDTO;
-import com.example.entities.Category;
 import com.example.entities.Movie;
 import com.example.service.ICategoryService;
 import com.example.service.IMovieService;
@@ -33,10 +29,19 @@ public class MovieController {
 	@Autowired
 	private IMovieService movieService;
 
-	@GetMapping("/admin/listMovie")
+	@RequestMapping(value="/admin/listMovie",method = RequestMethod.GET)
 	public String viewHomePage(Model model) {
-		
-		model.addAttribute("listMovie", movieService.getAll());
+		MovieDTO dto = new MovieDTO();
+		/*
+		 * dto.setPage(page); dto.setLimit(limit);
+		 * 
+		 * @SuppressWarnings("deprecation") Pageable pageable = new PageRequest(page-1,
+		 * limit); dto.setListResultMovie(movieService.getAll(pageable));
+		 * dto.setTotalItem(movieService.getToTalItem()); dto.setTotalPage((int)
+		 * Math.ceil((double) dto.getTotalItem() / dto.getLimit()));
+		 */
+		dto.setListResultMovie(movieService.getAll());
+		model.addAttribute("listMovie", dto);
 		return "Movie/listMovie";
 	}
 
