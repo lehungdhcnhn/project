@@ -2,9 +2,11 @@ package com.example.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.converter.ScheduleConverter;
 import com.example.dto.scheduleDTO;
@@ -18,20 +20,14 @@ public class ScheduleService implements IScheduleService{
 	private ScheduleRepository scheduleRepository;
 	@Autowired
 	private ScheduleConverter scheduleConverter;
-	@Autowired
-	private RoomService roomService;
-	@Autowired
-	private MovieService movieService;
+	
 	@Override
 	public List<scheduleDTO> findAll() {
 		List<scheduleDTO> models = new ArrayList<scheduleDTO>();
 		List<schedule> entities = scheduleRepository.findAll();
 		for (schedule item: entities) {
 			scheduleDTO scheduleDTO = scheduleConverter.convertToCatgoryDTO(item);
-			/*
-			 * scheduleDTO.setRoomName(roomService.getRoombyId(scheduleDTO.getRoomId()));
-			 * scheduleDTO.setMovieName(movieService.findById(scheduleDTO.getMovieId()));
-			 */
+			
 			models.add(scheduleDTO);
 		}
 		return models;
@@ -39,18 +35,24 @@ public class ScheduleService implements IScheduleService{
 
 	@Override
 	public scheduleDTO findById(long id) {
-		return null;
+		Optional<schedule> entity = scheduleRepository.findById(id);
+		if (!entity.isPresent()) {
+			throw new RuntimeException("Movie Not Found!");
+		}
+		return scheduleConverter.convertToCatgoryDTO(entity.get());
 	}
 
 	@Override
 	public scheduleDTO save(scheduleDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
+		schedule scheduleEntity =scheduleConverter.convertToCategoryEntity(dto);
+		return scheduleConverter.convertToCatgoryDTO(scheduleRepository.save(scheduleEntity));
 	}
 
 	@Override
-	public void delete(long[] ids) {
-		// TODO Auto-generated method stub
+	
+	public void delete(long id) {
+		
+			scheduleRepository.deleteById(id);
 		
 	}
 

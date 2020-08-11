@@ -107,7 +107,6 @@ public class MovieService implements IMovieService {
 			} catch (DirectoryNotEmptyException x) {
 				System.err.format("%s not empty%n", uploadPath);
 			} catch (IOException x) {
-				// File permission problems are caught here.
 				System.err.println(x);
 			}
 		}

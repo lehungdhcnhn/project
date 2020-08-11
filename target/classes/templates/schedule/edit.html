@@ -21,15 +21,15 @@
 		<div class="page-content">
 			<div class="row">
 				<div class="col-xs-12">
-					<form method="POST" class="form-horizontal" id="formSubmit">
-						<!-- th:action="@{/saveCategory}" th:object="${category}" -->
+					<form th:action="@{/saveSchedule}" th:object="${schedule}" method="POST" class="form-horizontal" id="formSubmit">
+						
 					
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
 								for="form-field-1"> Chọn phim </label>
 
 							<div class="col-sm-9">
-								<select>
+								<select th:field="*{movieId}">
 									<option value="">--</option>
 									<option th:each="movie : ${listMovie}"
                            					 th:text="${movie.name}"
@@ -44,7 +44,7 @@
 								for="form-field-1"> Chọn phòng chiếu </label>
 
 							<div class="col-sm-9">
-								<select>
+								<select th:field="*{roomId}">
 									<option value="">--</option>
 									<option th:each="movie : ${listRoom}"
                            					 th:text="${movie.name}"
@@ -53,15 +53,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Địa chỉ </label>
-
-							<div class="col-sm-9">
-								<input type="text" class="form-control"/>
-							</div>
-						</div>
-
+						
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
 								for="form-field-1"> Thời gian </label>
@@ -70,16 +62,17 @@
 
 
 								<div class='input-group date' id='datetimepicker1'>
-									<input type='text' class="form-control" /> <span
-										class="input-group-addon"> <span
-										class="glyphicon glyphicon-calendar"></span>
+									<input type='text' class="form-control" th:field="*{time}" /> <span
+										class="input-group-addon" >
 									</span>
 								</div>
 
 							</div>
 							<script type="text/javascript">
 								$(function() {
-									$('#datetimepicker1').datetimepicker();
+									$('#datetimepicker1').datetimepicker({
+										format: 'DD/MM/YYYY h:mm A'
+									});
 								});
 							</script>
 						</div>

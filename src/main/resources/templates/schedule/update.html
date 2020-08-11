@@ -21,17 +21,22 @@
 		<div class="page-content">
 			<div class="row">
 				<div class="col-xs-12">
-					<form method="POST" class="form-horizontal" id="formSubmit">
-						<!-- th:action="@{/saveCategory}" th:object="${category}" -->
+					<form method="POST" th:action="@{/saveSchedule}" th:object="${schedule}" class="form-horizontal" id="formSubmit">
+						
 
-
+						<input type="hidden" th:field="*{id}" />
 						<div class="form-group">
+						
 							<label class="col-sm-3 control-label no-padding-right"
 								for="form-field-1"> Chọn phim </label>
 
 							<div class="col-sm-9">
-								<select>
-									<option>---</option>
+								<select th:field="*{movieId}">
+									<option value="">--</option>
+									<option th:each="movie : ${listMovie}"
+                           					 th:text="${movie.name}"
+                           					 th:value="${movie.id}"
+									></option>
 								</select>
 							</div>
 						</div>
@@ -41,25 +46,18 @@
 								for="form-field-1"> Chọn phòng chiếu </label>
 
 							<div class="col-sm-9">
-								<select>
-									<option>---</option>
+								<select th:field="*{roomId}">
+									<option value="">--</option>
+									<option th:each="room : ${listRoom}"
+                           					 th:text="${room.name}"
+                           					 th:value="${room.id}"
+									></option>
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Địa chỉ </label>
-
-							<div class="col-sm-9">
-								<input type="text" />
-							</div>
-						</div>
+						
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Thời gian </label>
-
-							<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
 								for="form-field-1"> Thời gian </label>
 
@@ -67,7 +65,7 @@
 
 
 								<div class='input-group date' id='datetimepicker1'>
-									<input type='text' class="form-control" /> <span
+									<input type='text' class="form-control"  th:field="*{time}"/> <span
 										class="input-group-addon"> <span
 										class="glyphicon glyphicon-calendar"></span>
 									</span>
@@ -87,8 +85,7 @@
 
 								<button class="btn btn-info" type="submit"
 									id="btnAddOrUpdateNew">
-									<i class="ace-icon fa fa-check bigger-110"></i> Hủy bài viết
-									viÃªt
+									<i class="ace-icon fa fa-check bigger-110"></i> Sửa bài viết
 								</button>
 
 

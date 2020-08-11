@@ -1,6 +1,8 @@
 package com.example.entities;
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,15 +14,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name="schedule")
 public class schedule {
 	@Id
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Long id;
-	@Column(name="address")
-	private String address;
+	
 	@Column(name="time")
+	@DateTimeFormat(pattern = "dd/MM/yyyy h:mm a")
 	private Date time;
 	public Long getId() {
 		return id;
@@ -28,12 +32,7 @@ public class schedule {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Movie_id")
     private Movie movie;

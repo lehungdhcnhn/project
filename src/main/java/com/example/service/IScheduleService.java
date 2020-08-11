@@ -9,5 +9,5 @@ public interface IScheduleService {
 
 	scheduleDTO findById(long id);
 	scheduleDTO save(scheduleDTO dto);
-	void delete(long[] ids);
+	void delete(long id);
 }
