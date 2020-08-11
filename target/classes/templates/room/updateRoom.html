@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" th:href="@{/admin/assets/css/bootstrap.min.css}" />
+<link rel="stylesheet"	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"	class="ace-main-stylesheet" id="main-ace-style" />
+<script th:src="@{admin/assets/js/ace-extra.min.js}"></script>
+<link rel="stylesheet"
+	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type='text/javascript' src="@{/admin/js/jquery-2.2.3.min.js}"></script>
+<script th:src="@{/admin/assets/js/jquery.2.1.1.min.js}"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+</head>
+<body class="no-skin">
+
+	<!-- header -->
+	<div th:replace="common/admin/header :: copy-header-admin"></div>
+	<!-- header -->
+
+	<div class="main-container" id="main-container">
+		<script type="text/javascript">
+			try {
+				ace.settings.check('main-container', 'fixed')
+			} catch (e) {
+			}
+		</script>
+		<!-- menu -->
+		<div th:replace="common/admin/menu :: copy-menu-admin"></div>
+		<!-- menu -->
+		
+		<div class="main-content" th:fragment="update-category">
+			<div class="main-content-inner">
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try {
+							ace.settings.check('breadcrumbs', 'fixed')
+						} catch (e) {
+						}
+					</script>
+		
+					<ul class="breadcrumb">
+						<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a>
+						</li>
+		
+						<li><a href="#">Forms</a></li>
+						<li class="active">Form Elements</li>
+					</ul>
+					<!-- /.breadcrumb -->
+		
+				</div>
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+							<form th:action="@{/saveRoom}" th:object="${room}" method="POST" class="form-horizontal" id="formSubmit">
+								<input type="hidden" th:field="*{id}" />
+		
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right"
+										for="form-field-1"> Code </label>
+		
+									<div class="col-sm-9">
+										<input type="text" class="col-xs-10 col-sm-5" id="code" th:field="*{code}"
+											name="code" />
+									</div>
+								</div>
+		
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" 
+										for="form-field-1"> Name </label>
+		
+									<div class="col-sm-9">
+										<input type="text" class="col-xs-10 col-sm-5" id="code " th:field="*{name}"
+											name="code" />
+									</div>
+								</div>
+		
+		
+		
+								<div class="clearfix form-actions">
+									<div class="col-md-offset-3 col-md-9">
+		
+										<button class="btn btn-info" type="submit"
+											id="btnAddOrUpdateNew">
+											<i class="ace-icon fa fa-check bigger-110"></i> Update
+										</button>
+		
+		
+										&nbsp; &nbsp; &nbsp;
+										<button class="btn" type="reset">
+											<i class="ace-icon fa fa-undo bigger-110"></i> Cancel
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- footer -->
+		<div th:replace="common/admin/footer :: copy-footer-admin"></div>
+		<!-- footer -->
+
+		<a href="#" id="btn-scroll-up"
+			class="btn-scroll-up btn btn-sm btn-inverse display"> <i
+			class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+		</a>
+	</div>
+
+
+	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery-ui.custom.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.ui.touch-punch.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.easypiechart.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.sparkline.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.flot.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.flot.pie.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.flot.resize.min.js}"></script>
+	<script th:src="@{/admin/assets/js/ace-elements.min.js}"></script>
+	<script th:src="@{/admin/assets/js/ace.min.js}"></script>
+	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
+	<script th:src="@{/admin/paging/jquery.twbsPagination.js} "></script>
+	<!-- page specific plugin scripts -->
+	<script th:src="@{/admin/assets/js/jquery-ui.min.js}"></script>
+</body>
+</html>

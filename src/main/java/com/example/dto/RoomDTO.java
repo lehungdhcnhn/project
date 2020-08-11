@@ -3,13 +3,24 @@ package com.example.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.entities.Room;
+
 public class RoomDTO {
 	
-
+	
 	private String name;
-	
-	
 	private Long id;
+	private List<Room> listRoom = new ArrayList<>();
+	public RoomDTO(List<Room> listRoom) {
+		super();
+		this.listRoom = listRoom;
+	}
+	public List<Room> getListRoom() {
+		return listRoom;
+	}
+	public void setListRoom(List<Room> listRoom) {
+		this.listRoom = listRoom;
+	}
 	private List<RoomDTO> listResult = new ArrayList<>();
 	public Long getId() {
 		return id;
