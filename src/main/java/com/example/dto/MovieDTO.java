@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.Transient;
 
 import com.example.entities.Category;
+import com.example.entities.Movie;
 
 public class MovieDTO extends AbstractModel {
 	private String content;
@@ -22,10 +23,16 @@ public class MovieDTO extends AbstractModel {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	private List<Movie> listMovieEntity = new ArrayList<>();
 	private List<CategoryDTO> listResult = new ArrayList<>();
 	private List <MovieDTO> listResultMovie = new ArrayList<MovieDTO>();
 	
+	public List<Movie> getListMovieEntity() {
+		return listMovieEntity;
+	}
+	public void setListMovieEntity(List<Movie> listMovieEntity) {
+		this.listMovieEntity = listMovieEntity;
+	}
 	public List<MovieDTO> getListResultMovie() {
 		return listResultMovie;
 	}
@@ -46,15 +53,7 @@ public class MovieDTO extends AbstractModel {
 	}
 	public MovieDTO() {}
 
-	private Set<CategoryDTO> categories = new HashSet<>();
 	
-	
-	public Set<CategoryDTO> getCategories() {
-		return categories;
-	}
-	public void setCategories(Set<CategoryDTO> categories) {
-		this.categories = categories;
-	}
 	private String thumbnail;
 	public String getContent() {
 		return content;

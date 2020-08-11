@@ -92,8 +92,8 @@ public class MovieService implements IMovieService {
 	@Override
 	public void deleleFile(Long id) {
 		Movie curentMovie = findById(id);
-		String uploadDir = "C:/Users/Administrator/Desktop/project/thumbnail-pictures/" + id;
-		String upload = "C:/Users/Administrator/Desktop/project/thumbnail-pictures/" + id + "/"
+		String uploadDir = "C:/Users/Dell/Desktop/thumbnail-pictures/" + id;
+		String upload = "C:/Users/Dell/Desktop/thumbnail-pictures/" + id + "/"
 				+ curentMovie.getThumbnail();
 
 		Path uploadPath = Paths.get(uploadDir);
