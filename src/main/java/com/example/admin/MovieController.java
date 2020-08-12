@@ -81,12 +81,12 @@ public class MovieController {
 	}
 	///////////////////////
 	@RequestMapping(value = "/multipleMovieChange", method = RequestMethod.POST,params = "action=deleteMovieList" )
-	public String deleteRoomList(@RequestParam("movieId") Long[] movieListId) {
+	public String deleteRoomList(@RequestParam("movieId") long[] movieListId) {
 		for(long movieId : movieListId) {
 			movieService.deleleFile(movieId);
 			movieService.delete(movieId);	
 		}
-		return "redirect:/admin/listMovie";
+		return "redirect:/admin/listCategory";
 	}
 
 	@RequestMapping(value = "/multipleMovieChange" , method = RequestMethod.POST , params = "action=updateMovieList")
@@ -97,17 +97,15 @@ public class MovieController {
 			movies.add(movieService.findById(roomId));
 		}
 		movieDTO.setListMovieEntity(movies);
+		model.addAttribute("listCategory", categoryService.getAllCategory());
 		model.addAttribute("listMovie", movieDTO);
 		return "movie/updateListMovie";
 	}
 
 	@RequestMapping(value = "/saveListMovie", method =RequestMethod.POST)
-	public String saveListRoom(@ModelAttribute("listMovie") MovieDTO movieDTO,@RequestParam("fileImage") MultipartFile multipartFile,@PathVariable(value = "id") long[] ids) throws IOException {
+	public String saveListRoom(@ModelAttribute("listMovie") MovieDTO movieDTO,@RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
 		for(Movie movie : movieDTO.getListMovieEntity()) {
-			for(long id : ids)
-			{
-				movieService.deleleFile(id);
-			}
+				movieService.deleleFile(movie.getId());
 			String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			movieService.saveFile(movie, fileName, multipartFile);
 		}

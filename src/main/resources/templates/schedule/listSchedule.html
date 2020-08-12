@@ -48,7 +48,11 @@
 			class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 		</a>
 	</div>
-
+	<script type="text/javascript">
+		$("#checkAll").click(function(){
+			$("input:checkbox").not(this).prop('checked',this.checked)
+		})	
+	</script>
 	<script th:src="@{/admin/sweetalert/sweetalert2.min.js}"></script>	
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery-ui.custom.min.js}"></script>

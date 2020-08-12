@@ -16,7 +16,7 @@ public class MovieDTO extends AbstractModel {
 	private String title;
 	private Long id;
 	private String name;
-	
+	private String thumbnail;
 	public String getName() {
 		return name;
 	}
@@ -24,8 +24,12 @@ public class MovieDTO extends AbstractModel {
 		this.name = name;
 	}
 	private List<Movie> listMovieEntity = new ArrayList<>();
-	private List<CategoryDTO> listResult = new ArrayList<>();
+	private List<CategoryDTO> categories = new ArrayList<>();
 	private List <MovieDTO> listResultMovie = new ArrayList<MovieDTO>();
+	
+	public MovieDTO() {
+		super();
+	}
 	
 	public List<Movie> getListMovieEntity() {
 		return listMovieEntity;
@@ -45,16 +49,7 @@ public class MovieDTO extends AbstractModel {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public List<CategoryDTO> getListResult() {
-		return listResult;
-	}
-	public void setListResult(List<CategoryDTO> listResult) {
-		this.listResult = listResult;
-	}
-	public MovieDTO() {}
-
 	
-	private String thumbnail;
 	public String getContent() {
 		return content;
 	}
@@ -82,6 +77,13 @@ public class MovieDTO extends AbstractModel {
 	}
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+	
+	public List<CategoryDTO> getCategories() {
+		return categories;
+	}
+	public void setCategories(List<CategoryDTO> categories) {
+		this.categories = categories;
 	}
 	@Transient
 	public String getThumbnailImagePath()

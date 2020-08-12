@@ -9,37 +9,44 @@
 			</script>
 
 			<ul class="breadcrumb">
-				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a>
+				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Trang chủ</a>
 				</li>
-				<li><a href="#">Forms</a></li>
-				<li class="active">Form Elements</li>
+				<li><a href="#">Quản lý</a></li>
+				<li class="active">Lịch phim</li>
 			</ul>
 			<!-- /.breadcrumb -->
 
 		</div>
 		<div class="page-header">
 			<h1>
-				Tables <small> <i class="ace-icon fa fa-angle-double-right"></i>
-					Static &amp; Dynamic Tables
+				Bảng <small> <i class="ace-icon fa fa-angle-double-right"></i>
+					Danh sách lịch chiếu phim
 				</small>
 			</h1>
 		</div>
+		<form th:action="@{/multipleScheduleChange}" th:object = "${listSchedule} " method="post">
 		<div class="table-btn-controls">
 			<div class="pull-right tableTools-container">
 				<div class="dt-buttons btn-overlap btn-group">
 					<a flag="info"
 						class="dt-button buttons-colvis btn btn-white btn-primary btn-bold"
-						data-toggle="tooltip" title='ThÃªm bÃ i viáº¿t'
+						data-toggle="tooltip" title='Thêm bài viết'
 						th:href=@{editSchedule}> <span> <i
 							class="fa fa-plus-circle bigger-110 purple"></i>
 					</span>
 					</a>
-					<button id="btnDelete" type="button"
-						class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
-						data-toggle="tooltip" title='XÃ³a bÃ i viáº¿t'>
-						<span> <i class="fa fa-trash-o bigger-110 pink"></i>
-						</span>
-					</button>
+					<button id="btnUpdate" type="submit" name="action" value="updateListSchedule"
+							class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
+							data-toggle="tooltip" title='Sửa lịch chiếu đã chọn' >
+							<span> <i class="ace-icon fa fa-pencil bigger-110 purple"></i>
+							</span>
+						</button>
+					<button id="btnDelete" type="submit" name="action" value="deleteListSchedule"
+							class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
+							data-toggle="tooltip" title='Xóa lịch chiếu da chon'>
+							<span> <i class="fa fa-trash-o bigger-110 pink"></i>
+							</span>
+						</button>
 				</div>
 			</div>
 		</div>
@@ -49,8 +56,8 @@
 			<thead>
 
 				<th class="center"><label class="pos-rel"> <input
-						type="checkbox" class="ace" /> <span class="lbl"></span>
-				</label></th>
+								type="checkbox" class="ace" id="checkAll" /> <span class="lbl"></span>
+						</label></th>
 
 				<th>Phim</th>
 				<th>Phòng</th>
@@ -63,13 +70,10 @@
 			<tbody>
 				<tr th:each="schedule : ${listSchedule}">
 					<td class="center"><label class="pos-rel"> <input
-							type="checkbox" class="ace" /> <span class="lbl"></span>
-					</label></td>
-
-
+								type="checkbox" class="ace" name="scheduleId" th:value="${schedule.id}" /> <span class="lbl"></span>
+						</label></td>
 					<td th:text="${schedule.movieName}"></td>
 					<td th:text="${schedule.roomName}"></td>
-					
 					<td th:text="${schedule.time}"></td>
 					<td>
 						<div class="hidden-sm hidden-xs btn-group">
@@ -115,4 +119,5 @@
 				</tr>
 			</tbody>
 		</table>
+		</form>
 	</div>

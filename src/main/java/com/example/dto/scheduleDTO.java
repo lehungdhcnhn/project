@@ -1,10 +1,13 @@
 package com.example.dto;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.example.entities.schedule;
 
 public class scheduleDTO {
 	private Long id;
@@ -18,12 +21,16 @@ public class scheduleDTO {
 	private List<scheduleDTO> listResult;
 	private String movieName;
 	private String roomName;
-
+	private List<schedule> listScheduleEntity= new ArrayList<>();
 	public String getMovieName() {
 		return movieName;
 	}
-
-	
+	public List<schedule> getListScheduleEntity() {
+		return listScheduleEntity;
+	}
+	public void setListScheduleEntity(List<schedule> listScheduleEntity) {
+		this.listScheduleEntity = listScheduleEntity;
+	}
 	public Date getTime() {
 		return time;
 	}
@@ -61,8 +68,6 @@ public class scheduleDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	
 
 	public Long getMovieId() {
 		return movieId;
