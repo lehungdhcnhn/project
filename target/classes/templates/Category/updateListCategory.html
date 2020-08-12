@@ -79,6 +79,7 @@
 								<td class="center">
 									<input type="hidden" class="ace" name="categoryId" th:field="*{listCategory[__${itemStat.index}__].id}" />								
 									<input th:field="*{listCategory[__${itemStat.index}__].name}">
+									<p th:if="${#fields.hasErrors('listCategory[__${itemStat.index}__].name')}" th:errors="*{listCategory[__${itemStat.index}__].name}"></p>
 								</td>
 							</tr>
 						</tbody>
@@ -87,10 +88,10 @@
 						<button class="btn btn-info " type="submit" id="btnAddOrUpdateNew">
 							<i class="ace-icon fa fa-check bigger-110"></i> Lưu lại
 						</button>
-						<!--  <a th:href="@{/admin/listCategory}"><button class="btn" type="button" >Quay về trang trước</button></a>
+						<!--  <a th:href="@{/admin/listCategory}"><button class="btn" type="button" >Quay về trang trước</button></a>-->
 						<button class="btn" type="reset">
-							<i class="ace-icon fa fa-undo bigger-110"></i> Quay lại dữ liệu ban đầu
-						</button>-->
+							<i class="ace-icon fa fa-undo bigger-110"></i> Làm lại
+						</button>
 					</div>
 				</form>
 			</div>
