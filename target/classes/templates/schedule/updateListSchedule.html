@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" th:href="@{/admin/assets/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"
+	class="ace-main-stylesheet" id="main-ace-style" />
+<script th:src="@{admin/assets/js/ace-extra.min.js}"></script>
+<link rel="stylesheet"
+	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type='text/javascript' src="@{/admin/js/jquery-2.2.3.min.js}"></script>
+<script th:src="@{/admin/assets/js/jquery.2.1.1.min.js}"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+</head>
+<body class="no-skin">
+
+	<!-- header -->
+	<div th:replace="common/admin/header :: copy-header-admin"></div>
+	<!-- header -->
+
+	<div class="main-container" id="main-container">
+		<script type="text/javascript">
+			try {
+				ace.settings.check('main-container', 'fixed')
+			} catch (e) {
+			}
+		</script>
+		<!-- menu -->
+		<div th:replace="common/admin/menu :: copy-menu-admin"></div>
+		<!-- menu -->
+
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try {
+							ace.settings.check('breadcrumbs', 'fixed')
+						} catch (e) {
+						}
+					</script>
+
+					<ul class="breadcrumb">
+						<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a>
+						</li>
+
+						<li><a href="#">Quản lý</a></li>
+						<li class="active">Lịch chiếu phim</li>
+					</ul>
+					<!-- /.breadcrumb -->
+
+				</div>
+				<form th:action="@{/saveListSchedule}" th:object="${listSchedule}"
+					method="post">
+					<!-- /.page-header -->
+					<table id="simple-table"
+						class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>
+
+								<th class="center">Chọn phim</th>
+								<th class="center">Chọn phòng chiếu</th>
+								<th class="center">Thời gian</th>
+
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr th:each="schedule, itemStat : *{listResult}">
+
+
+								<td class="center"><select
+									th:field="*{listResult[__${itemStat.index}__].movieId}">
+										<option value="">--</option>
+										<option th:each="movie : ${listMovie}" th:text="${movie.name}"
+											th:value="${movie.id}"></option>
+										<input type="hidden" class="ace" name="scheduleId"
+										th:field="*{listResult[__${itemStat.index}__].id}" />
+								</select>
+								<td class="center"><select
+									th:field="*{listResult[__${itemStat.index}__].roomId}">
+									<option value="">--</option>
+										<option th:each="room : ${listRoom}" th:text="${room.name}"
+											th:value="${room.id}"></option>
+								</select></td>
+								<td class="center">
+									<div class='input-group date' id='datetimepicker1'>
+										<input type='text' class="form-control"
+											th:field="*{listResult[__${itemStat.index}__].time}"><span
+											class="input-group-addon"> <span
+											class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="center">
+
+						<button class="btn btn-info" type="submit" id="btnAddOrUpdateNew">
+							<i class="ace-icon fa fa-check bigger-110"></i> Lưu lại
+						</button>
+						<!--  <a th:href="@{/admin/listRoom}"><button class="btn" type="button" >Quay về trang trước</button></a> 
+					<button class="btn" type="reset" >
+						<i class="ace-icon fa fa-undo bigger-110"></i> Quay lại dữ liệu ban đầu
+					</button>-->
+					</div>
+				</form>
+			</div>
+		</div>
+
+
+		<!-- footer -->
+		<div th:replace="common/admin/footer :: copy-footer-admin"></div>
+		<!-- footer -->
+
+		<a href="#" id="btn-scroll-up"
+			class="btn-scroll-up btn btn-sm btn-inverse display"> <i
+			class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+		</a>
+	</div>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+	<script type="text/javascript">
+		$(function() {
+			$('#datetimepicker1').datetimepicker();
+		});
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+	
+	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery-ui.custom.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.ui.touch-punch.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.easypiechart.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.sparkline.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.flot.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.flot.pie.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.flot.resize.min.js}"></script>
+	<script th:src="@{/admin/assets/js/ace-elements.min.js}"></script>
+	<script th:src="@{/admin/assets/js/ace.min.js}"></script>
+	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
+	<script th:src="@{/admin/paging/jquery.twbsPagination.js} "></script>
+	<!-- page specific plugin scripts -->
+	<script th:src="@{/admin/assets/js/jquery-ui.min.js}"></script>
+</body>
+</html>

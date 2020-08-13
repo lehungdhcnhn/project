@@ -1,8 +1,8 @@
 
 <div th:fragment="list-movie" class="main-content">
-	<form
-		th:action="@{/admin/listMovie?page=${listMovie.page}&limit=${listMovie.limit}}"
-		 method="get" id="formSubmit">
+	
+		
+		
 		<div class="main-content-inner">
 			<div class="breadcrumbs" id="breadcrumbs">
 				<script type="text/javascript">
@@ -13,34 +13,41 @@
 				</script>
 
 				<ul class="breadcrumb">
-					<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a>
+					<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Trang chủ</a>
 					</li>
-					<li><a href="#">Forms</a></li>
-					<li class="active">Form Elements</li>
+					<li><a href="#">Quản lý</a></li>
+					<li class="active">Phim</li>
 				</ul>
 				<!-- /.breadcrumb -->
 
 			</div>
 			<div class="page-header">
 				<h1>
-					Tables <small> <i class="ace-icon fa fa-angle-double-right"></i>
-						Static &amp; Dynamic Tables
+					Bảng <small> <i class="ace-icon fa fa-angle-double-right"></i>
+						Danh sách phim
 					</small>
 				</h1>
 			</div>
+			<form th:action="@{/multipleMovieChange}" th:object="${listMovie}" method="post">
 			<div class="table-btn-controls">
 				<div class="pull-right tableTools-container">
 					<div class="dt-buttons btn-overlap btn-group">
 						<a flag="info"
 							class="dt-button buttons-colvis btn btn-white btn-primary btn-bold"
-							data-toggle="tooltip" title='Thêm bài viết'
+							data-toggle="tooltip" title='Thêm phim'
 							th:href=@{editMovie}> <span> <i
 								class="fa fa-plus-circle bigger-110 purple"></i>
 						</span>
 						</a>
-						<button id="btnDelete" type="button"
+						<button id="btnUpdate" type="submit" name="action"
+								class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
+								data-toggle="tooltip" title='Sua phim da chon' value="updateMovieList">
+								<span> <i class="ace-icon fa fa-pencil bigger-110 purple"></i>
+								</span>
+							</button>
+						<button id="btnDelete" type="submit" name="action" value="deleteMovieList"
 							class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
-							data-toggle="tooltip" title='Xóa bài viết'>
+							data-toggle="tooltip" title='Xóa phim da chon'>
 							<span> <i class="fa fa-trash-o bigger-110 pink"></i>
 							</span>
 						</button>
@@ -53,7 +60,7 @@
 				<thead>
 					<tr>
 						<th class="center"><label class="pos-rel"> <input
-								type="checkbox" class="ace" /> <span class="lbl"></span>
+								type="checkbox" class="ace" id = "checkAll"/> <span class="lbl"></span>
 						</label></th>
 						<th>Name</th>
 						<th>content</th>
@@ -67,22 +74,25 @@
 				<tbody>
 					<tr th:each="movie : ${listMovie.listResultMovie}">
 						<td class="center"><label class="pos-rel"> <input
-								type="checkbox" class="ace" /> <span class="lbl"></span>
+								type="checkbox" class="ace" name="movieId" th:value="${movie.id}" /> <span class="lbl"></span>
 						</label></td>
+						
 						<td th:text="${movie.name}"></td>
 						<td th:text="${movie.content}"></td>
 						<td th:text="${movie.title}"></td>
 						<td th:text="${movie.sDescription}"></td>
 						<td><img th:src="@{${movie.ThumbnailImagePath}}"
-							style="width: 200px; height: 150px" /></td>
+							style="width: 150px; height: 100px" /></td>
 						<td>
 							<div class="hidden-sm hidden-xs btn-group">
 
 								<a th:href=@{/updateMovie/{id}(id=${movie.id})}
 									class="btn btn-xs btn-info"> <i
 									class="ace-icon fa fa-pencil bigger-120"> </i>
-								</a> <a th:href=@{/deleteMovie/{id}(id=${movie.id})}
-									class="btn btn-xs btn-danger"> <i
+								</a> <a 
+									class="btn btn-xs btn-danger" onclick="return warningBeforeDelete(this,'@{/deleteSchedule/{id}(id=${movie.id})}')">
+									<input type="hidden" id="id" name="id" th:value=${movie.id}>
+									 <i
 									class="ace-icon fa fa-trash-o bigger-120"> </i>
 								</a>
 							</div>
@@ -118,28 +128,7 @@
 						</td>
 					</tr>
 				</tbody>
-			</table>
-			<ul id="pagination" class="pagination"></ul>
-			<input th:value="${listMovie.page}" type="text" value="" id="page" name="page" /> 
-			<input th:value="${listMovie.limit}"	type="text" value="" id="limit" name="limit" />
-			
-	</form>
-	<script>
-			var totalPages = $('#totalPage').val(totalPage);
-			var currentPage =$('#page').val(page);
-			$(function () {
-		        window.pagObj = $('#pagination').twbsPagination({
-		            totalPages: totalPages,
-		            visiblePages: 10,
-		            startPage: currentPage,
-		            onPageClick: function (event, page) {
-		            	if (currentPage != page) {
-		            		$('#limit').val(2);
-							$('#page').val(page);
-							$('#formSubmit').submit();
-						}
-		            }
-		        });
-		    });
-		</script>
+			</table>	
+			</form>	
+	
 </div>

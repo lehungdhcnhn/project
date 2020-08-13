@@ -1,6 +1,8 @@
 package com.example.admin;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -32,14 +34,6 @@ public class MovieController {
 	@RequestMapping(value="/admin/listMovie",method = RequestMethod.GET)
 	public String viewHomePage(Model model) {
 		MovieDTO dto = new MovieDTO();
-		/*
-		 * dto.setPage(page); dto.setLimit(limit);
-		 * 
-		 * @SuppressWarnings("deprecation") Pageable pageable = new PageRequest(page-1,
-		 * limit); dto.setListResultMovie(movieService.getAll(pageable));
-		 * dto.setTotalItem(movieService.getToTalItem()); dto.setTotalPage((int)
-		 * Math.ceil((double) dto.getTotalItem() / dto.getLimit()));
-		 */
 		dto.setListResultMovie(movieService.getAll());
 		model.addAttribute("listMovie", dto);
 		return "Movie/listMovie";
@@ -84,5 +78,38 @@ public class MovieController {
 		
 		movieService.saveFile(movie, fileName, multipartFile);
 		return "redirect:/admin/listMovie";
+	}
+	///////////////////////
+	@RequestMapping(value = "/multipleMovieChange", method = RequestMethod.POST,params = "action=deleteMovieList" )
+	public String deleteRoomList(@RequestParam("movieId") long[] movieListId) {
+		for(long movieId : movieListId) {
+			movieService.deleleFile(movieId);
+			movieService.delete(movieId);	
+		}
+		return "redirect:/admin/listCategory";
+	}
+
+	@RequestMapping(value = "/multipleMovieChange" , method = RequestMethod.POST , params = "action=updateMovieList")
+	public String viewUpdateRoomList(@RequestParam("movieId") long[] listMovieId ,Model model) {
+		MovieDTO movieDTO = new MovieDTO();
+		List<Movie> movies = new ArrayList<>();
+		for(long roomId : listMovieId) {
+			movies.add(movieService.findById(roomId));
+		}
+		movieDTO.setListMovieEntity(movies);
+		model.addAttribute("listCategory", categoryService.getAllCategory());
+		model.addAttribute("listMovie", movieDTO);
+		return "movie/updateListMovie";
+	}
+
+	@RequestMapping(value = "/saveListMovie", method =RequestMethod.POST)
+	public String saveListRoom(@ModelAttribute("listMovie") MovieDTO movieDTO,@RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
+		for(Movie movie : movieDTO.getListMovieEntity()) {
+				movieService.deleleFile(movie.getId());
+			String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			movieService.saveFile(movie, fileName, multipartFile);
+		}
+		return "redirect:admin/listRoom";
+
 	}
 }

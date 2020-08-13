@@ -55,7 +55,7 @@ public class WebConfig implements WebMvcConfigurer
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		Path UploadDir=Paths.get("C:/Users/Dell/Desktop/thumbnail-pictures/");
+		Path UploadDir=Paths.get("C:/Users/Administrator/Desktop/project/thumbnail-pictures/");
 		String 	uploadPath=UploadDir.toFile().getAbsolutePath();
 		registry.addResourceHandler("/thumbnail-pictures/**").addResourceLocations("file:/"+uploadPath+"/");
 	}
