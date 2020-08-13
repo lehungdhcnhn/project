@@ -24,7 +24,7 @@
 				</small>
 			</h1>
 		</div>
-		<form th:action="@{/multipleScheduleChange}" th:object = "${listSchedule} " method="post">
+		<form th:action="@{/multipleScheduleChange}" th:object = "${listSchedule}" id ="formSubmit"   method="post">
 		<div class="table-btn-controls">
 			<div class="pull-right tableTools-container">
 				<div class="dt-buttons btn-overlap btn-group">
@@ -41,12 +41,13 @@
 							<span> <i class="ace-icon fa fa-pencil bigger-110 purple"></i>
 							</span>
 						</button>
-					<button id="btnDelete" type="submit" name="action" value="deleteListSchedule"
+						<a id="btnDelete" 
+							onclick="return warningBeforeMultiDelete()"
 							class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
-							data-toggle="tooltip" title='Xóa lịch chiếu da chon'>
+							data-toggle="tooltip" title='Xóa phim da chon'>
 							<span> <i class="fa fa-trash-o bigger-110 pink"></i>
 							</span>
-						</button>
+						</a>
 				</div>
 			</div>
 		</div>
@@ -59,9 +60,9 @@
 								type="checkbox" class="ace" id="checkAll" /> <span class="lbl"></span>
 						</label></th>
 
-				<th>Phim</th>
-				<th>Phòng</th>
-				<th>Thời gian</th>
+				<th class="center">Phim</th>
+				<th class="center">Phòng</th>
+				<th class="center">Thời gian</th>
 				
 				<th></th>
 				</tr>
@@ -72,17 +73,17 @@
 					<td class="center"><label class="pos-rel"> <input
 								type="checkbox" class="ace" name="scheduleId" th:value="${schedule.id}" /> <span class="lbl"></span>
 						</label></td>
-					<td th:text="${schedule.movieName}"></td>
-					<td th:text="${schedule.roomName}"></td>
-					<td th:text="${schedule.time}"></td>
+					<td class="center" th:text="${schedule.movieName}"></td>
+					<td class="center" th:text="${schedule.roomName}"></td>
+					<td class="center" th:text="${schedule.time}"></td>
 					<td>
 						<div class="hidden-sm hidden-xs btn-group">
 							<a th:href=@{/updateSchedule/{id}(id=${schedule.id})}
 								class="btn btn-xs btn-info"> <i
 								class="ace-icon fa fa-pencil bigger-120"> </i>
 							</a> 
-						 <a th:href=@{/deleteSchedule/{id}(id=${schedule.id})}
-								class="btn btn-xs btn-danger"> <i
+						 <a 
+								class="btn btn-xs btn-danger" th:onclick="'javascript:warningBeforeDelete(' + ${schedule.id} + ');'"> <i
 								class="ace-icon fa fa-trash-o bigger-120"> </i>
 							</a> 
 						</div>

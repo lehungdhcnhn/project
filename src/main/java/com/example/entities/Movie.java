@@ -1,9 +1,7 @@
 package com.example.entities;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="movie")
@@ -24,14 +24,25 @@ public class Movie {
 	@Id
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Long id;
-	@Column(name="content")
+	@NotNull
+	@Size(min=1,message="Nội dung từ 1 ký tự trở lên")
+	@Column(name="content",columnDefinition = "TEXT")
 	private String content;
+	
+	@NotNull
+	@Size(min=1, max=255, message= "Mô tả ngắn từ 1-255 ký tự")
 	@Column(name="sdescription")
 	private String sDescription;
+	
+	@NotNull
+	@Size(min=1,max=255, message="Tiêu đề từ 1-255 ký tự")
 	@Column(name="title")
 	private String title;
 	@Column(name="thumbnail")
 	private String thumbnail;
+	
+	@NotNull
+	@Size(min=1, max=255,message="Tên phim từ 1-255 ký tự")
 	@Column(name="name")
 	private String name;
 	

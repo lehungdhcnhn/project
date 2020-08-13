@@ -51,8 +51,13 @@
 			class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 		</a>
 	</div>
-
-
+	<script>
+		var editor='';
+		$(document).ready(function(){
+			editor=CKEDITOR.replace('content');
+		});
+	</script>
+	<script th:src="@{/ckeditor/ckeditor.js}"></script>
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery-ui.custom.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery.ui.touch-punch.min.js}"></script>

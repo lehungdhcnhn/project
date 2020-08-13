@@ -1,13 +1,11 @@
 package com.example.dto;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Transient;
+import javax.validation.Valid;
 
-import com.example.entities.Category;
 import com.example.entities.Movie;
 
 public class MovieDTO extends AbstractModel {
@@ -23,6 +21,7 @@ public class MovieDTO extends AbstractModel {
 	public void setName(String name) {
 		this.name = name;
 	}
+	@Valid
 	private List<Movie> listMovieEntity = new ArrayList<>();
 	private List<CategoryDTO> categories = new ArrayList<>();
 	private List <MovieDTO> listResultMovie = new ArrayList<MovieDTO>();

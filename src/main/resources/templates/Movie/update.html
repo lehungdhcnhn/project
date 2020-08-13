@@ -9,11 +9,11 @@
 			</script>
 
 			<ul class="breadcrumb">
-				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a>
+				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Trang chủ</a>
 				</li>
 
-				<li><a href="#">Forms</a></li>
-				<li class="active">Form Elements</li>
+				<li><a href="#">Quản lý</a></li>
+				<li class="active">Phim</li>
 			</ul>
 			<!-- /.breadcrumb -->
 
@@ -23,48 +23,52 @@
 				<div class="col-xs-12">
 					<form th:action="@{/updateMovieLate/{id}(id=${movie.id})}"
 						th:object="${movie}" method="POST" class="form-horizontal"
-						enctype="multipart/form-data" id="formSubmit">
+						enctype="multipart/form-data" id="formSubmit" name="formSubmit">
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Name </label>
+								for="form-field-1"> Tên phim </label>
 
 							<div class="col-sm-9">
 								<input type="text" class="col-xs-10 col-sm-5" id="name"
 									name="name" th:field="*{name}" />
+									<p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
 							</div>
 						</div>
 						<div class="form-group">
 							<input type="hidden" th:field="*{id}" /> <label
 								class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Content </label>
-
+								for="form-field-1"> Nội dung </label>
+							<input type="hidden" th:field="*{thumbnail}" />
 							<div class="col-sm-9">
 
 								<textarea rows="5" cols="10" id="content" name="content"
 									class="form-control" th:field="*{content}"></textarea>
+									<p class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
 							</div>
 
 						</div>
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Title </label>
+								for="form-field-1"> Tiêu đề </label>
 
 							<div class="col-sm-9">
 								<input type="text" class="col-xs-10 col-sm-5" id="title"
 									name="title" th:field="*{title}" />
+									<p class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> ShortDescription </label>
+								for="form-field-1"> Mô tả ngắn </label>
 
 							<div class="col-sm-9">
 
 								<textarea rows="5" cols="10" class="form-control"
 									th:field="*{sDescription}"></textarea>
+									<p class="text-danger" th:if="${#fields.hasErrors('sDescription')}" th:errors="*{sDescription}"></p>
 							</div>
 
 						</div>
@@ -75,7 +79,7 @@
 							<div class="col-sm-9">
 
 								<select th:field="*{categories}" class="selectpicker" multiple
-									data-live-search="true">
+									data-live-search="true" th:required="true">
 									<option value="">--</option>
 									<option th:each="category : ${listCategory}"
 										th:text="${category.name}" th:value="${category.id}"></option>
@@ -84,12 +88,13 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Thumbnail </label>
+								for="form-field-1"> Hình ảnh </label>
 
 							<div class="col-sm-9">
 								<input type="file" id="fileImage" name="fileImage"
-									accept="image/png,image/jpeg" /> <img id="thumbnail"
-									alt="picture preview" style="width: 200px; height: 150px" />
+									accept="image/png,image/jpeg" /> 
+									<img id="thumbnailHide" name="thumbnailHide" th:src="@{*{ThumbnailImagePath}}" style="width: 150px; height: 100px" />
+									
 							</div>
 						</div>
 						<div class="clearfix form-actions">

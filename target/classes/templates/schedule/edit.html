@@ -9,11 +9,11 @@
 			</script>
 
 			<ul class="breadcrumb">
-				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a>
+				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Trang chủ</a>
 				</li>
 
-				<li><a href="#">Forms</a></li>
-				<li class="active">Form Elements</li>
+				<li><a href="#">Quản lý</a></li>
+				<li class="active">Thêm lịch chiếu phim</li>
 			</ul>
 			<!-- /.breadcrumb -->
 
@@ -29,7 +29,7 @@
 								for="form-field-1"> Chọn phim </label>
 
 							<div class="col-sm-9">
-								<select th:field="*{movieId}">
+								<select th:field="*{movieId}" th:required="true">
 									<option value="">--</option>
 									<option th:each="movie : ${listMovie}"
                            					 th:text="${movie.name}"
@@ -44,7 +44,7 @@
 								for="form-field-1"> Chọn phòng chiếu </label>
 
 							<div class="col-sm-9">
-								<select th:field="*{roomId}">
+								<select th:field="*{roomId}" th:required="true">
 									<option value="">--</option>
 									<option th:each="movie : ${listRoom}"
                            					 th:text="${movie.name}"
@@ -58,15 +58,14 @@
 							<label class="col-sm-3 control-label no-padding-right"
 								for="form-field-1"> Thời gian </label>
 
-							<div class="col-sm-9">
-
+							<div class="col-sm-2">
 
 								<div class='input-group date' id='datetimepicker1'>
-									<input type='text' class="form-control" th:field="*{time}" /> <span
-										class="input-group-addon" >
+									<input type='text'  th:field="*{time}"/> <span
+										class="input-group-addon"> <span
+										class="glyphicon glyphicon-calendar"></span>
 									</span>
 								</div>
-
 							</div>
 							<script type="text/javascript">
 								$(function() {
@@ -84,7 +83,6 @@
 								<button class="btn btn-info" type="submit"
 									id="btnAddOrUpdateNew">
 									<i class="ace-icon fa fa-check bigger-110"></i> Thêm bài viết
-									viÃªt
 								</button>
 
 

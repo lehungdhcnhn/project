@@ -13,14 +13,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.converter.MovieConverter;
 import com.example.dto.MovieDTO;
 import com.example.entities.Movie;
-import com.example.repositories.CategoryRepository;
 import com.example.repositories.MovieRepository;
 import com.example.service.IMovieService;
 
@@ -116,8 +114,7 @@ public class MovieService implements IMovieService {
 	@Override
 	public void saveFile(Movie movie, String fileName, MultipartFile multipartFile) throws IOException {
 		movie.setThumbnail(fileName);
-
-		Movie saveMovie = create(movie);
+		Movie saveMovie = save(movie);
 		String uploadDir = "C:/Users/Administrator/Desktop/project/thumbnail-pictures/" + saveMovie.getId();
 		Path uploadPath = Paths.get(uploadDir);
 		if (!Files.exists(uploadPath)) {
@@ -139,6 +136,12 @@ public class MovieService implements IMovieService {
 	public int getToTalItem() {
 		// TODO Auto-generated method stub
 		return (int) movieRepository.count();
+	}
+
+	@Override
+	public Movie save(Movie movie) {
+		return movieRepository.save(movie);
+		
 	}
 
 }

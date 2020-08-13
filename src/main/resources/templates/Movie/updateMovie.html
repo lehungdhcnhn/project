@@ -50,7 +50,13 @@
 		</a>
 	</div>
 
-
+	<script>
+		var editor='';
+		$(document).ready(function(){
+			editor=CKEDITOR.replace('content');
+		});
+	</script>
+	<script th:src="@{/ckeditor/ckeditor.js}"></script>
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery-ui.custom.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery.ui.touch-punch.min.js}"></script>
@@ -84,10 +90,16 @@
 			reader = new FileReader();
 			
 			reader.onload=function(e){
-				$('#thumbnail').attr('src',e.target.result);
+				$('#thumbnailHide').attr('src',e.target.result);
 			};
 			
 			reader.readAsDataURL(file);
+		}
+		var vFileImage=document.forms["formSubmit"].elements["fileImage"].value;
+		if(vFileImage!=""){
+			var img = document.getElementById('thumbnailHide');
+		    img.style.visibility = true;
+			//document.images['thumbnailHide'].style.visibility = hidden;
 		}
 	</script>
 </body>

@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.MovieDTO;
 import com.example.entities.Movie;
+import com.example.repositories.ScheduleRepository;
 import com.example.service.ICategoryService;
 import com.example.service.IMovieService;
 
@@ -30,7 +33,8 @@ public class MovieController {
 	private ICategoryService categoryService;
 	@Autowired
 	private IMovieService movieService;
-
+	@Autowired
+	private ScheduleRepository scheduleRepositoty;
 	@RequestMapping(value="/admin/listMovie",method = RequestMethod.GET)
 	public String viewHomePage(Model model) {
 		MovieDTO dto = new MovieDTO();
@@ -49,10 +53,18 @@ public class MovieController {
 
 	
 	@PostMapping("/saveMovie")
-	public String saveMovie(@ModelAttribute("movie") Movie movie,@RequestParam("fileImage") MultipartFile multipartFile) throws IOException
+	public String saveMovie(@ModelAttribute("movie") Movie movie,@RequestParam("fileImage") MultipartFile multipartFile, @Valid Movie movieValid,BindingResult bindingResult) throws IOException
 	{
+		if(bindingResult.hasErrors())
+		{
+			return "movie/editMovie";
+		}
 		String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
-		movieService.saveFile(movie, fileName, multipartFile);
+		if(!fileName.equals("")){
+			movieService.saveFile(movie, fileName, multipartFile);
+		}else{
+			movieService.save(movie);
+		}
 		return "redirect:/admin/listMovie";
 	}
 
@@ -71,22 +83,32 @@ public class MovieController {
 		return "redirect:/admin/listMovie";
 	}
 	@PostMapping("/updateMovieLate/{id}")
-	public String updateMovie(@ModelAttribute("movie") Movie movie,@RequestParam("fileImage") MultipartFile multipartFile,@PathVariable(value = "id") long id) throws IOException
+	public String updateMovie( @ModelAttribute("movie") Movie movie,@RequestParam("fileImage") MultipartFile multipartFile,@PathVariable(value = "id") long id,@Valid Movie movieValid, BindingResult bindingResult) throws IOException
 	{
-		movieService.deleleFile(id);
+		if(bindingResult.hasErrors())
+		{
+			return "movie/updateMovie";
+		}
 		String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
-		
-		movieService.saveFile(movie, fileName, multipartFile);
+		if(!fileName.equals("")){
+			movieService.deleleFile(id);
+			movieService.saveFile(movie, fileName, multipartFile);
+		}
+		else{
+			movieService.save(movie);
+		}
 		return "redirect:/admin/listMovie";
 	}
 	///////////////////////
-	@RequestMapping(value = "/multipleMovieChange", method = RequestMethod.POST,params = "action=deleteMovieList" )
+	@RequestMapping(value = "/multipleMovieChange", method = RequestMethod.POST )
 	public String deleteRoomList(@RequestParam("movieId") long[] movieListId) {
 		for(long movieId : movieListId) {
+			scheduleRepositoty.deleteFindByMovieID(movieId);
 			movieService.deleleFile(movieId);
-			movieService.delete(movieId);	
+			movieService.delete(movieId);
+			
 		}
-		return "redirect:/admin/listCategory";
+		return "redirect:/admin/listMovie";
 	}
 
 	@RequestMapping(value = "/multipleMovieChange" , method = RequestMethod.POST , params = "action=updateMovieList")
@@ -103,13 +125,16 @@ public class MovieController {
 	}
 
 	@RequestMapping(value = "/saveListMovie", method =RequestMethod.POST)
-	public String saveListRoom(@ModelAttribute("listMovie") MovieDTO movieDTO,@RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
+	public String saveListRoom(@Valid @ModelAttribute("listMovie") MovieDTO movieDTO,@RequestParam("fileImage") MultipartFile multipartFile, BindingResult bindingResult) throws IOException {
+		if(bindingResult.hasErrors()){
+			return "movie/updateListMovie";
+		}
 		for(Movie movie : movieDTO.getListMovieEntity()) {
-				movieService.deleleFile(movie.getId());
+			movieService.deleleFile(movie.getId());
 			String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			movieService.saveFile(movie, fileName, multipartFile);
 		}
-		return "redirect:admin/listRoom";
+		return "redirect:admin/listMovie";
 
 	}
 }

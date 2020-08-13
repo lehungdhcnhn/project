@@ -28,7 +28,7 @@
 					</small>
 				</h1>
 			</div>
-			<form th:action="@{/multipleMovieChange}" th:object="${listMovie}" method="post">
+			<form th:action="@{/multipleMovieChange}" id="formSubmit"   th:object="${listMovie}" method="post">
 			<div class="table-btn-controls">
 				<div class="pull-right tableTools-container">
 					<div class="dt-buttons btn-overlap btn-group">
@@ -39,18 +39,21 @@
 								class="fa fa-plus-circle bigger-110 purple"></i>
 						</span>
 						</a>
-						<button id="btnUpdate" type="submit" name="action"
+						<button id="btnUpdate"  name="action"
 								class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
 								data-toggle="tooltip" title='Sua phim da chon' value="updateMovieList">
 								<span> <i class="ace-icon fa fa-pencil bigger-110 purple"></i>
 								</span>
 							</button>
-						<button id="btnDelete" type="submit" name="action" value="deleteMovieList"
+						<a id="btnDelete" 
+							onclick="return warningBeforeMultiDelete()"
+					 name="action"  value="deleteMovieList"
+						
 							class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
 							data-toggle="tooltip" title='Xóa phim da chon'>
 							<span> <i class="fa fa-trash-o bigger-110 pink"></i>
 							</span>
-						</button>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -62,11 +65,11 @@
 						<th class="center"><label class="pos-rel"> <input
 								type="checkbox" class="ace" id = "checkAll"/> <span class="lbl"></span>
 						</label></th>
-						<th>Name</th>
-						<th>content</th>
-						<th>title</th>
-						<th>shortDescription</th>
-						<th>Thumbnail</th>
+						<th class="center">Tên phim</th>
+						<th class="center">Nội dung</th>
+						<th class="center">Tiêu đề</th>
+						<th class="center">Mô tả ngắn</th>
+						<th class="center">Hình ảnh</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -77,11 +80,11 @@
 								type="checkbox" class="ace" name="movieId" th:value="${movie.id}" /> <span class="lbl"></span>
 						</label></td>
 						
-						<td th:text="${movie.name}"></td>
-						<td th:text="${movie.content}"></td>
-						<td th:text="${movie.title}"></td>
-						<td th:text="${movie.sDescription}"></td>
-						<td><img th:src="@{${movie.ThumbnailImagePath}}"
+						<td class="center" th:text="${movie.name}"></td>
+						<td class="center" th:text="${movie.content}"></td>
+						<td class="center" th:text="${movie.title}"></td>
+						<td class="center" th:text="${movie.sDescription}"></td>
+						<td  class="center"><img th:src="@{${movie.ThumbnailImagePath}}"
 							style="width: 150px; height: 100px" /></td>
 						<td>
 							<div class="hidden-sm hidden-xs btn-group">
@@ -90,7 +93,7 @@
 									class="btn btn-xs btn-info"> <i
 									class="ace-icon fa fa-pencil bigger-120"> </i>
 								</a> <a 
-									class="btn btn-xs btn-danger" onclick="return warningBeforeDelete(this,'@{/deleteSchedule/{id}(id=${movie.id})}')">
+									class="btn btn-xs btn-danger" th:onclick="'javascript:warningBeforeDelete(' + ${movie.id} + ');'">
 									<input type="hidden" id="id" name="id" th:value=${movie.id}>
 									 <i
 									class="ace-icon fa fa-trash-o bigger-120"> </i>

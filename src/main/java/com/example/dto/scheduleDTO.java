@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.example.entities.schedule;
@@ -18,6 +20,7 @@ public class scheduleDTO {
 	
 	private Long movieId;
 	private Long roomId;
+	@Valid
 	private List<scheduleDTO> listResult;
 	private String movieName;
 	private String roomName;

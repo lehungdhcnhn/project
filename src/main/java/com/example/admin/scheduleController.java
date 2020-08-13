@@ -14,13 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.converter.ScheduleConverter;
-import com.example.dto.MovieDTO;
-import com.example.dto.RoomDTO;
 import com.example.dto.scheduleDTO;
-import com.example.entities.Movie;
-import com.example.entities.Room;
-import com.example.entities.schedule;
 import com.example.service.IMovieService;
 import com.example.service.IRoomService;
 import com.example.service.IScheduleService;
@@ -68,7 +62,7 @@ public class scheduleController {
 		return "redirect:/admin/listSchedule";
 	}
 	/////////
-	@RequestMapping(value = "/multipleScheduleChange", method = RequestMethod.POST,params = "action=deleteListSchedule" )
+	@RequestMapping(value = "/multipleScheduleChange", method = RequestMethod.POST)
 	public String deleteScheduleList(@RequestParam("scheduleId") Long[] scheduleListId) {
 		for(long scheduleId : scheduleListId) {
 			scheduleService.delete(scheduleId);	

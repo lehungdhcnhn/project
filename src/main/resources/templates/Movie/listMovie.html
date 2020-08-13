@@ -54,6 +54,7 @@
 		    $('input:checkbox').not(this).prop('checked', this.checked);
 		});
 	</script>
+	
 	<script th:src="@{/admin/js/jquery-2.2.3.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery.2.1.1.min.js}"></script>
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
@@ -73,7 +74,7 @@
 	<!-- page specific plugin scripts -->
 	<script th:src="@{/admin/assets/js/jquery-ui.min.js}"></script>
 	<script>
-		function warningBeforeDelete(delForm, delUrl) {
+		function warningBeforeDelete(id) {
 			swal({
 				title : "Xác nhận xóa",
 				text : "Bạn có chắc chắn muốn xóa hay không",
@@ -83,13 +84,42 @@
 				cancelButtonClass : "btn-danger",
 				confirmButtonText : "Xác nhận",
 				cancelButtonText : "Hủy bỏ",
-			}).then(function(isConfirm) {
-				if (isConfirm) {
-					delForm.action=delURL;
-					return true;
-				}
-			});
+			}).then((result) => {
+				  if (result.value) {
+					  deleteMovie(id);
+					  }
+					})
 		}
+		function deleteMovie(data) {
+	        $.ajax({
+	            url: "/deleteMovie/"+data,
+	            method: "GET",
+	            success: function (result) {
+	                window.location.href = "/admin/listMovie";
+	            },
+	            fail: function (err) {
+	                console.log(err);
+	            }
+	        });
+	    }
+		function warningBeforeMultiDelete() {
+			swal({
+				title : "Xác nhận xóa",
+				text : "Bạn có chắc chắn muốn xóa hay không",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonClass : "btn-success",
+				cancelButtonClass : "btn-danger",
+				confirmButtonText : "Xác nhận",
+				cancelButtonText : "Hủy bỏ",
+			}).then((result) => {
+				  if (result.value) {
+					  document.getElementById("formSubmit").submit();
+					  }
+					})
+			
+		}
+		
 	</script>
 </body>
 </html>
