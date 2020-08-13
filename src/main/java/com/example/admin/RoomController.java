@@ -3,11 +3,13 @@ package com.example.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,16 +75,27 @@ public class RoomController {
 	}
 	
 	@RequestMapping(value = "/saveListRoom", method =RequestMethod.POST)
-	public String saveListRoom(@ModelAttribute("listRoom") RoomDTO roomDTO) {
-		for(Room room : roomDTO.getListRoom()) {
-			roomService.saveRoom(room);
+	public String saveListRoom(@Valid @ModelAttribute("listRoom") RoomDTO roomDTO, BindingResult bindingResult) {
+		System.err.println(bindingResult.getFieldErrorCount());
+		if(bindingResult.hasErrors()) {
+			return "room/updateListRoom";
 		}
-		return "redirect:admin/listRoom";
+		else {
+			for(Room room : roomDTO.getListRoom()) {
+			roomService.saveRoom(room);
+			}
+			return "redirect:admin/listRoom";
+		}
+		
 		
 	}
 	
 	@PostMapping("/saveRoom")
-	public String updateRoom(@ModelAttribute("room") Room room) {
+	public String updateRoom(@ModelAttribute("room") Room room, @Valid Room roomValid, BindingResult bindingResult) {
+		System.err.println(bindingResult.getFieldErrorCount());
+		if(bindingResult.hasErrors()) {
+			return "room/updateRoom";
+		}
 		roomService.saveRoom(room);
 		return "redirect:/admin/listRoom";
 	}

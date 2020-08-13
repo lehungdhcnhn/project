@@ -3,6 +3,8 @@ package com.example.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.example.entities.Room;
 
 public class RoomDTO {
@@ -10,6 +12,8 @@ public class RoomDTO {
 	
 	private String name;
 	private Long id;
+	
+	@Valid
 	private List<Room> listRoom = new ArrayList<>();
 	public RoomDTO(List<Room> listRoom) {
 		super();

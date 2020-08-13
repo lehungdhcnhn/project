@@ -3,6 +3,8 @@ package com.example.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.example.entities.Category;
 
 public class CategoryDTO {
@@ -12,6 +14,8 @@ public class CategoryDTO {
 	
 	
 	private Long id;
+	
+	@Valid
 	private List<Category> listCategory = new ArrayList<>();
 	public CategoryDTO(List<Category> listCategory) {
 		super();
