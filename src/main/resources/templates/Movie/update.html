@@ -18,7 +18,7 @@
 			<!-- /.breadcrumb -->
 
 		</div>
-		<div class="page-content">
+		<div class="page-content" style="font-size: 16px">
 			<div class="row">
 				<div class="col-xs-12">
 					<form th:action="@{/updateMovieLate/{id}(id=${movie.id})}"
@@ -35,6 +35,32 @@
 									<p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
 							</div>
 						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right"
+								for="form-field-1"> Ngày phát hành </label>
+
+							<div class="col-sm-2">
+
+
+								<div class='input-group date' id='datetimepicker1'>
+									<input type='text'  th:field="*{startTime}"/> <span
+										class="input-group-addon"> <span
+										class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+
+							</div>
+							<script type="text/javascript">
+								$(function() {
+									$('#datetimepicker1').datetimepicker({
+										format: 'DD/MM/YYYY h:mm A'
+									});
+								});
+							</script>
+						</div>
+							
+						
 						<div class="form-group">
 							<input type="hidden" th:field="*{id}" /> <label
 								class="col-sm-3 control-label no-padding-right"
@@ -51,24 +77,24 @@
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Tiêu đề </label>
+								for="form-field-1"> Thời gian </label>
 
 							<div class="col-sm-9">
-								<input type="text" class="col-xs-10 col-sm-5" id="title"
-									name="title" th:field="*{title}" />
-									<p class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+								<input type="text" class="col-xs-10 col-sm-5" id="length"
+									name="length" th:field="*{length}" />
+									<p class="text-danger" th:if="${#fields.hasErrors('length')}" th:errors="*{length}"></p>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Mô tả ngắn </label>
+								for="form-field-1"> Thành viên </label>
 
 							<div class="col-sm-9">
 
 								<textarea rows="5" cols="10" class="form-control"
-									th:field="*{sDescription}"></textarea>
-									<p class="text-danger" th:if="${#fields.hasErrors('sDescription')}" th:errors="*{sDescription}"></p>
+									th:field="*{member}"></textarea>
+									<p class="text-danger" th:if="${#fields.hasErrors('member')}" th:errors="*{member}"></p>
 							</div>
 
 						</div>
@@ -92,7 +118,7 @@
 
 							<div class="col-sm-9">
 								<input type="file" id="fileImage" name="fileImage"
-									accept="image/png,image/jpeg" /> 
+									accept="image/png,image/jpeg" /> <br/>
 									<img id="thumbnailHide" name="thumbnailHide" th:src="@{*{ThumbnailImagePath}}" style="width: 150px; height: 100px" />
 									
 							</div>
@@ -107,9 +133,9 @@
 
 
 								&nbsp; &nbsp; &nbsp;
-								<button class="btn" type="reset">
+								<a th:href="@{/admin/listMovie}" class="btn" type="reset">
 									<i class="ace-icon fa fa-undo bigger-110"></i> Hủy
-								</button>
+								</a>
 							</div>
 						</div>
 					</form>

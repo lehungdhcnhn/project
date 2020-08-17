@@ -1,6 +1,7 @@
 package com.example.dto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Transient;
@@ -10,11 +11,40 @@ import com.example.entities.Movie;
 
 public class MovieDTO extends AbstractModel {
 	private String content;
-	private String sDescription;
-	private String title;
+	private String member;
+	private Long length;
 	private Long id;
 	private String name;
 	private String thumbnail;
+	private String thumbnailImagePathVer;
+	private Date startTime;
+	
+	
+	
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+	public String getMember() {
+		return member;
+	}
+	public void setMember(String member) {
+		this.member = member;
+	}
+	public Long getLength() {
+		return length;
+	}
+	public void setLength(Long length) {
+		this.length = length;
+	}
+	public String getThumbnailImagePathVer() {
+		return thumbnailImagePathVer;
+	}
+	public void setThumbnailImagePathVer(String thumbnailImagePathVer) {
+		this.thumbnailImagePathVer = thumbnailImagePathVer;
+	}
 	public String getName() {
 		return name;
 	}
@@ -55,22 +85,6 @@ public class MovieDTO extends AbstractModel {
 	public void setContent(String content) {
 		this.content = content;
 	}
-
-
-	public String getsDescription() {
-		return sDescription;
-	}
-	public void setsDescription(String sDescription) {
-		this.sDescription = sDescription;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	
-	
 	public String getThumbnail() {
 		return thumbnail;
 	}

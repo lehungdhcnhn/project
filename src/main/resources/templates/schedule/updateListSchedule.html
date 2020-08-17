@@ -8,20 +8,20 @@
 	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
 <link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"
 	class="ace-main-stylesheet" id="main-ace-style" />
-<script th:src="@{admin/assets/js/ace-extra.min.js}"></script>
+<script th:src="@{/admin/assets/js/ace-extra.min.js}"></script>
 <link rel="stylesheet"
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type='text/javascript' src="@{/admin/js/jquery-2.2.3.min.js}"></script>
+<script type='text/javascript' th:src="@{/admin/js/jquery-2.2.3.min.js}"></script>
 <script th:src="@{/admin/assets/js/jquery.2.1.1.min.js}"></script>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/admin/css/style.css}" />
 </head>
 <body class="no-skin">
 
@@ -77,31 +77,40 @@
 
 						<tbody>
 							<tr th:each="schedule, itemStat : *{listResult}">
-
-
 								<td class="center"><select
-									th:field="*{listResult[__${itemStat.index}__].movieId}">
+									th:field="*{listResult[__${itemStat.index}__].movieId}"
+									style="width: 100px">
 										<option value="">--</option>
 										<option th:each="movie : ${listMovie}" th:text="${movie.name}"
 											th:value="${movie.id}"></option>
 										<input type="hidden" class="ace" name="scheduleId"
 										th:field="*{listResult[__${itemStat.index}__].id}" />
-								</select>
+								</select></td>
 								<td class="center"><select
-									th:field="*{listResult[__${itemStat.index}__].roomId}">
-									<option value="">--</option>
+									th:field="*{listResult[__${itemStat.index}__].roomId}"
+									style="width: 100px">
+										<option value="">--</option>
 										<option th:each="room : ${listRoom}" th:text="${room.name}"
 											th:value="${room.id}"></option>
 								</select></td>
 								<td class="center">
-									<div class='input-group date' id='datetimepicker1'>
-										<input type='text' class="form-control"
-											th:field="*{listResult[__${itemStat.index}__].time}">
-											<span class="input-group-addon"> 
-											<span class="glyphicon glyphicon-calendar"></span>
-										</span>
-									</div>
-								</td>
+									<div class="col-sm-2">
+										<div class='input-group date' id='datetimepicker1'>
+											<input type='text' th:field="*{listResult[__${itemStat.index}__].time}" /> <span
+												class="input-group-addon"> <span
+												class="glyphicon glyphicon-calendar"></span>
+											</span>
+										</div>
+
+									</div> <script type="text/javascript">
+										$(function() {
+											$('#datetimepicker1').datetimepicker(
+											{
+												format : 'DD/MM/YYYY h:mm A'
+											});
+										});
+									</script>
+								</td> 
 							</tr>
 						</tbody>
 					</table>
@@ -129,28 +138,7 @@
 			class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 		</a>
 	</div>
-
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
-
-	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
-	<script type="text/javascript">
-		$(function() {
-			$('#datetimepicker1').datetimepicker();
-		});
-	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
-	
-	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery-ui.custom.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery.ui.touch-punch.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery.easypiechart.min.js}"></script>
@@ -163,6 +151,18 @@
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/paging/jquery.twbsPagination.js} "></script>
 	<!-- page specific plugin scripts -->
-	<script th:src="@{/admin/assets/js/jquery-ui.min.js}"></script>
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
 </body>
 </html>

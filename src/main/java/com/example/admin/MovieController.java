@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,9 +77,10 @@ public class MovieController {
 
 	@GetMapping("/deleteMovie/{id}")
 	public String deleteMovie(@PathVariable(value = "id") long id){
+		scheduleRepositoty.deleteFindByMovieID(id);
 		movieService.deleleFile(id);
 		movieService.delete(id);
-		return "redirect:/admin/listMovie";
+		return "redirect:/admin/listMovie?success";
 	}
 	@PostMapping("/updateMovieLate/{id}")
 	public String updateMovie( @ModelAttribute("movie") Movie movie,@RequestParam("fileImage") MultipartFile multipartFile,@PathVariable(value = "id") long id,@Valid Movie movieValid, BindingResult bindingResult) throws IOException
@@ -91,7 +91,7 @@ public class MovieController {
 		}
 		String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
 		if(!fileName.equals("")){
-			movieService.deleleFile(id);
+			movieService.deleleFile(id); 
 			movieService.saveFile(movie, fileName, multipartFile);
 		}
 		else{
@@ -101,40 +101,21 @@ public class MovieController {
 	}
 	///////////////////////
 	@RequestMapping(value = "/multipleMovieChange", method = RequestMethod.POST )
-	public String deleteRoomList(@RequestParam("movieId") long[] movieListId) {
-		for(long movieId : movieListId) {
-			scheduleRepositoty.deleteFindByMovieID(movieId);
-			movieService.deleleFile(movieId);
-			movieService.delete(movieId);
-			
+	public String deleteRoomList(@RequestParam(value="movieId",required = false) long[] movieListId) {
+		if(movieListId==null)
+		{
+			return "redirect:/admin/listMovie?error";
 		}
-		return "redirect:/admin/listMovie";
+		else { 
+			for(long movieId : movieListId) {
+				scheduleRepositoty.deleteFindByMovieID(movieId);
+				movieService.deleleFile(movieId);
+				movieService.delete(movieId);
+			}
+			return "redirect:/admin/listMovie?success";
+		}
 	}
 
-	@RequestMapping(value = "/multipleMovieChange" , method = RequestMethod.POST , params = "action=updateMovieList")
-	public String viewUpdateRoomList(@RequestParam("movieId") long[] listMovieId ,Model model) {
-		MovieDTO movieDTO = new MovieDTO();
-		List<Movie> movies = new ArrayList<>();
-		for(long roomId : listMovieId) {
-			movies.add(movieService.findById(roomId));
-		}
-		movieDTO.setListMovieEntity(movies);
-		model.addAttribute("listCategory", categoryService.getAllCategory());
-		model.addAttribute("listMovie", movieDTO);
-		return "movie/updateListMovie";
-	}
-
-	@RequestMapping(value = "/saveListMovie", method =RequestMethod.POST)
-	public String saveListRoom(@Valid @ModelAttribute("listMovie") MovieDTO movieDTO,@RequestParam("fileImage") MultipartFile multipartFile, BindingResult bindingResult) throws IOException {
-		if(bindingResult.hasErrors()){
-			return "movie/updateListMovie";
-		}
-		for(Movie movie : movieDTO.getListMovieEntity()) {
-			movieService.deleleFile(movie.getId());
-			String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			movieService.saveFile(movie, fileName, multipartFile);
-		}
-		return "redirect:admin/listMovie";
-
-	}
+	
+	
 }

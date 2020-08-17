@@ -15,7 +15,7 @@ public  interface IMovieService  {
 		Movie save(Movie movie);
 	    Movie findById(Long movieId);
 	    Movie create(Movie movieDetails);
-	    void update(Long movieId, Movie movieDetails );
+	    
 	    void deleleFile(Long id);
 	    void saveFile(Movie movie,String fileName,MultipartFile multipartFile) throws IOException;
 	    void delete(Long movieId);

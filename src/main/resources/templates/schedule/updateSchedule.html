@@ -4,22 +4,24 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
 <link rel="stylesheet" th:href="@{/admin/assets/css/bootstrap.min.css}" />
-<link rel="stylesheet"	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
-<link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"	class="ace-main-stylesheet" id="main-ace-style" />
-<script th:src="@{admin/assets/js/ace-extra.min.js}"></script>
+<link rel="stylesheet"
+	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"
+	class="ace-main-stylesheet" id="main-ace-style" />
+<script th:src="@{/admin/assets/js/ace-extra.min.js}"></script>
 <link rel="stylesheet"
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type='text/javascript' src="@{/admin/js/jquery-2.2.3.min.js}"></script>
+<script type='text/javascript' th:src="@{/admin/js/jquery-2.2.3.min.js}"></script>
 <script th:src="@{/admin/assets/js/jquery.2.1.1.min.js}"></script>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/admin/css/style.css}" />
 </head>
 <body class="no-skin">
 
@@ -54,12 +56,6 @@
 			$("input:checkbox").not(this).prop('checked',this.checked)
 		})	
 	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
-	
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery-ui.custom.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery.ui.touch-punch.min.js}"></script>
@@ -73,6 +69,19 @@
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/paging/jquery.twbsPagination.js} "></script>
 	<!-- page specific plugin scripts -->
-	<script th:src="@{/admin/assets/js/jquery-ui.min.js}"></script>
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+	
 </body>
 </html>

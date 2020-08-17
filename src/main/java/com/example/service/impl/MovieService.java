@@ -70,17 +70,7 @@ public class MovieService implements IMovieService {
 
 	}
 
-	@Override
-	public void update(Long movieId, Movie movieDetails) {
-		Optional<Movie> currentMovie = movieRepository.findById(movieId);
-		currentMovie.get().setTitle(movieDetails.getTitle());
-		currentMovie.get().setThumbnail(movieDetails.getThumbnail());
-		currentMovie.get().setsDescription(movieDetails.getsDescription());
-		currentMovie.get().setContent(movieDetails.getContent());
-		currentMovie.get().setCategories(movieDetails.getCategories());
-		movieRepository.save(currentMovie.get());
-
-	}
+	
 
 	/*
 	 * @Override public List<Movie> getAll() { List<Movie> entities = (List<Movie>)

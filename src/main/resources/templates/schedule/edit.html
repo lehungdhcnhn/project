@@ -29,7 +29,7 @@
 								for="form-field-1"> Chọn phim </label>
 
 							<div class="col-sm-9">
-								<select th:field="*{movieId}" th:required="true">
+								<select th:field="*{movieId}" th:required="true" style="width: 100px">
 									<option value="">--</option>
 									<option th:each="movie : ${listMovie}"
                            					 th:text="${movie.name}"
@@ -44,7 +44,7 @@
 								for="form-field-1"> Chọn phòng chiếu </label>
 
 							<div class="col-sm-9">
-								<select th:field="*{roomId}" th:required="true">
+								<select th:field="*{roomId}" th:required="true" style="width: 100px">
 									<option value="">--</option>
 									<option th:each="movie : ${listRoom}"
                            					 th:text="${movie.name}"
@@ -87,9 +87,9 @@
 
 
 								&nbsp; &nbsp; &nbsp;
-								<button class="btn" type="reset">
+								<a th:href="@{/admin/listSchedule}" class="btn" type="reset">
 									<i class="ace-icon fa fa-undo bigger-110"></i> Hủy
-								</button>
+								</a>
 							</div>
 						</div>
 					</form>

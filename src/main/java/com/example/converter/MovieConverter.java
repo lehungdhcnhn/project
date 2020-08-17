@@ -19,12 +19,5 @@ public class MovieConverter {
 		Movie movie = modelMapper.map(movieDTO, Movie.class);
 		return movie;
 	}
-	public Movie toEntity(MovieDTO dto, Movie movie) {
-		movie.setContent(dto.getContent());
-		movie.setTitle(dto.getTitle());
-		
-		movie.setsDescription(dto.getsDescription());
-		movie.setThumbnail(dto.getThumbnail());
-		return movie;
-	}
+	
 }

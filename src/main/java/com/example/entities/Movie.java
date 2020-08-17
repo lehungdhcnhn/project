@@ -1,6 +1,7 @@
 package com.example.entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -18,6 +19,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name="movie")
 public class Movie {
@@ -31,13 +34,14 @@ public class Movie {
 	
 	@NotNull
 	@Size(min=1, max=255, message= "Mô tả ngắn từ 1-255 ký tự")
-	@Column(name="sdescription")
-	private String sDescription;
+	@Column(name="member")
+	private String member;
 	
-	@NotNull
-	@Size(min=1,max=255, message="Tiêu đề từ 1-255 ký tự")
-	@Column(name="title")
-	private String title;
+	@NotNull(message="Không được để trống thời gian phim")
+	@Column(name="length")
+	private Long length;
+	
+	
 	@Column(name="thumbnail")
 	private String thumbnail;
 	
@@ -45,7 +49,16 @@ public class Movie {
 	@Size(min=1, max=255,message="Tên phim từ 1-255 ký tự")
 	@Column(name="name")
 	private String name;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Column(name="starttime")
+	private Date startTime;
 	
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
 	public String getName() {
 		return name;
 	}
@@ -59,19 +72,7 @@ public class Movie {
 		this.thumbnail = thumbnail;
 	}
 	
-	public Movie(Long id, String content, String sDescription, String title, String thumbnail, String name,
-			List<Category> categories, List<schedule> schedules) {
-		super();
-		this.id = id;
-		this.content = content;
-		this.sDescription = sDescription;
-		this.title = title;
-		this.thumbnail = thumbnail;
-		this.name = name;
-		this.categories = categories;
-		this.schedules = schedules;
-	}
-
+	
 	public Movie() {
 		super();
 	}
@@ -113,22 +114,24 @@ public class Movie {
 		this.content = content;
 	}
 	
-	public String getsDescription() {
-		return sDescription;
-	}
-	public void setsDescription(String sDescription) {
-		this.sDescription = sDescription;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
 	@Transient
 	public String getThumbnailImagePath()
 	{
 		if(thumbnail==null||id==null) return null;
 		return "/thumbnail-pictures/"+id+"/"+thumbnail;
 	}
+	public String getMember() {
+		return member;
+	}
+	public void setMember(String member) {
+		this.member = member;
+	}
+	public Long getLength() {
+		return length;
+	}
+	public void setLength(Long length) {
+		this.length = length;
+	}
+	
+	
 }

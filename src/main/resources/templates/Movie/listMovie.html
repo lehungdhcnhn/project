@@ -2,6 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet" th:href="@{/admin/assets/css/bootstrap.min.css}" />
 <link rel="stylesheet"
 	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
@@ -19,7 +26,8 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" th:href="@{/admin/sweetalert/sweetalert2.min.css}" />
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/admin/css/style.css}" />
 </head>
 <body class="no-skin">
 
@@ -74,6 +82,9 @@
 	<!-- page specific plugin scripts -->
 	<script th:src="@{/admin/assets/js/jquery-ui.min.js}"></script>
 	<script>
+	$(document).ready(function(){
+		document.getElementById("btnDelete").style.display = "none";
+	})
 		function warningBeforeDelete(id) {
 			swal({
 				title : "Xác nhận xóa",
@@ -95,7 +106,7 @@
 	            url: "/deleteMovie/"+data,
 	            method: "GET",
 	            success: function (result) {
-	                window.location.href = "/admin/listMovie";
+	                window.location.href = "/admin/listMovie?success";
 	            },
 	            fail: function (err) {
 	                console.log(err);
@@ -103,6 +114,7 @@
 	        });
 	    }
 		function warningBeforeMultiDelete() {
+			
 			swal({
 				title : "Xác nhận xóa",
 				text : "Bạn có chắc chắn muốn xóa hay không",
@@ -118,6 +130,32 @@
 					  }
 					})
 			
+		}
+
+		function myFunction()
+		{		
+			
+			var check =  document.getElementById("movieId").checked;
+			if(check==false )
+			{
+				document.getElementById("btnDelete").style.display = "none";
+			}
+			else
+			{
+				document.getElementById("btnDelete").style.display = "block";
+			}
+		}
+		function functionCheck()
+		{
+			var checkAll= document.getElementById("checkAll").checked;
+			if(checkAll==false )
+			{
+				document.getElementById("btnDelete").style.display = "none";
+			}
+			else
+			{
+				document.getElementById("btnDelete").style.display = "block";
+			}
 		}
 		
 	</script>

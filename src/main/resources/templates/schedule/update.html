@@ -22,8 +22,6 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<form method="POST" th:action="@{/saveSchedule}" th:object="${schedule}" class="form-horizontal" id="formSubmit">
-						
-
 						<input type="hidden" th:field="*{id}" />
 						<div class="form-group">
 						
@@ -31,7 +29,7 @@
 								for="form-field-1"> Chọn phim </label>
 
 							<div class="col-sm-9">
-								<select th:field="*{movieId}" th:required="true">
+								<select th:field="*{movieId}" th:required="true" style="width: 100px">
 									<option value="">--</option>
 									<option th:each="movie : ${listMovie}"
                            					 th:text="${movie.name}"
@@ -46,7 +44,7 @@
 								for="form-field-1"> Chọn phòng chiếu </label>
 
 							<div class="col-sm-9">
-								<select th:field="*{roomId}" th:required="true">
+								<select th:field="*{roomId}" th:required="true" style="width: 100px">
 									<option value="">--</option>
 									<option th:each="room : ${listRoom}"
                            					 th:text="${room.name}"
@@ -74,12 +72,12 @@
 							</div>
 							<script type="text/javascript">
 								$(function() {
-									$('#datetimepicker1').datetimepicker();
+									$('#datetimepicker1').datetimepicker({
+										format: 'DD/MM/YYYY h:mm A'
+									});
 								});
 							</script>
 						</div>
-
-
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
 
@@ -90,9 +88,9 @@
 
 
 								&nbsp; &nbsp; &nbsp;
-								<button class="btn" type="reset">
+								<a th:href="@{/admin/listSchedule}" class="btn" >
 									<i class="ace-icon fa fa-undo bigger-110"></i> Hủy
-								</button>
+								</a>
 							</div>
 						</div>
 					</form>

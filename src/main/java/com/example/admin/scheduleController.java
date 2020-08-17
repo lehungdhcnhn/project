@@ -63,27 +63,38 @@ public class scheduleController {
 	}
 	/////////
 	@RequestMapping(value = "/multipleScheduleChange", method = RequestMethod.POST)
-	public String deleteScheduleList(@RequestParam("scheduleId") Long[] scheduleListId) {
-		for(long scheduleId : scheduleListId) {
-			scheduleService.delete(scheduleId);	
+	public String deleteScheduleList(@RequestParam(value="scheduleId",required = false) Long[] scheduleListId) {
+		if(scheduleListId==null)
+		{
+			return "redirect:/admin/listSchedule?error";
 		}
-		return "redirect:/admin/listSchedule";
+		else {
+			for(long scheduleId : scheduleListId) {
+				scheduleService.delete(scheduleId);	
+			}
+			return "redirect:/admin/listSchedule";
+		}
 	}
 	
 	@RequestMapping(value = "/multipleScheduleChange" , method = RequestMethod.POST , params = "action=updateListSchedule")
-	public String viewScheduleList(@RequestParam("scheduleId") long[] listScheduleId ,Model model) {
-		scheduleDTO scheduleDTO = new scheduleDTO();
-		List<scheduleDTO> schedules = new ArrayList<>();
-		scheduleDTO dto = new scheduleDTO();
-		for(long scheduleId : listScheduleId) {
-			dto = scheduleService.findById(scheduleId);
-			schedules.add(dto);
+	public String viewScheduleList(@RequestParam(value="scheduleId",required = false) long[] listScheduleId ,Model model) {
+		if(listScheduleId==null){
+			return "redirect:/admin/listSchedule?errorUpdate";
 		}
-		scheduleDTO.setListResult(schedules);
-		model.addAttribute("listMovie", movieService.getAll());
-		model.addAttribute("listRoom",roomService.getAllRoom());
-		model.addAttribute("listSchedule", scheduleDTO);
-		return "schedule/updateListSchedule";
+		else {
+			scheduleDTO scheduleDTO = new scheduleDTO();
+			List<scheduleDTO> schedules = new ArrayList<>();
+			scheduleDTO dto = new scheduleDTO();
+			for(long scheduleId : listScheduleId) {
+				dto = scheduleService.findById(scheduleId);
+				schedules.add(dto);
+			}
+			scheduleDTO.setListResult(schedules);
+			model.addAttribute("listMovie", movieService.getAll());
+			model.addAttribute("listRoom",roomService.getAllRoom());
+			model.addAttribute("listSchedule", scheduleDTO);
+			return "schedule/updateListSchedule";
+		}
 	}
 	
 	@RequestMapping(value = "/saveListSchedule", method =RequestMethod.POST)
