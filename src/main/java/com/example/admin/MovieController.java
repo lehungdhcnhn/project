@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
+import com.example.converter.MovieConverter;
 import com.example.dto.MovieDTO;
 import com.example.entities.Movie;
+import com.example.repositories.MovieRepository;
 import com.example.repositories.ScheduleRepository;
 import com.example.service.ICategoryService;
 import com.example.service.IMovieService;
@@ -34,6 +40,10 @@ public class MovieController {
 	private IMovieService movieService;
 	@Autowired
 	private ScheduleRepository scheduleRepositoty;
+	@Autowired
+	private MovieConverter movieConverter;
+	@Autowired
+	private MovieRepository movieRepository;
 	@RequestMapping(value="/admin/listMovie",method = RequestMethod.GET)
 	public String viewHomePage(Model model) {
 		MovieDTO dto = new MovieDTO();
@@ -115,7 +125,44 @@ public class MovieController {
 			return "redirect:/admin/listMovie?success";
 		}
 	}
-
-	
-	
+	//////////////////
+	@GetMapping("/movie/export")
+	public void exportToCSV(HttpServletResponse response) throws IOException {
+		response.setContentType("text/csv");
+		String fileName="movie.csv";
+		
+		String headerKey ="Content-Disposition";
+		String headerValue="attachment; filename="+fileName;
+		
+		response.setHeader(headerKey, headerValue);
+		List<MovieDTO> movieDto =movieService.getAll(); 
+		List<Movie> movie = new ArrayList<Movie>();
+		Movie entity = new Movie();
+		for (MovieDTO item : movieDto) {
+			entity = movieConverter.convertToMovieEntity(item);
+			movie.add(entity);
+		}
+		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
+		String [] csvHeader= {"name","starttime","content","length","member"};
+		String [] nameMapping= {"name","starttime","content","length","member"};
+		csvWriter.writeHeader(csvHeader);
+		for (Movie item : movie ) {
+			csvWriter.write(item, nameMapping);
+		}
+		csvWriter.close();
+	}	
+	@GetMapping("/searchMovie/{searchMovie}")
+	public String deleteMovie(@PathVariable(value = "searchMovie") String searchMovie,Model model){
+		List<Movie> movie = new ArrayList<Movie>();
+		movie = movieRepository.findMovieByName(searchMovie);
+		List<MovieDTO> dto = new ArrayList<MovieDTO>();
+		MovieDTO movieDto = new MovieDTO();
+		for (Movie item : movie) {
+			movieDto=movieConverter.convertToMovieDTO(item);
+			dto.add(movieDto);
+		}
+		movieDto.setListResultMovie(dto);
+		model.addAttribute("listMovie", movieDto);
+		return "Movie/listMovie";
+	}
 }

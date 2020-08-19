@@ -134,16 +134,18 @@
 
 		function myFunction()
 		{		
-			
-			var check =  document.getElementById("movieId").checked;
-			if(check==false )
-			{
-				document.getElementById("btnDelete").style.display = "none";
-			}
-			else
-			{
-				document.getElementById("btnDelete").style.display = "block";
-			}
+			 var pickedOne = false;
+			  var inputs = document.getElementsByClassName('movieId');
+			  for(var i = 0, l = inputs.length; i < l; ++i) {
+			    if(inputs[i].checked) {
+			      pickedOne = true;
+			      document.getElementById("btnDelete").style.display = "block";
+			      break;
+			    }
+			  }
+			  if(!pickedOne) {
+				  document.getElementById("btnDelete").style.display = "none";
+			  }
 		}
 		function functionCheck()
 		{
@@ -151,13 +153,28 @@
 			if(checkAll==false )
 			{
 				document.getElementById("btnDelete").style.display = "none";
+				document.getElementById("btnUpdate").style.display = "none";
 			}
 			else
 			{
 				document.getElementById("btnDelete").style.display = "block";
+				document.getElementById("btnUpdate").style.display = "block";
 			}
 		}
-		
+		function searchFunction()
+		{
+			var searchMovie =document.getElementById("searchMovie").value;
+			 $.ajax({
+		            url: "/searchMovie/"+searchMovie,
+		            method: "GET",
+		            success: function (result) {
+		                window.location.href = "/searchMovie/"+searchMovie;
+		            },
+		            fail: function (err) {
+		                console.log(err);
+		            }
+		        });
+		}
 	</script>
 </body>
 </html>

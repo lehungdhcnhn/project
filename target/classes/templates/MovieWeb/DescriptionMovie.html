@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0,maximum-scale=1">
+
+<title>Movie Review</title>
+
+<!-- Loading third party fonts -->
+<link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|"
+	rel="stylesheet" type="text/css">
+<link th:href="@{/web/fonts/font-awesome.min.css}" rel="stylesheet"
+	type="text/css">
+
+<!-- Loading main css file -->
+<link th:href="@{/web/css/style.css}" rel="stylesheet" type="text/css">
+
+<!--[if lt IE 9]>
+		<script src="js/ie-support/html5.js"></script>
+		<script src="js/ie-support/respond.js"></script>
+		<![endif]-->
+
+</head>
+<body>
+	<div id="site-content">
+		<!-- Navigation -->
+		<header class="site-header">
+			<div th:replace="common/web/header :: copy-header-menu"></div>
+		</header>
+		<!-- Page Content -->
+		<main class="main-content">
+			<div class="container">
+				<div class="page">
+					<form th:objet="movie">
+						<div class="breadcrumbs">
+							<a href="index.html">Home</a> <a href="review.html">Movie
+								Review</a> <span th:text="${movie.name}"></span>
+						</div>
+
+						<div class="content">
+							<div class="row">
+								<div class="col-md-3">
+									<figure class="movie-poster">
+										<img th:src="@{${movie.ThumbnailImagePath}}"
+											style="width: 300px; height: 350px" alt="#">
+									</figure>
+								</div>
+								<div class="col-md-9">
+									<h2 class="movie-title">
+										<p th:text="${movie.name}">
+									</h2>
+									<div class="movie-summary">
+
+										<ul class="movie-meta">
+
+											<li><strong>Thời gian:</strong> <span
+												th:text="${movie.length}"> phút</span></li>
+											<li><strong>Thể loại:</strong> <span
+												th:each="category : ${movie.categories}"> <span
+													th:text="${category.name}"></span>,
+											</span></li>
+
+
+
+											<li><strong>Ngày phát hành: </strong> <span
+												th:text="${#calendars.format(movie.startTime,'dd/MM/yyyy')}"></li>
+											<li><strong>Thành viên: </strong><span
+												th:text="${movie.member}"></span></li>
+											<li></li>
+											<li>
+												<button type="button" class="btn btn-primary center">Đặt
+													vé</button>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<!-- .row -->
+
+							</div>
+							<div>
+								<button type="button" onclick="myFunction()"
+									class="btn btn-primary center">Xem chi tiết</button>
+								<span>
+									<button type="button" onclick="functionCheck()"
+										class="btn btn-primary center">Trailer</button>
+								</span>
+							</div>
+							<div id="content" th:text="${movie.content}"></div>
+
+							<iframe id="youtube" width="560" height="315"
+								style="display: none"
+								th:src="@{https://www.youtube.com/embed/{url}(url=${movie.idYou})}"></iframe>
+
+						</div>
+					</form>
+				</div>
+				<!-- .container -->
+		</main>
+		<!-- Footer -->
+		<div th:replace="common/web/footer :: copy-footer-web"></div>
+	</div>
+	<!-- Bootstrap core JavaScript -->
+	<script>
+		$(document).ready(function() {
+			document.getElementById("youtube").style.display = "none";
+		})
+
+		function myFunction() {
+			document.getElementById("youtube").style.display = "none";
+			document.getElementById("content").style.display = "block";
+		}
+		function functionCheck() {
+			document.getElementById("youtube").style.display = "block";
+			document.getElementById("content").style.display = "none";
+		}
+	</script>
+	<script th:src="@{/web/js/jquery-1.11.1.min.js}"></script>
+	<script th:src="@{/web/js/plugins.js}"></script>
+	<script th:src="@{/web/js/app.js}"></script>
+</body>
+</html>

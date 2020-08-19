@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <link rel="stylesheet" th:href="@{/admin/assets/css/bootstrap.min.css}" />
-<link rel="stylesheet"	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
-<link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"	class="ace-main-stylesheet" id="main-ace-style" />
+<link rel="stylesheet"
+	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"
+	class="ace-main-stylesheet" id="main-ace-style" />
 <script th:src="@{admin/assets/js/ace-extra.min.js}"></script>
 <link rel="stylesheet"
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -17,8 +19,10 @@
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" th:href="@{/admin/sweetalert/sweetalert2.min.css}" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	th:href="@{/admin/sweetalert/sweetalert2.min.css}" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" th:href="@{/admin/css/style.css}" />
 </head>
 <body class="no-skin">
@@ -37,8 +41,8 @@
 		<!-- menu -->
 		<div th:replace="common/admin/menu :: copy-menu-admin"></div>
 		<!-- menu -->
-		
-		<div th:replace="schedule/list :: list-schedule"></div>	
+
+		<div th:replace="schedule/list :: list-schedule"></div>
 
 		<!-- footer -->
 		<div th:replace="common/admin/footer :: copy-footer-admin"></div>
@@ -54,7 +58,7 @@
 			$("input:checkbox").not(this).prop('checked',this.checked)
 		})	
 	</script>
-	<script th:src="@{/admin/sweetalert/sweetalert2.min.js}"></script>	
+	<script th:src="@{/admin/sweetalert/sweetalert2.min.js}"></script>
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery-ui.custom.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery.ui.touch-punch.min.js}"></script>
@@ -122,17 +126,20 @@
 		function myFunction()
 		{		
 			
-			var check =  document.getElementById("scheduleId").checked;
-			if(check==false )
-			{
-				document.getElementById("btnDelete").style.display = "none";
-				document.getElementById("btnUpdate").style.display = "none";
-			}
-			else
-			{
-				document.getElementById("btnDelete").style.display = "block";
-				document.getElementById("btnUpdate").style.display = "block";
-			}
+			 var pickedOne = false;
+			  var inputs = document.getElementsByClassName('scheduleId');
+			  for(var i = 0, l = inputs.length; i < l; ++i) {
+			    if(inputs[i].checked) {
+			      pickedOne = true;
+			      document.getElementById("btnDelete").style.display = "block";
+					document.getElementById("btnUpdate").style.display = "block";
+			      break;
+			    }
+			  }
+			  if(!pickedOne) {
+				  document.getElementById("btnDelete").style.display = "none";
+					document.getElementById("btnUpdate").style.display = "none";
+			  }
 		}
 		function functionCheck()
 		{

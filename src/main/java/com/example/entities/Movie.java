@@ -53,6 +53,17 @@ public class Movie {
 	@Column(name="starttime")
 	private Date startTime;
 	
+	@NotNull
+	@Column
+	private String idYou;
+	
+	
+	public String getIdYou() {
+		return idYou;
+	}
+	public void setIdYou(String idYou) {
+		this.idYou = idYou;
+	}
 	public Date getStartTime() {
 		return startTime;
 	}

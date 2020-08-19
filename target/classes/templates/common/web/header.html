@@ -13,9 +13,12 @@
 						<ul class="menu">
 							<li class="menu-item current-menu-item"><a href="index.html">Home</a></li>
 							<li class="menu-item"><a href="about.html">About</a></li>
-							<li class="menu-item"><a href="review.html">Movie reviews</a></li>
-							<li class="menu-item"><a href="joinus.html">Join us</a></li>
-							<li class="menu-item"><a href="contact.html">Contact</a></li>
+							<li class="menu-item"><a th:href="@{/home/listMovie}">Movie</a></li>
+							<li class="menu-item">
+								<p sec:authorize="isAuthenticated()">Xin chào, <span sec:authentication="principal.name"></span></p>
+							</li>
+							<li class="menu-item"><p sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></p></li>
+							<li class="menu-item"><p sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></p></li>
 						</ul> <!-- .menu -->
 
 						<form action="#" class="search-form">
@@ -25,5 +28,5 @@
 					</div> <!-- .main-navigation -->
 
 					<div class="mobile-navigation"></div>
-</div>
+	</div>
 </div>

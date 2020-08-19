@@ -24,9 +24,22 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 	
 	@Transactional
 	@Modifying
-	@Query(value="SELECT movie.* from movie  inner join schedule  on movie.id=schedule.movie_id ORDER BY schedule.time ",nativeQuery = true)
+	@Query(value="SELECT movie.* from movie",nativeQuery = true)
 	List<Movie> getAllMovieDescDate();
 	
-
+	@Transactional
+	@Modifying
+	@Query(value="SELECT movie.* from movie where DATE(starttime) >CURDATE() ",nativeQuery = true)
+	List<Movie> findMovieByStart();
+	
+	@Transactional
+	@Modifying
+	@Query(value="SELECT movie.* from movie where DATE(starttime) <=CURDATE() ",nativeQuery = true)
+	List<Movie> findMovieByEnd();
+	
+	@Transactional
+	@Modifying
+	@Query(value="SELECT movie.* FROM movie WHERE movie.name LIKE %?1% ",nativeQuery = true)
+	List<Movie> findMovieByName(String name);
 	
 }

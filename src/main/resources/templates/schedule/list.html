@@ -69,7 +69,7 @@
 			<thead>
 
 				<th class="center"><label class="pos-rel"> <input
-								type="checkbox" class="ace" id="checkAll" onclick="functionCheck()" /> <span class="lbl"></span>
+								type="checkbox" class="ace"  id="checkAll" onclick="functionCheck()" /> <span class="lbl"></span>
 						</label></th>
 
 				<th class="center">Phim</th>
@@ -83,7 +83,7 @@
 			<tbody>
 				<tr th:each="schedule : ${listSchedule}">
 					<td class="center"><label class="pos-rel"> <input
-								type="checkbox" class="ace" name="scheduleId" id ="scheduleId" th:value="${schedule.id}" onclick="myFunction()" /> <span class="lbl"></span>
+								type="checkbox" class="ace scheduleId" name="scheduleId"  th:value="${schedule.id}" onclick="myFunction()" /> <span class="lbl"></span>
 						</label></td>
 					<td class="center" th:text="${schedule.movieName}"></td>
 					<td class="center" th:text="${schedule.roomName}"></td>

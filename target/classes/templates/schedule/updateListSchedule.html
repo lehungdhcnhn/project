@@ -95,7 +95,7 @@
 								</select></td>
 								<td class="center">
 									<div class="col-sm-2">
-										<div class='input-group date' id='datetimepicker1'>
+										<div class='input-group date datetimepicker1' >
 											<input type='text' th:field="*{listResult[__${itemStat.index}__].time}" /> <span
 												class="input-group-addon"> <span
 												class="glyphicon glyphicon-calendar"></span>
@@ -104,7 +104,7 @@
 
 									</div> <script type="text/javascript">
 										$(function() {
-											$('#datetimepicker1').datetimepicker(
+											$('.datetimepicker1').datetimepicker(
 											{
 												format : 'DD/MM/YYYY h:mm A'
 											});

@@ -18,9 +18,16 @@ public class MovieDTO extends AbstractModel {
 	private String thumbnail;
 	private String thumbnailImagePathVer;
 	private Date startTime;
+	private String idYou;
 	
 	
 	
+	public String getIdYou() {
+		return idYou;
+	}
+	public void setIdYou(String idYou) {
+		this.idYou = idYou;
+	}
 	public Date getStartTime() {
 		return startTime;
 	}

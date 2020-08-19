@@ -9,9 +9,7 @@
 	content="width=device-width, initial-scale=1.0,maximum-scale=1">
 
 <title>Movie Review</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 <!-- Loading third party fonts -->
 <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|"
 	rel="stylesheet" type="text/css">
@@ -19,13 +17,6 @@
 	type="text/css">
 <!-- Loading main css file -->
 <link th:href="@{/web/css/style.css}" rel="stylesheet" type="text/css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-
-<!-- jQuery Modal -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-
 <!--[if lt IE 9]>
 		<script src="js/ie-support/html5.js"></script>
 		<script src="js/ie-support/respond.js"></script>
@@ -66,15 +57,11 @@
 										<div class="child-page-listing">
 											<div class="grid-container">
 												<article id="3685" class="location-listing">
-													<a class="location-title" href="#">
-														<button type="button"
-															style="margin-left: -30px; height: 40px"
-															th:onclick="'javascript:descriptionMovie(' + ${moviedisplay.id} + ');'"
-															class="btn">
-															<p
-																style="font-size: 15px; height: 40px; line-height: 40px">Xem
-																chi tiết</p>
+													<a class="location-title" href="#"> 
+														<button type="button" style="margin-left: -30px; height: 40px"  th:onclick="'javascript:descriptionMovie(' + ${moviedisplay.id} + ');'" class="btn">
+															<p style="font-size: 15px;height: 40px; line-height: 40px">Xem chi tiết</p>
 														</button>
+														<button type="button" style="margin-left: -30px; height: 40px"  class="btn"><p style="font-size: 15px;height: 40px; line-height: 40px">Mua vé</p></button>
 													</a>
 													<div class="location-image">
 														<a href="#"><img style="height: 340px"
@@ -85,20 +72,8 @@
 											<!-- end grid container -->
 										</div>
 										<div class="movie-title">
-											<a href="single.html">
-												<p th:text="${moviedisplay.name}"
-													style="font-size: 20px;"></p> <span>
-													<p>
-														<a href="#ex1" rel="modal:open"><p  style="font-size: 20px">Mua vé</p></a>
-													</p>
-													<div id="ex1"  class="modal">
-														<button type="button" class="btn btn-outline-secondary" th:text="${#calendars.format(moviedisplay.startTime,'dd/MM')}"></button>
-
-														<a href="#" rel="modal:close">Close</a>
-													</div> <!-- Link to open the modal -->
-											</span>
-											</a>
-
+											<a href="single.html"><p th:text="${moviedisplay.name}"
+													style="font-size: 20px; margin-bottom: 20px;"></p></a>
 										</div>
 									</div>
 								</div>
@@ -107,8 +82,6 @@
 						</div>
 					</div>
 					<!-- .movie-list -->
-
-
 				</div>
 			</div>
 			<!-- .container -->
@@ -118,24 +91,24 @@
 	</div>
 	<!-- Bootstrap core JavaScript -->
 	<script>
-		function descriptionMovie(id) {
-			$.ajax({
-				url : "/descriptionMovie/" + id,
-				method : "GET",
-				success : function(result) {
-					window.location.href = "/descriptionMovie/" + id;
-				},
-				fail : function(err) {
-					console.log(err);
-				}
-			});
+		function descriptionMovie(id){
+			 $.ajax({
+		            url: "/descriptionMovie/"+id,
+		            method: "GET",
+		            success: function (result) {
+		                window.location.href ="/descriptionMovie/"+id;
+		            },
+		            fail: function (err) {
+		                console.log(err);
+		            }
+		        });
 		}
 		function changeFunc() {
 			var selectBox = document.getElementById("selectBox");
 			var selectedValue = selectBox.options[selectBox.selectedIndex].value;
 			if (selectedValue == 2) {
 				viewCommingSoon(selectedValue);
-			} else if (selectedValue == 1 | selectedValue == 0) {
+			} else if (selectedValue == 1) {
 				viewNow(selectedValue);
 			}
 			function viewCommingSoon(data) {
