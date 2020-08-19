@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <link rel="stylesheet" th:href="@{/admin/assets/css/bootstrap.min.css}" />
-<link rel="stylesheet"	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
-<link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"	class="ace-main-stylesheet" id="main-ace-style" />
-<script th:src="@{admin/assets/js/ace-extra.min.js}"></script>
+<link rel="stylesheet"
+	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"
+	class="ace-main-stylesheet" id="main-ace-style" />
 <link rel="stylesheet"
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type='text/javascript' src="@{/admin/js/jquery-2.2.3.min.js}"></script>
 <script th:src="@{/admin/assets/js/jquery.2.1.1.min.js}"></script>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+<link rel="stylesheet"
+	th:href="@{/admin/sweetalert/sweetalert2.min.css}" />
 
 </head>
-<body class="no-skin">
+<body class="no-skin ">
 
 	<!-- header -->
 	<div th:replace="common/admin/header :: copy-header-admin"></div>
 	<!-- header -->
 
-	<div class="main-container" id="main-container">
+	<div class="main-container " id="main-container">
 		<script type="text/javascript">
 			try {
 				ace.settings.check('main-container', 'fixed')
@@ -36,148 +37,160 @@
 		<!-- menu -->
 		<div th:replace="common/admin/menu :: copy-menu-admin"></div>
 		<!-- menu -->
-		
+
 		<div th:fragment="list-room" class="main-content">
-		<div class="main-content-inner">
-			<div class="breadcrumbs" id="breadcrumbs">
-				<script type="text/javascript">
+			<div class="main-content-inner">
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
 					try {
 						ace.settings.check('breadcrumbs', 'fixed')
 					} catch (e) {
 					}
 				</script>
-	
-				<ul class="breadcrumb">
-					<li><i class="ace-icon fa fa-home home-icon"></i> <a href="/">Trang chủ</a>
-					</li>
-					<li><a href="/admin/home">Quản lý</a></li>
-					<li class="active">Phòng chiếu phim</li>
-				</ul>
-				<!-- /.breadcrumb -->
-	
-			</div>
-			<div class="page-header">
-				<h1>
-					Bảng<small> <i class="ace-icon fa fa-angle-double-right"></i>
-						Danh sách phòng chiếu phim
-					</small>
-				</h1>
-			</div>
-			
-			
-			<form data-th-action="@{/multipleRoomChange}" th:object="${listRoom}" method="post">
-				<div class="table-btn-controls">
-					<div class="pull-right tableTools-container">
-						<div class="dt-buttons btn-overlap btn-group">
-							<a flag="info"
-								class="dt-button buttons-colvis btn btn-white btn-primary btn-bold"
-								data-toggle="tooltip" title='Thêm phòng' th:href=@{editRoom}>
-								<span> <i class="fa fa-plus-circle bigger-110 purple"></i>
-							</span>
-							</a>
-							<button id="btnUpdate" type="submit" name="action"
-								class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
-								data-toggle="tooltip" title='Sua phong da chon' value="updateRoomList">
-								<span> <i class="ace-icon fa fa-pencil bigger-110 purple"></i>
+
+					<ul class="breadcrumb">
+						<li><i class="ace-icon fa fa-home home-icon"></i> <a href="/">Trang
+								chủ</a></li>
+						<li><a href="/admin/home">Quản lý</a></li>
+						<li class="active">Phòng chiếu phim</li>
+					</ul>
+					<!-- /.breadcrumb -->
+
+				</div>
+				<div class="page-header">
+					<h1>
+						Bảng<small> <i class="ace-icon fa fa-angle-double-right"></i>
+							Danh sách phòng chiếu phim
+						</small>
+					</h1>
+				</div>
+
+
+				<form data-th-action="@{/multipleRoomChange}"
+					th:object="${listRoom}" method="post" id="formSubmit">
+					<div class="table-btn-controls">
+						<div class="pull-right tableTools-container">
+							<div class="dt-buttons btn-overlap btn-group">
+								<a flag="info"
+									class="dt-button buttons-colvis btn btn-white btn-primary btn-bold"
+									data-toggle="tooltip" title='Thêm phòng'
+									th:href=@{/admin/editRoom}> <span> <i
+										class="fa fa-plus-circle bigger-110 purple"></i>
 								</span>
-							</button>
-							<button id="btnDelete" type="submit" name="action"
-								class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
-								data-toggle="tooltip" title='Xóa phòng da chon'  value="deleteRoomList">
-								<span> <i class="fa fa-trash-o bigger-110 pink"></i>
+								</a>
+								<button id="btnUpdate" type="submit" name="action"
+									class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
+									data-toggle="tooltip" title='Sua phong da chon'
+									value="updateRoomList">
+									<span> <i
+										class="ace-icon fa fa-pencil bigger-110 purple"></i>
+									</span>
+								</button>
+								<a id="btnDelete" name="action"
+									onclick="return warningBeforeMultiDelete()"
+									class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
+									data-toggle="tooltip" title='Xóa phòng da chon'
+									value="deleteRoomList"> <span> <i
+										class="fa fa-trash-o bigger-110 pink"></i>
 								</span>
-							</button>
+								</a>
+							</div>
 						</div>
 					</div>
-				</div>
-				<!-- /.page-header -->
-				<table id="simple-table"
-					class="table table-striped table-bordered table-hover">
-					<thead>
-						<tr>
-							<th class="center"><label class="pos-rel"> <input
-									type="checkbox" class="ace" id="checkAll" /> <span class="lbl"></span>
-							</label></th>
-							<th>Mã phòng chiếu</th>
-							<th>Tên phòng chiếu</th>
-							<th></th>
-						</tr>
-					</thead>
-		
-					<tbody>
-						<tr th:each="room : ${listRoom}">
-							<td class="center"><label class="pos-rel"> <input
-									type="checkbox" class="ace" name="roomId" th:value="${room.id}"/> <span class="lbl"></span>
-							</label></td>
-		
-							<td th:text="${room.code}"></td>
-							<td th:text="${room.name}"></td>
-							<td>
-								<div class="hidden-sm hidden-xs btn-group">
-		
-									<a th:href=@{/updateRoom/{roomId}(roomId=${room.id})} class="btn btn-xs btn-info">
-										<i class="ace-icon fa fa-pencil bigger-120">
-												
-										</i>
-									</a>
-									<a  th:href=@{/deleteRoom/{roomId}(roomId=${room.id})} class="btn btn-xs btn-danger">
-										<i class="ace-icon fa fa-trash-o bigger-120">
-											
-										</i>
-									</a>
-								</div>
-								<div class="hidden-md hidden-lg">
-									<div class="inline pos-rel">
-										<button class="btn btn-minier btn-primary dropdown-toggle"
-											data-toggle="dropdown" data-position="auto">
-											<i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-										</button>
-		
-										<ul
-											class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-											<li><a href="#" class="tooltip-info" data-rel="tooltip"
-												title="View"> <span class="blue"> <i
-														class="ace-icon fa fa-search-plus bigger-120"></i>
-												</span>
-											</a></li>
-		
-											<li><a  class="tooltip-success" data-rel="tooltip"
-												title="Edit"> <span class="green"> <i
-														class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-												</span>
-											</a></li>
-		
-											<li><a href="#" class="tooltip-error" data-rel="tooltip"
-												title="Delete"> <span class="red"> <i
-														class="ace-icon fa fa-trash-o bigger-120"></i>
-												</span>
-											</a></li>
-										</ul>
+					<!-- /.page-header -->
+					<table id="main-table"
+						class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>
+								<th class="center"><label class="pos-rel"> <input
+										type="checkbox" class="ace" id="checkAll" /> <span
+										class="lbl"></span>
+								</label></th>
+								<th>Mã phòng chiếu</th>
+								<th>Tên phòng chiếu</th>
+								<th></th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr th:each="room : ${listRoom}">
+								<td class="center"><label class="pos-rel"> <input
+										type="checkbox" class="ace" name="roomId"
+										th:value="${room.id}" /> <span class="lbl"></span>
+								</label></td>
+
+								<td th:text="${room.code}"></td>
+								<td th:text="${room.name}"></td>
+								<td>
+									<div class="hidden-sm hidden-xs btn-group">
+
+										<a th:href=@{/updateRoom/{roomId}(roomId=${room.id})}
+											class="btn btn-xs btn-info"> <i
+											class="ace-icon fa fa-pencil bigger-120"> </i>
+										</a> <a class="btn btn-xs btn-danger"
+											th:onclick="'javascript:warningBeforeDelete(' + ${room.id} + ');'">
+											<input type="hidden" id="id" name="id" th:value=${room.id}>
+											<i class="ace-icon fa fa-trash-o bigger-120"></i>
+										</a>
 									</div>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</form>
+									<div class="hidden-md hidden-lg">
+										<div class="inline pos-rel">
+											<button class="btn btn-minier btn-primary dropdown-toggle"
+												data-toggle="dropdown" data-position="auto">
+												<i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+											</button>
+
+											<ul
+												class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+												<li><a href="#" class="tooltip-info" data-rel="tooltip"
+													title="View"> <span class="blue"> <i
+															class="ace-icon fa fa-search-plus bigger-120"></i>
+													</span>
+												</a></li>
+
+												<li><a class="tooltip-success" data-rel="tooltip"
+													title="Edit"> <span class="green"> <i
+															class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+													</span>
+												</a></li>
+
+												<li><a href="#" class="tooltip-error"
+													data-rel="tooltip" title="Delete"> <span class="red">
+															<i class="ace-icon fa fa-trash-o bigger-120"></i>
+													</span>
+												</a></li>
+											</ul>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<!-- pagination -->
+					<div th:replace="common/admin/pagination  :: copy-pagination-admin"></div>
+				</form>
+			</div>
 		</div>
-	</div>
+
 
 		<!-- footer -->
 		<div th:replace="common/admin/footer :: copy-footer-admin"></div>
 		<!-- footer -->
-
 		<a href="#" id="btn-scroll-up"
 			class="btn-scroll-up btn btn-sm btn-inverse display"> <i
 			class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 		</a>
 	</div>
 
-	<script type="text/javascript">
-		$('#checkAll').click(function(){
-		    $('input:checkbox').not(this).prop('checked', this.checked);
-		});
-	</script>
+
+
+
+
+
+	
+	<script th:src="@{/admin/js/jquery-2.2.3.min.js}"></script>
+	<script th:src="@{/admin/assets/js/jquery.2.1.1.min.js}"></script>
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery-ui.custom.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery.ui.touch-punch.min.js}"></script>
@@ -190,7 +203,89 @@
 	<script th:src="@{/admin/assets/js/ace.min.js}"></script>
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/paging/jquery.twbsPagination.js} "></script>
+	<script th:src="@{/admin/sweetalert/sweetalert2.min.js}"></script>
 	<!-- page specific plugin scripts -->
 	<script th:src="@{/admin/assets/js/jquery-ui.min.js}"></script>
+	<script type="text/javascript">
+		$('#checkAll').click(function(){
+		    $('input:checkbox').not(this).prop('checked', this.checked);
+		});
+	</script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	    $(function () {
+	        window.pagObj = $('#pagination').twbsPagination({
+	            totalPages:/*[[ ${numOfPage}]]*/  '',
+	            visiblePages: 5,
+	            startPage:/*[[${page}]]*/ '' ,
+	            onPageClick: function (event, page) {
+	                console.info(page + ' (from options)');
+	            }
+	        }).on('page', function (event, page) {
+	        	
+	        	/*$("#main-table").load("/api/admin/listRoom/"+page);*/
+	        	window.location.href="/admin/listRoom/" +page;
+	           
+	        });
+	    });
+	 /*]]>*/
+	</script>
+
+
+	<script th:inline="javascript">
+		function warningBeforeDelete(id) {
+			swal({
+				title : "Xác nhận xóa",
+				text : "Bạn có chắc chắn muốn xóa hay không",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonClass : "btn-success",
+				cancelButtonClass : "btn-danger",
+				confirmButtonText : "Xác nhận",
+				cancelButtonText : "Hủy bỏ",
+			}).then((result) => {
+				  if (result.value) {
+					  deleteMovie(id);
+					  }
+					})
+		}
+		function deleteMovie(data) {
+	        $.ajax({
+	            url: "/deleteRoom/"+data,
+	            method: "GET",
+	            success: function (result) {
+	            	
+	            	var page = /*[[${page}]]*/'';
+	            	var totalPages = /*[[${numOfPage}]]*/'';
+	      			var totalRooms = /*[[${numOfEntity}]]*/'';
+	      			var pageSize = /*[[${pageSize}]]*/'';
+	      			if(totalRooms%pageSize==1 && page == totalPages ) page = page - 1; 
+	      			
+	                window.location.href = "/admin/listRoom/"+ page;
+	            },
+	            fail: function (err) {
+	                console.log(err);
+	            }
+	        });
+	    }
+		function warningBeforeMultiDelete() {
+			swal({
+				title : "Xác nhận xóa",
+				text : "Bạn có chắc chắn muốn xóa hay không",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonClass : "btn-success",
+				cancelButtonClass : "btn-danger",
+				confirmButtonText : "Xác nhận",
+				cancelButtonText : "Hủy bỏ",
+			}).then((result) => {
+				  if (result.value) {
+					  document.getElementById("formSubmit").submit();
+					  }
+					})
+			
+		}
+		
+	</script>
 </body>
 </html>

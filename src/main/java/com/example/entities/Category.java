@@ -2,6 +2,7 @@ package com.example.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,21 +20,14 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
+
 	@NotNull
-	@Size(min=1, max= 30, message = "Tên thể loại từ 1-30 ký tự")
+	@Size(min = 1, max = 30, message = "Tên thể loại từ 1-30 ký tự")
 	@Column(name = "name")
 	private String name;
-	
-	
-	
 
 	@ManyToMany(mappedBy = "categories")
-    private List<Movie> movies;
-	
-
-	
-	
+	private List<Movie> movies;
 
 	public List<Movie> getMovies() {
 		return movies;
@@ -51,7 +45,6 @@ public class Category {
 		this.id = id;
 	}
 
-	
 	public String getName() {
 		return name;
 	}

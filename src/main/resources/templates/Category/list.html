@@ -24,13 +24,13 @@
 				</small>
 			</h1>
 		</div>
-		<form th:action="@{/multipleCategoryChange}" th:object = "${listCategory} " method="post">
+		<form th:action="@{/multipleCategoryChange}" th:object = "${listCategory} " method="post" id="formSubmit">
 			<div class="table-btn-controls">
 				<div class="pull-right tableTools-container">
 					<div class="dt-buttons btn-overlap btn-group">
 						<a flag="info"
 							class="dt-button buttons-colvis btn btn-white btn-primary btn-bold"
-							data-toggle="tooltip" title='Thêm the loai' th:href=@{editCategory}>
+							data-toggle="tooltip" title='Thêm the loai' th:href=@{/admin/editCategory}>
 							<span> <i class="fa fa-plus-circle bigger-110 purple"></i>
 						</span>
 						</a>
@@ -40,12 +40,13 @@
 							<span> <i class="ace-icon fa fa-pencil bigger-110 purple"></i>
 							</span>
 						</button>
-						<button id="btnDelete" type="submit" name="action" value="deleteListCategory"
+						<a id="btnDelete" onclick="return warningBeforeMultiDelete()"
+					 		name="action"   value="deleteListCategory"
 							class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
 							data-toggle="tooltip" title='Xóa the loai da chon'>
 							<span> <i class="fa fa-trash-o bigger-110 pink"></i>
 							</span>
-						</button>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -76,14 +77,13 @@
 							<div class="hidden-sm hidden-xs btn-group">
 	
 								<a th:href=@{/updateCategory/{id}(id=${category.id})} class="btn btn-xs btn-info">
-									<i class="ace-icon fa fa-pencil bigger-120">
-											
-									</i>
+									<i class="ace-icon fa fa-pencil bigger-120"></i>
 								</a>
-								<a  th:href=@{/deleteCategory/{id}(id=${category.id})} class="btn btn-xs btn-danger">
-									<i class="ace-icon fa fa-trash-o bigger-120">
-										
-									</i>
+								<a 
+									class="btn btn-xs btn-danger" th:onclick="'javascript:warningBeforeDelete(' + ${category.id} + ');'">
+									<input type="hidden" id="id" name="id" th:value=${category.id}>
+									 <i
+									class="ace-icon fa fa-trash-o bigger-120"> </i>
 								</a>
 							</div>
 							<div class="hidden-md hidden-lg">

@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import com.example.entities.Room;
@@ -42,8 +46,27 @@ public class RoomService implements IRoomService {
 
 	@Override
 	public void deleteRoombyId(long roomId) {
-		// TODO Auto-generated method stub
 		roomRepository.deleteById(roomId);
+		
 	}
+	@SuppressWarnings("deprecation")
+	public Slice<Room>  findAll(int page, int size){
+		return roomRepository.findAll(new PageRequest(page, size));
+		
+		
+	}
+	
+	
+	public long numOfRoom() {
+		return roomRepository.count();
+	}
+
+	@Override
+	public boolean hasRoomById(long Id) {
+		return roomRepository.existsById(Id);
+		
+	}
+	
+	
 	
 }

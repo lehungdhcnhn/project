@@ -9,8 +9,8 @@
 			</script>
 
 			<ul class="breadcrumb">
-				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="/">Trang chủ</a>
-				</li>
+				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="/">Trang
+						chủ</a></li>
 
 				<li><a href="/admin/home">Quản lý</a></li>
 				<li class="active">Thê loại phim</li>
@@ -21,16 +21,18 @@
 		<div class="page-content">
 			<div class="row">
 				<div class="col-xs-12">
-					<form th:action="@{/saveCategory}" th:object="${category}" method="POST" class="form-horizontal" id="formSubmit">
+					<form th:action="@{/saveCategory}" th:object="${category}"
+						method="POST" class="form-horizontal" id="formSubmit">
 
 
-						
+
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" 
+							<label class="col-sm-3 control-label no-padding-right"
 								for="form-field-1"> Tên thể loại </label>
 
 							<div class="col-sm-9">
-								<input type="text" class="col-xs-10 col-sm-5" id="name" th:field="*{name}" name="name" />
+								<input type="text" class="col-xs-10 col-sm-5" id="name"
+									th:field="*{name}" name="name" />
 								<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
 							</div>
 						</div>

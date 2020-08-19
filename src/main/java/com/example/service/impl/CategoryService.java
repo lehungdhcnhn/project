@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import com.example.entities.Category;
@@ -42,6 +44,18 @@ public class CategoryService implements ICategoryService{
 	public void deleteCategoryById(long id) {
 		categoryRepository.deleteById(id);
 	}
+	@Override
+	public long numOfCategory() {
+		
+		return categoryRepository.count();
+	}
+	@SuppressWarnings("deprecation")
+	@Override
+	public Slice<Category> findAll(int page, int pageSize) {
+		// TODO Auto-generated method stub
+		return categoryRepository.findAll(new PageRequest(page, pageSize));
+	}
+
 	
 	
 }
