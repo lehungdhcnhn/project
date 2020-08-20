@@ -25,73 +25,81 @@ import com.example.service.ICategoryService;
 public class CategoryController {
 	@Autowired
 	private ICategoryService categoryService;
+
 	@GetMapping("/admin/listCategory")
-	public String viewHomePage(Model model)
-	{
-		model.addAttribute("listCategory",categoryService.getAllCategory());
-		return "category/listCategory";
+	public String viewHomePage(Model model) {
+		model.addAttribute("listCategory", categoryService.getAllCategory());
+		return "Category/listCategory";
 	}
+
 	@GetMapping("/admin/editCategory")
-	public String showNewCategory(Model model)
-	{
+	public String showNewCategory(Model model) {
 		Category category = new Category();
-		model.addAttribute("category",category);
-		return "category/editCategory";
+		model.addAttribute("category", category);
+		return "Category/editCategory";
 	}
+
 	@PostMapping("/saveCategory")
-	public String saveCategory(@ModelAttribute("category") Category category,  @Valid Category categoryValid, BindingResult bindingResult)
-	{
-		if(bindingResult.hasErrors()) {
+	public String saveCategory(@ModelAttribute("category") Category category, @Valid Category categoryValid,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
 			return "category/editCategory";
 		}
 		categoryService.saveCategory(category);
 		return "redirect:/admin/listCategory";
 	}
+
 	@GetMapping("/updateCategory/{id}")
-	public String updateCategory(@PathVariable(value="id") long id,Model model )
-	{
-		Category category =categoryService.getCategoryById(id);
-		model.addAttribute("category",category);
+	public String updateCategory(@PathVariable(value = "id") long id, Model model) {
+		Category category = categoryService.getCategoryById(id);
+		model.addAttribute("category", category);
 		return "Category/updateCategory";
 	}
+
 	@GetMapping("/deleteCategory/{id}")
-	public String deleteCategory(@PathVariable(value="id") long id )
-	{
+	public String deleteCategory(@PathVariable(value = "id") long id) {
 		categoryService.deleteCategoryById(id);
-		return "redirect:/admin/listCategory";
+		return "redirect:/admin/listCategory?success";
 	}
-	
-	@RequestMapping(value = "/multipleCategoryChange", method =RequestMethod.POST, params = "action=deleteListCategory" )
-	public String deleteListCategory(@RequestParam("categoryId") long[] listCategoryId) {
-		for(long categoryId : listCategoryId ) {
-			categoryService.deleteCategoryById(categoryId);
+
+	@RequestMapping(value = "/multipleCategoryChange", method = RequestMethod.POST)
+	public String deleteListCategory(@RequestParam(value = "categoryId", required = false) Long[] listCategoryId) {
+		if (listCategoryId != null) {
+			for (long categoryId : listCategoryId) {
+				categoryService.deleteCategoryById(categoryId);
+			}
+			return "redirect:/admin/listCategory?success";
+		} else {
+			return "redirect:/admin/listCategory?error";
+
 		}
-		return "redirect:/admin/listCategory";
+
 	}
-	
+
 	@RequestMapping(value = "/multipleCategoryChange", method = RequestMethod.POST, params = "action=updateListCategory")
 	public String updateListCategory(@RequestParam("categoryId") long[] listCategoryId, Model model) {
 		CategoryDTO categoryDTO = new CategoryDTO();
 		List<Category> listCategory = new ArrayList<>();
-		for(long categoryId : listCategoryId) {
+		for (long categoryId : listCategoryId) {
 			listCategory.add(categoryService.getCategoryById(categoryId));
 		}
 		categoryDTO.setListCategory(listCategory);
 		model.addAttribute("listCategory", categoryDTO);
-		
+
 		return "category/updateListCategory";
-		
+
 	}
-	
+
 	@RequestMapping(value = "/saveListCategory", method = RequestMethod.POST)
-	public String saveListCategory(@Valid @ModelAttribute("listCategory") CategoryDTO categoryDTO, BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) {
+	public String saveListCategory(@Valid @ModelAttribute("listCategory") CategoryDTO categoryDTO,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
 			return "category/updateListCategory";
 		}
-		for(Category category : categoryDTO.getListCategory()) {
+		for (Category category : categoryDTO.getListCategory()) {
 			categoryService.saveCategory(category);
 		}
 		return "redirect:/admin/listCategory";
 	}
-	
+
 }
