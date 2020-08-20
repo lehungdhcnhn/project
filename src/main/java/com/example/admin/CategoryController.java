@@ -1,11 +1,11 @@
 package com.example.admin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,10 +28,25 @@ public class CategoryController {
 
 	@GetMapping("/admin/listCategory")
 	public String viewHomePage(Model model) {
-		model.addAttribute("listCategory", categoryService.getAllCategory());
+		return "redirect:/admin/Category?page=1&limit=4";
+	}
+	
+	@GetMapping("/admin/Category")
+	public String getViewCategoryPage(Model model, @RequestParam(value = "page") int pageNumber, @RequestParam("limit") int pageSize) {
+		
+		long numOfCategory = categoryService.getNumOfCategory();
+		long numOfPage =  (long)(numOfCategory/pageSize+1);
+		if(numOfCategory%pageSize==0) numOfPage--;
+		System.err.println(pageNumber+"|"+numOfPage);
+		Slice<CategoryDTO> sliceCategoryDTO = categoryService.findAll(pageNumber-1, pageSize);
+		model.addAttribute("listCategory", sliceCategoryDTO);
+		model.addAttribute("numOfPage", numOfPage);
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("numOfEntity", numOfCategory);
+		model.addAttribute("pageSize", pageSize);
 		return "Category/listCategory";
 	}
-
+	
 	@GetMapping("/admin/editCategory")
 	public String showNewCategory(Model model) {
 		Category category = new Category();
@@ -63,7 +78,7 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/multipleCategoryChange", method = RequestMethod.POST)
-	public String deleteListCategory(@RequestParam(value = "categoryId", required = false) Long[] listCategoryId) {
+	public String deleteListCategory(@RequestParam(value = "categoryId", required = false) long[] listCategoryId) {
 		if (listCategoryId != null) {
 			for (long categoryId : listCategoryId) {
 				categoryService.deleteCategoryById(categoryId);
@@ -77,17 +92,20 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/multipleCategoryChange", method = RequestMethod.POST, params = "action=updateListCategory")
-	public String updateListCategory(@RequestParam("categoryId") long[] listCategoryId, Model model) {
-		CategoryDTO categoryDTO = new CategoryDTO();
-		List<Category> listCategory = new ArrayList<>();
-		for (long categoryId : listCategoryId) {
-			listCategory.add(categoryService.getCategoryById(categoryId));
-		}
-		categoryDTO.setListCategory(listCategory);
-		model.addAttribute("listCategory", categoryDTO);
-
-		return "category/updateListCategory";
-
+	public String updateListCategory(@RequestParam(value = "categoryId",required = false) long[] listCategoryId, Model model) {
+		
+		
+//		CategoryDTO categoryDTO = new CategoryDTO();
+//		List<Category> listCategory = new ArrayList<>();
+//		for (long categoryId : listCategoryId) {
+//			listCategory.add(categoryService.getCategoryById(categoryId));
+//		}
+//		categoryDTO.setListCategory(listCategory);
+//		model.addAttribute("listCategory", categoryDTO);
+//
+//		return "category/updateListCategory";
+		System.err.println(listCategoryId.length);
+		return "redirect:/admin/listCategory";
 	}
 
 	@RequestMapping(value = "/saveListCategory", method = RequestMethod.POST)

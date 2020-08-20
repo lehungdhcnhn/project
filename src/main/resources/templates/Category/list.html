@@ -24,7 +24,7 @@
 				</small>
 			</h1>
 		</div>
-		<form data-th-action="@{/multipleCategoryChange}" 
+		<form data-th-action="@{/multipleCategoryChange}"
 			th:object="${listCategory} " id="formSubmit" method="post">
 			<div th:if="${param.success}">
 				<div class="alert alert-success" role="alert">Bạn đã xóa thành
@@ -62,12 +62,11 @@
 							<span> <i class="ace-icon fa fa-pencil bigger-110 purple"></i>
 							</span>
 						</button>
-						<a id="btnDelete" 
-							onclick="return warningBeforeMultiDelete()"
+						<a id="btnDelete" onclick="return warningBeforeMultiDelete()"
 							class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
-							data-toggle="tooltip" title='Xóa the loai da chon'>
-							<span> <i class="fa fa-trash-o bigger-110 pink"></i>
-							</span>
+							data-toggle="tooltip" title='Xóa the loai da chon'> <span>
+								<i class="fa fa-trash-o bigger-110 pink"></i>
+						</span>
 						</a>
 					</div>
 				</div>
@@ -104,9 +103,9 @@
 								<a th:href=@{/updateCategory/{id}(id=${category.id})}
 									class="btn btn-xs btn-info"> <i
 									class="ace-icon fa fa-pencil bigger-120"> </i>
-								</a> <a 
-									class="btn btn-xs btn-danger" th:onclick="'javascript:warningBeforeDelete(' + ${category.id} + ');'"> <i
-									class="ace-icon fa fa-trash-o bigger-120"> </i>
+								</a> <a class="btn btn-xs btn-danger"
+									th:onclick="'javascript:warningBeforeDelete(' + ${category.id} + ');'">
+									<i class="ace-icon fa fa-trash-o bigger-120"> </i>
 								</a>
 							</div>
 							<div class="hidden-md hidden-lg">
@@ -142,5 +141,7 @@
 					</tr>
 				</tbody>
 			</table>
+
+			<div th:replace="common/admin/pagination  :: copy-pagination-admin"></div>
 		</form>
 	</div>

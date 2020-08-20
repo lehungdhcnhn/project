@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,8 +39,8 @@ public class RoomController {
 		long numOfPage =  (long)(numOfRoom/pageSize+1);
 		if(numOfRoom%pageSize==0) numOfPage--;
 		System.err.println(pageNumber+"|"+numOfPage);
-		
-		model.addAttribute("listRoom", roomService.findAll(pageNumber-1, pageSize));
+		Slice<RoomDTO> sliceRoomDTO= roomService.findAll(pageNumber-1, pageSize);
+		model.addAttribute("listRoom", sliceRoomDTO);
 		model.addAttribute("numOfPage", numOfPage);
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("numOfEntity", numOfRoom);
@@ -49,7 +50,7 @@ public class RoomController {
 
 	@GetMapping("/admin/editRoom")
 	public String viewEditRoom(Model model) {
-		Room room = new Room();
+		RoomDTO room = new RoomDTO();
 		model.addAttribute("room", room);
 		return "room/editRoom";
 	}
@@ -68,7 +69,7 @@ public class RoomController {
 	}
 
 	@RequestMapping(value = "/multipleRoomChange", method = RequestMethod.POST)
-	public String deleteRoomList(@RequestParam(value = "roomId",required = false) Long[] roomListId) {
+	public String deleteRoomList(@RequestParam(value = "roomId",required = false) long[] roomListId) {
 		if (roomListId != null) {
 			for (long roomId : roomListId) {
 				roomService.deleteRoombyId(roomId);
