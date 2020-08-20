@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <link rel="stylesheet" th:href="@{/admin/assets/css/bootstrap.min.css}" />
-<link rel="stylesheet"	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
-<link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"	class="ace-main-stylesheet" id="main-ace-style" />
+<link rel="stylesheet"
+	th:href="@{/admin/font-awesome/4.5.0/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/admin/assets/css/ace.min.css}"
+	class="ace-main-stylesheet" id="main-ace-style" />
 <script th:src="@{admin/assets/js/ace-extra.min.js}"></script>
 <link rel="stylesheet"
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -17,7 +19,9 @@
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/admin/sweetalert/sweetalert2.min.css}" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" th:href="@{/admin/css/style.css}" />
 
 </head>
@@ -37,8 +41,8 @@
 		<!-- menu -->
 		<div th:replace="common/admin/menu :: copy-menu-admin"></div>
 		<!-- menu -->
-		
-		<div th:replace="Category/list :: list-movie"></div>	
+
+		<div th:replace="Category/list :: list-category"></div>
 
 		<!-- footer -->
 		<div th:replace="common/admin/footer :: copy-footer-admin"></div>
@@ -51,9 +55,89 @@
 	</div>
 
 	<script type="text/javascript">
-		$("#checkAll").click(function(){
-			$("input:checkbox").not(this).prop('checked',this.checked)
-		})	
+		$("#checkAll").click(function() {
+			$("input:checkbox").not(this).prop('checked', this.checked)
+		})
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			document.getElementById("btnDelete").style.display = "none";
+			document.getElementById("btnUpdate").style.display = "none";
+		})
+		function warningBeforeDelete(id) {
+			swal({
+				title : "Xác nhận xóa",
+				text : "Bạn có chắc chắn muốn xóa hay không",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonClass : "btn-success",
+				cancelButtonClass : "btn-danger",
+				confirmButtonText : "Xác nhận",
+				cancelButtonText : "Hủy bỏ",
+			}).then((result) => {
+				  if (result.value) {
+					  deleteCategory(id);
+					  }
+					})
+		}
+		function deleteCategory(data) {
+	        $.ajax({
+	            url: "/deleteCategory/"+data,
+	            method: "GET",
+	            success: function (result) {
+	                window.location.href = "/admin/listCategory?success";
+	            },
+	            fail: function (err) {
+	                console.log(err);
+	            }
+	        });
+	    }
+		function warningBeforeMultiDelete() {
+			
+			swal({
+				title : "Xác nhận xóa",
+				text : "Bạn có chắc chắn muốn xóa hay không",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonClass : "btn-success",
+				cancelButtonClass : "btn-danger",
+				confirmButtonText : "Xác nhận",
+				cancelButtonText : "Hủy bỏ",
+			}).then((result) => {
+				  if (result.value) {
+					  document.getElementById("formSubmit").submit();
+					  }
+					})
+			
+		}
+		function myFunction() {
+			var pickedOne = false;
+			var inputs = document.getElementsByClassName('categoryId');
+			for (var i = 0, l = inputs.length; i < l; ++i) {
+				if (inputs[i].checked) {
+					pickedOne = true;
+					document.getElementById("btnDelete").style.display = "block";
+					document.getElementById("btnUpdate").style.display = "block";
+					break;
+				}
+			}
+			if (!pickedOne) {
+				document.getElementById("btnDelete").style.display = "none";
+				document.getElementById("btnUpdate").style.display = "none";
+			}
+		}
+		function functionCheck() {
+			var checkAll = document.getElementById("checkAll").checked;
+			if (checkAll == false) {
+				document.getElementById("btnDelete").style.display = "none";
+				document.getElementById("btnUpdate").style.display = "none";
+				
+			} else {
+				document.getElementById("btnDelete").style.display = "block";
+				document.getElementById("btnUpdate").style.display = "block";
+				
+			}
+		}
 	</script>
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/assets/js/jquery-ui.custom.min.js}"></script>
@@ -67,6 +151,7 @@
 	<script th:src="@{/admin/assets/js/ace.min.js}"></script>
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/paging/jquery.twbsPagination.js} "></script>
+	<script th:src="@{/admin/sweetalert/sweetalert2.min.js}"></script>	
 	<!-- page specific plugin scripts -->
 	<script th:src="@{/admin/assets/js/jquery-ui.min.js}"></script>
 </body>

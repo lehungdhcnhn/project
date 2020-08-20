@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import com.example.entities.Room;
@@ -42,8 +44,25 @@ public class RoomService implements IRoomService {
 
 	@Override
 	public void deleteRoombyId(long roomId) {
-		// TODO Auto-generated method stub
 		roomRepository.deleteById(roomId);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public Slice<Room> findAll(int page, int size) {
+		return roomRepository.findAll(new PageRequest(page, size));
+	}
+
+	@Override
+	public long getNumOfRoom() {
+		// TODO Auto-generated method stub
+		return roomRepository.count();
+	}
+
+	@Override
+	public boolean hasRoomById(long Id) {
+		// TODO Auto-generated method stub
+		return roomRepository.existsById(Id);
 	}
 	
 }

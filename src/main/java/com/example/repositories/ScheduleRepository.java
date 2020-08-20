@@ -14,6 +14,7 @@ public interface ScheduleRepository extends JpaRepository<schedule, Long>{
 	@Modifying
 	@Query("Delete schedule Where movie_id = ?1 ")
 	void deleteFindByMovieID(Long movieId);
+
 	@Transactional
 	@Modifying
 	@Query("Select s from schedule s where Month(time)=Month(CURDATE()) AND Day(time)>Day(CURDATE()) AND movie_id=?1 ")

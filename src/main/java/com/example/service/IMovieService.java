@@ -2,11 +2,11 @@ package com.example.service;
 
 import java.io.IOException;
 import java.util.List;
-
+import org.springframework.data.domain.Slice;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.example.dto.MovieDTO;
 import com.example.entities.Movie;
+import com.example.entities.Room;
 
 
 public  interface IMovieService  {
@@ -19,6 +19,7 @@ public  interface IMovieService  {
 	    void deleleFile(Long id);
 	    void saveFile(Movie movie,String fileName,MultipartFile multipartFile) throws IOException;
 	    void delete(Long movieId);
-	    int getToTalItem();
-	    
+	    long getNumOfMovie();
+		Slice<Room>  findAll(int page, int size);
+		boolean hasRoomById(long Id);
 }

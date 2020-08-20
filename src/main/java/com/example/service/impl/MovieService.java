@@ -13,12 +13,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.converter.MovieConverter;
 import com.example.dto.MovieDTO;
 import com.example.entities.Movie;
+import com.example.entities.Room;
 import com.example.repositories.MovieRepository;
 import com.example.service.IMovieService;
 
@@ -122,16 +125,29 @@ public class MovieService implements IMovieService {
 
 	}
 
-	@Override
-	public int getToTalItem() {
-		// TODO Auto-generated method stub
-		return (int) movieRepository.count();
-	}
+	
 
 	@Override
 	public Movie save(Movie movie) {
 		return movieRepository.save(movie);
 		
+	}
+
+	@Override
+	public long getNumOfMovie() {
+		return movieRepository.count();
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public Slice<Room> findAll(int page, int size) {
+		return movieRepository.findAll(new PageRequest(page, size));
+	}
+
+	@Override
+	public boolean hasRoomById(long Id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
