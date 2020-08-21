@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,19 +28,26 @@ public class RoomController {
 	private IRoomService roomService;
 
 	@GetMapping("/admin/listRoom")
-	public String getViewRoomList(Model model) {
-		return "redirect:/admin/Room?page=1&limit=4";
+	public String getViewRoomList(Model model, @RequestParam(value = "page",required = false) String pageNumber,
+			@RequestParam(value = "limit",required = false) Integer pageSize) {
+		if (pageNumber == null) {
+			return "redirect:/admin/Room?page=1&limit=4";
+		} else {
+			long numOfCategory = roomService.getNumOfRoom();
+			long numOfPage = (long) ((numOfCategory -1)/ pageSize + 1);
+			return "redirect:/admin/Room?page=" + numOfPage + "&limit=" + pageSize;
+
+		}
 	}
-	
-	
+
 	@GetMapping("/admin/Room")
-	public String getViewPageRoom(Model model, @RequestParam(value = "page") int pageNumber, @RequestParam(value = "limit") int pageSize) {
+	public String getViewPageRoom(Model model, @RequestParam(value = "page", required = true) int pageNumber,
+			@RequestParam(value = "limit", required = true) int pageSize) {
 		long numOfRoom = roomService.getNumOfRoom();
-		long numOfPage =  (long)(numOfRoom/pageSize+1);
-		if(numOfRoom%pageSize==0) numOfPage--;
-		System.err.println(pageNumber+"|"+numOfPage);
-		
-		model.addAttribute("listRoom", roomService.findAll(pageNumber-1, pageSize));
+		long numOfPage = (long) ((numOfRoom-1) / pageSize + 1);
+		System.err.println(pageNumber + "|" + numOfPage);
+		Slice<RoomDTO> sliceRoomDTO = roomService.findAll(pageNumber - 1, pageSize);
+		model.addAttribute("listRoom", sliceRoomDTO);
 		model.addAttribute("numOfPage", numOfPage);
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("numOfEntity", numOfRoom);
@@ -49,7 +57,7 @@ public class RoomController {
 
 	@GetMapping("/admin/editRoom")
 	public String viewEditRoom(Model model) {
-		Room room = new Room();
+		RoomDTO room = new RoomDTO();
 		model.addAttribute("room", room);
 		return "room/editRoom";
 	}
@@ -68,7 +76,7 @@ public class RoomController {
 	}
 
 	@RequestMapping(value = "/multipleRoomChange", method = RequestMethod.POST)
-	public String deleteRoomList(@RequestParam(value = "roomId",required = false) Long[] roomListId) {
+	public String deleteRoomList(@RequestParam(value = "roomId", required = false) long[] roomListId) {
 		if (roomListId != null) {
 			for (long roomId : roomListId) {
 				roomService.deleteRoombyId(roomId);
@@ -100,7 +108,7 @@ public class RoomController {
 			for (Room room : roomDTO.getListRoom()) {
 				roomService.saveRoom(room);
 			}
-			return "redirect:admin/listRoom";
+			return "redirect:admin/listRoom?page=lastPage&limit=4";
 		}
 
 	}
@@ -112,6 +120,6 @@ public class RoomController {
 			return "room/updateRoom";
 		}
 		roomService.saveRoom(room);
-		return "redirect:/admin/listRoom";
+		return "redirect:admin/listRoom?page=lastPage&limit=4";
 	}
 }

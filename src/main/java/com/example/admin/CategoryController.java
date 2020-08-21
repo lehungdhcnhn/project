@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,8 +28,31 @@ public class CategoryController {
 	private ICategoryService categoryService;
 
 	@GetMapping("/admin/listCategory")
-	public String viewHomePage(Model model) {
-		model.addAttribute("listCategory", categoryService.getAllCategory());
+	public String viewHomePage(Model model, @RequestParam(value = "page", required = false) String pageNumber,
+			@RequestParam(value = "limit", required = false) Integer pageSize) {
+		if (pageNumber != null) {
+			long numOfCategory = categoryService.getNumOfCategory();
+			long numOfPage = (long) ((numOfCategory-1) / pageSize + 1);
+			return "redirect:/admin/Category?page=" + numOfPage + "&limit=" + pageSize;
+
+		} else {
+			return "redirect:/admin/Category?page=1&limit=4";
+		}
+	}
+
+	@GetMapping("/admin/Category")
+	public String getViewCategoryPage(Model model, @RequestParam(value = "page") int pageNumber,
+			@RequestParam("limit") int pageSize) {
+
+		long numOfCategory = categoryService.getNumOfCategory();
+		long numOfPage = (long) ((numOfCategory-1) / pageSize + 1);
+		System.err.println(pageNumber + "|" + numOfPage);
+		Slice<CategoryDTO> sliceCategoryDTO = categoryService.findAll(pageNumber - 1, pageSize);
+		model.addAttribute("listCategory", sliceCategoryDTO);
+		model.addAttribute("numOfPage", numOfPage);
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("numOfEntity", numOfCategory);
+		model.addAttribute("pageSize", pageSize);
 		return "Category/listCategory";
 	}
 
@@ -46,7 +70,7 @@ public class CategoryController {
 			return "category/editCategory";
 		}
 		categoryService.saveCategory(category);
-		return "redirect:/admin/listCategory";
+		return "redirect:/admin/listCategory?page=lastPage&limit=4";
 	}
 
 	@GetMapping("/updateCategory/{id}")
@@ -63,7 +87,7 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/multipleCategoryChange", method = RequestMethod.POST)
-	public String deleteListCategory(@RequestParam(value = "categoryId", required = false) Long[] listCategoryId) {
+	public String deleteListCategory(@RequestParam(value = "categoryId", required = false) long[] listCategoryId) {
 		if (listCategoryId != null) {
 			for (long categoryId : listCategoryId) {
 				categoryService.deleteCategoryById(categoryId);
@@ -77,17 +101,24 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/multipleCategoryChange", method = RequestMethod.POST, params = "action=updateListCategory")
-	public String updateListCategory(@RequestParam("categoryId") long[] listCategoryId, Model model) {
-		CategoryDTO categoryDTO = new CategoryDTO();
-		List<Category> listCategory = new ArrayList<>();
-		for (long categoryId : listCategoryId) {
-			listCategory.add(categoryService.getCategoryById(categoryId));
+	public String updateListCategory(@RequestParam(value = "categoryId", required = false) Long[] listCategoryId,
+			Model model) {
+
+		if (listCategoryId == null) {
+			return "redirect:/admin/listCategory?errorUpdate";
+		} else {
+			CategoryDTO categoryDTO = new CategoryDTO();
+			List<Category> listCategory = new ArrayList<>();
+			for (long categoryId : listCategoryId) {
+				listCategory.add(categoryService.getCategoryById(categoryId));
+			}
+			categoryDTO.setListCategory(listCategory);
+			model.addAttribute("listCategory", categoryDTO);
+
+			return "Category/updateListCategory";
 		}
-		categoryDTO.setListCategory(listCategory);
-		model.addAttribute("listCategory", categoryDTO);
 
-		return "category/updateListCategory";
-
+//		return "redirect:/admin/listCategory";
 	}
 
 	@RequestMapping(value = "/saveListCategory", method = RequestMethod.POST)

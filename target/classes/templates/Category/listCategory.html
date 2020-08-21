@@ -19,7 +19,8 @@
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" th:href="@{/admin/sweetalert/sweetalert2.min.css}" />
+<link rel="stylesheet"
+	th:href="@{/admin/sweetalert/sweetalert2.min.css}" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" th:href="@{/admin/css/style.css}" />
@@ -59,7 +60,26 @@
 			$("input:checkbox").not(this).prop('checked', this.checked)
 		})
 	</script>
-	<script type="text/javascript">
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	    $(function () {
+	        window.pagObj = $('#pagination').twbsPagination({
+	            totalPages:/*[[ ${numOfPage}]]*/  '',
+	            visiblePages: 5,
+	            startPage:/*[[${pageNumber}]]*/ '' ,
+	            onPageClick: function (event, page) {
+	                console.info(page + ' (from options)');
+	            }
+	        }).on('page', function (event, page) {
+	        	
+	        	/*$("#main-table").load("/api/admin/listRoom/"+page);*/
+	        	window.location.href="/admin/Category?page="+page+"&limit="+/*[[${pageSize}]]*/ '' ;
+	           
+	        });
+	    });
+	 /*]]>*/
+	</script>
+	<script th:inline="javascript">
 		$(document).ready(function() {
 			document.getElementById("btnDelete").style.display = "none";
 			document.getElementById("btnUpdate").style.display = "none";
@@ -85,7 +105,12 @@
 	            url: "/deleteCategory/"+data,
 	            method: "GET",
 	            success: function (result) {
-	                window.location.href = "/admin/listCategory?success";
+	            	var page = /*[[${pageNumber}]]*/'';
+	            	var totalPages = /*[[${numOfPage}]]*/'';
+	      			var totalCategory = /*[[${numOfEntity}]]*/'';
+	      			var pageSize = /*[[${pageSize}]]*/'';
+	      			if(totalCategory%pageSize==1 && page == totalPages ) page = page - 1; 
+	                window.location.href = "/admin/Category?success&page="+ page+"&limit="+ pageSize;
 	            },
 	            fail: function (err) {
 	                console.log(err);
@@ -151,7 +176,7 @@
 	<script th:src="@{/admin/assets/js/ace.min.js}"></script>
 	<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
 	<script th:src="@{/admin/paging/jquery.twbsPagination.js} "></script>
-	<script th:src="@{/admin/sweetalert/sweetalert2.min.js}"></script>	
+	<script th:src="@{/admin/sweetalert/sweetalert2.min.js}"></script>
 	<!-- page specific plugin scripts -->
 	<script th:src="@{/admin/assets/js/jquery-ui.min.js}"></script>
 </body>
