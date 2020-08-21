@@ -13,6 +13,6 @@ public interface IRoomService {
 	void saveRoom(Room room);
 	void deleteRoombyId(long roomId);
 	long getNumOfRoom();
-	Slice<Room>  findAll(int page, int size);
+	Slice<RoomDTO> findAll(int page, int size);
 	boolean hasRoomById(long Id);
 }

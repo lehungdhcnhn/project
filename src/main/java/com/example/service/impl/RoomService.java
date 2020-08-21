@@ -49,9 +49,21 @@ public class RoomService implements IRoomService {
 		roomRepository.deleteById(roomId);
 	}
 
-	@SuppressWarnings({ "deprecation" })
+	@Override
+	public long getNumOfRoom() {
+		// TODO Auto-generated method stub
+		return roomRepository.count();
+	}
+
+	@Override
+	public boolean hasRoomById(long Id) {
+		// TODO Auto-generated method stub
+		return roomRepository.existsById(Id);
+	}
+
 	@Override
 	public Slice<RoomDTO> findAll(int page, int size) {
+		@SuppressWarnings("deprecation")
 		Slice<Room> room = roomRepository.findAll(new PageRequest(page, size));
 		Slice<RoomDTO> roomDTO = room.map(new Function<Room, RoomDTO>() {
 			@Override
@@ -65,18 +77,6 @@ public class RoomService implements IRoomService {
 		});
 		
 		return roomDTO;
-	}
-
-	@Override
-	public long getNumOfRoom() {
-		// TODO Auto-generated method stub
-		return roomRepository.count();
-	}
-
-	@Override
-	public boolean hasRoomById(long Id) {
-		// TODO Auto-generated method stub
-		return roomRepository.existsById(Id);
 	}
 	
 }
