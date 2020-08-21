@@ -9,9 +9,9 @@
 			</script>
 
 			<ul class="breadcrumb">
-				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="/">Trang
+				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Trang
 						chủ</a></li>
-				<li><a href="/admin/home">Quản lý</a></li>
+				<li><a href="#">Quản lý</a></li>
 				<li class="active">Thể loại phim</li>
 			</ul>
 			<!-- /.breadcrumb -->
@@ -24,33 +24,27 @@
 				</small>
 			</h1>
 		</div>
-		<form data-th-action="@{/multipleCategoryChange}"
-			th:object="${listCategory} " id="formSubmit" method="post">
+		<form th:action="@{/multipleCategoryChange}"
+			th:object="${listCategory}" id="formSubmit" method="post">
 			<div th:if="${param.success}">
 				<div class="alert alert-success" role="alert">Bạn đã xóa thành
 					công!</div>
 			</div>
-			<div class="table-btn-controls">
-				<div class="col-sm-2 col-md-2" style="margin-left: -15px;">
-					<form class="navbar-form" role="search">
-						<div class="input-group">
-							<input type="text" class="form-control" id="searchMovie"
-								placeholder="Tên phim">
-							<div class="input-group-btn">
-								<button class="btn btn-default" type="submit"
-									onclick="searchFunction()">
-									<i class="glyphicon glyphicon-search"></i>
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
+			<div th:if="${param.error}">
+				<div class="alert alert-danger" role="alert">Bạn chưa chọn
+					lịch phim cần xóa</div>
+			</div>
+			<div th:if="${param.errorUpdate}">
+				<div class="alert alert-danger" role="alert">Bạn chưa chọn
+					lịch phim cần sửa</div>
+			</div>
 
+			<div class="table-btn-controls">
 				<div class="pull-right tableTools-container">
 					<div class="dt-buttons btn-overlap btn-group">
 						<a flag="info"
 							class="dt-button buttons-colvis btn btn-white btn-primary btn-bold"
-							data-toggle="tooltip" title='Thêm the loai'
+							data-toggle="tooltip" title='Thêm bài viết'
 							th:href=@{editCategory}> <span> <i
 								class="fa fa-plus-circle bigger-110 purple"></i>
 						</span>
@@ -58,13 +52,13 @@
 						<button id="btnUpdate" type="submit" name="action"
 							value="updateListCategory"
 							class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
-							data-toggle="tooltip" title='Sua the loai da chon'>
+							data-toggle="tooltip" title='Sửa lịch chiếu đã chọn'>
 							<span> <i class="ace-icon fa fa-pencil bigger-110 purple"></i>
 							</span>
 						</button>
 						<a id="btnDelete" onclick="return warningBeforeMultiDelete()"
 							class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
-							data-toggle="tooltip" title='Xóa the loai da chon'> <span>
+							data-toggle="tooltip" title='Xóa phim da chon'> <span>
 								<i class="fa fa-trash-o bigger-110 pink"></i>
 						</span>
 						</a>
@@ -75,14 +69,15 @@
 			<table id="simple-table"
 				class="table table-striped table-bordered table-hover">
 				<thead>
-					<tr>
-						<th class="center"><label class="pos-rel"> <input
-								type="checkbox" class="ace" id="checkAll"
-								onclick="functionCheck()" /> <span class="lbl"></span>
-						</label></th>
 
-						<th>Tên thể loại phim</th>
-						<th></th>
+					<th class="center"><label class="pos-rel"> <input
+							type="checkbox" class="ace" id="checkAll"
+							onclick="functionCheck()" /> <span class="lbl"></span>
+					</label></th>
+
+					<th class="center">Thể loại</th>
+
+					<th></th>
 					</tr>
 				</thead>
 
@@ -90,16 +85,12 @@
 					<tr th:each="category : ${listCategory}">
 						<td class="center"><label class="pos-rel"> <input
 								type="checkbox" class="ace categoryId" name="categoryId"
-								onclick="myFunction()" th:value="${category.id}" /> <span
+								th:value="${category.id}" onclick="myFunction()" /> <span
 								class="lbl"></span>
 						</label></td>
-
-
-						<td th:text="${category.name}"></td>
-
+						<td class="center" th:text="${category.name}"></td>
 						<td>
 							<div class="hidden-sm hidden-xs btn-group">
-
 								<a th:href=@{/updateCategory/{id}(id=${category.id})}
 									class="btn btn-xs btn-info"> <i
 									class="ace-icon fa fa-pencil bigger-120"> </i>
@@ -141,7 +132,8 @@
 					</tr>
 				</tbody>
 			</table>
-
+			<!-- pagination -->
 			<div th:replace="common/admin/pagination  :: copy-pagination-admin"></div>
 		</form>
 	</div>
+</div>
