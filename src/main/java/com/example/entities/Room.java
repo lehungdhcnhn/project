@@ -3,6 +3,7 @@ package com.example.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import javax.validation.constraints.Size;
 public class Room {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	private Long id;
 	
 	@NotNull
@@ -30,7 +32,7 @@ public class Room {
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(mappedBy = "room")
+	@OneToMany(mappedBy = "room",cascade = CascadeType.ALL)
 	private List<schedule> schedules = new ArrayList<>();
 	public Long getId() {
 		return id;

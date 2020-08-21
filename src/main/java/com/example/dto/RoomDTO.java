@@ -12,6 +12,7 @@ public class RoomDTO {
 	
 	private String name;
 	private Long id;
+	private String code;
 	
 	@Valid
 	private List<Room> listRoom = new ArrayList<>();
@@ -45,5 +46,11 @@ public class RoomDTO {
 		this.name = name;
 	}
 	public RoomDTO() {}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 }
 
