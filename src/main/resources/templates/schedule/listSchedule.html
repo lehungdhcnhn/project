@@ -73,7 +73,7 @@
 	<script th:src="@{/admin/paging/jquery.twbsPagination.js} "></script>
 	<!-- page specific plugin scripts -->
 	<script th:src="@{/admin/assets/js/jquery-ui.min.js}"></script>
-	<script>
+	<script th:inline="javascript">
 	$(document).ready(function(){
 		document.getElementById("btnDelete").style.display = "none";
 		document.getElementById("btnUpdate").style.display = "none";
@@ -99,7 +99,13 @@
 	            url: "/deleteSchedule/"+data,
 	            method: "GET",
 	            success: function (result) {
-	                window.location.href = "/admin/listSchedule?success";
+	            	var page = /*[[${pageNumber}]]*/'';
+	            	var totalPages = /*[[${numOfPage}]]*/'';
+	      			var totalRooms = /*[[${numOfEntity}]]*/'';
+	      			var pageSize = /*[[${pageSize}]]*/'';
+	      			if(totalRooms%pageSize==1 && page == totalPages ) page = page - 1; 
+	                window.location.href = "/admin/schedule?success&page="+ page+"&limit="+ pageSize;
+	               
 	            },
 	            fail: function (err) {
 	                console.log(err);
@@ -156,5 +162,24 @@
 			}
 		}
 		</script>
+		<script th:inline="javascript">
+	/*<![CDATA[*/
+	    $(function () {
+	        window.pagObj = $('#pagination').twbsPagination({
+	            totalPages:/*[[ ${numOfPage}]]*/  '',
+	            visiblePages: 5,
+	            startPage:/*[[${pageNumber}]]*/ '' ,
+	            onPageClick: function (event, page) {
+	                console.info(page + ' (from options)');
+	            }
+	        }).on('page', function (event, page) {
+
+	        	/*$("#main-table").load("/api/admin/listRoom/"+page);*/
+	        	window.location.href="/admin/schedule?page="+page+"&limit="+/*[[${pageSize}]]*/ '' ;
+
+	        });
+	    });
+	 /*]]>*/
+	</script>
 </body>
 </html>

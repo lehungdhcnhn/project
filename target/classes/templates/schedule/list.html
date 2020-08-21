@@ -81,7 +81,7 @@
 			</thead>
 
 			<tbody>
-				<tr th:each="schedule : ${listSchedule}">
+				<tr th:each="schedule : ${listSchedule.listResult}">
 					<td class="center"><label class="pos-rel"> <input
 								type="checkbox" class="ace scheduleId" name="scheduleId"  th:value="${schedule.id}" onclick="myFunction()" /> <span class="lbl"></span>
 						</label></td>
@@ -132,5 +132,7 @@
 				</tr>
 			</tbody>
 		</table>
+		<div th:replace="common/admin/pagination  :: copy-pagination-admin"></div>
+		
 		</form>
 	</div>

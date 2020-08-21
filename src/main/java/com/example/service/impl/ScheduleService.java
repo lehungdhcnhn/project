@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.converter.ScheduleConverter;
@@ -21,9 +22,9 @@ public class ScheduleService implements IScheduleService{
 	private ScheduleConverter scheduleConverter;
 	
 	@Override
-	public List<scheduleDTO> findAll() {
+	public List<scheduleDTO> findAll(Pageable pageable) {
 		List<scheduleDTO> models = new ArrayList<scheduleDTO>();
-		List<schedule> entities = scheduleRepository.findAll();
+		List<schedule> entities = scheduleRepository.findAll(pageable).getContent();
 		for (schedule item: entities) {
 			scheduleDTO scheduleDTO = scheduleConverter.convertToCatgoryDTO(item);
 			models.add(scheduleDTO);
@@ -52,6 +53,12 @@ public class ScheduleService implements IScheduleService{
 		
 			scheduleRepository.deleteById(id);
 		
+	}
+
+	@Override
+	public Integer getToTalItem() {
+		// TODO Auto-generated method stub
+		return (int)scheduleRepository.count();
 	}
 
 }

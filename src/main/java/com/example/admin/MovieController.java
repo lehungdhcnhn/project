@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -44,13 +45,34 @@ public class MovieController {
 	private MovieConverter movieConverter;
 	@Autowired
 	private MovieRepository movieRepository;
-	@RequestMapping(value="/admin/listMovie",method = RequestMethod.GET)
-	public String viewHomePage(Model model) {
-		MovieDTO dto = new MovieDTO();
-		dto.setListResultMovie(movieService.getAll());
-		model.addAttribute("listMovie", dto);
+	@GetMapping("/admin/listMovie")
+	public String getViewMovieList(Model model) {
+		return "redirect:/admin/Movie?page=1&limit=4";
+	}
+	@GetMapping("/admin/Movie")
+	public String getViewPageRoom(Model model, @RequestParam(value = "page") int pageNumber, @RequestParam(value = "limit") int pageSize) {
+		long numOfRoom = movieService.getNumOfMovie();
+		long numOfPage =  (long)(numOfRoom/pageSize+1);
+		if(numOfRoom%pageSize==0) numOfPage--;
+		System.err.println(pageNumber+"|"+numOfPage);
+		
+		Slice<Movie> movie = movieService.findAll(pageNumber-1, pageSize);
+		model.addAttribute("listMovie", movie);
+		model.addAttribute("numOfPage", numOfPage);
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("numOfEntity", numOfRoom);
+		model.addAttribute("pageSize", pageSize);
+		
+	
 		return "Movie/listMovie";
 	}
+
+	/*
+	 * @RequestMapping(value="/admin/listMovie",method = RequestMethod.GET) public
+	 * String viewHomePage(Model model) { MovieDTO dto = new MovieDTO();
+	 * dto.setListResultMovie(movieService.getAll());
+	 * model.addAttribute("listMovie", dto); return "Movie/listMovie"; }
+	 */
 
 	@GetMapping("/admin/editMovie")
 	public String viewEditPage(Model model) {
@@ -90,7 +112,7 @@ public class MovieController {
 		scheduleRepositoty.deleteFindByMovieID(id);
 		movieService.deleleFile(id);
 		movieService.delete(id);
-		return "redirect:/admin/listMovie?success";
+		return "redirect:/admin/listMovie";
 	}
 	@PostMapping("/updateMovieLate/{id}")
 	public String updateMovie( @ModelAttribute("movie") Movie movie,@RequestParam("fileImage") MultipartFile multipartFile,@PathVariable(value = "id") long id,@Valid Movie movieValid, BindingResult bindingResult) throws IOException

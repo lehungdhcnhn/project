@@ -88,7 +88,7 @@
 				</thead>
 
 				<tbody>
-					<tr th:each="movie : ${listMovie.listResultMovie}">
+					<tr th:each="movie : ${listMovie}">
 						<td class="center"><label class="pos-rel"> <input
 								type="checkbox" class="ace movieId" th:value="${movie.id}"
 								onclick="myFunction()" style="width: 3%" /> <span class="lbl"></span>
@@ -147,6 +147,7 @@
 					</tr>
 				</tbody>
 			</table>
+			<div th:replace="common/admin/pagination  :: copy-pagination-admin"></div>
 		</form>
 
 	</div>

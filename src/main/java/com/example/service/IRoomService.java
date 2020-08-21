@@ -11,7 +11,8 @@ public interface IRoomService {
 	Room getRoombyId(long roomId);
 	void saveRoom(Room room);
 	void deleteRoombyId(long roomId);
-	Slice<Room>  findAll(int page, int size);
+	
 	long getNumOfRoom();
+	Slice<Room>  findAll(int page, int size);
 	boolean hasRoomById(long Id);
 }

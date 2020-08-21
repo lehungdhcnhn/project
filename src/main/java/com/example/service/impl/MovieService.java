@@ -140,14 +140,13 @@ public class MovieService implements IMovieService {
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public Slice<Room> findAll(int page, int size) {
+	public Slice<Movie> findAll(int page, int size) {
 		return movieRepository.findAll(new PageRequest(page, size));
 	}
 
 	@Override
 	public boolean hasRoomById(long Id) {
-		// TODO Auto-generated method stub
-		return false;
+		return movieRepository.existsById(Id);
 	}
 
 }

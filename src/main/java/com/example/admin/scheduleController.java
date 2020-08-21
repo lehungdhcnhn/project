@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,9 +33,38 @@ public class scheduleController {
 	private IMovieService movieService;
 	@GetMapping("/admin/listSchedule")
 	public String getViewRoomList(Model model) {
-		List<scheduleDTO>dto = new ArrayList<scheduleDTO>();
-		dto=scheduleService.findAll();
-		model.addAttribute("listSchedule", dto);
+		return "redirect:/admin/schedule?page=1&limit=4";
+	}
+	@GetMapping("/admin/schedule")
+	public String getViewPageRoom(Model model, @RequestParam(value = "page") int pageNumber, @RequestParam(value = "limit") int pageSize) {
+		/*
+		 * long numOfRoom = scheduleService.getNumOfSchedule(); long numOfPage =
+		 * (long)(numOfRoom/pageSize+1); if(numOfRoom%pageSize==0) numOfPage--;
+		 * System.err.println(pageNumber+"|"+numOfPage); Slice<scheduleDTO> schedule =
+		 * scheduleService.findAll(pageNumber-1, pageSize);
+		 * model.addAttribute("listRoom", schedule); model.addAttribute("numOfPage",
+		 * numOfPage); model.addAttribute("pageNumber", pageNumber);
+		 * model.addAttribute("numOfEntity", numOfRoom); model.addAttribute("pageSize",
+		 * pageSize);
+		 */
+		scheduleDTO scheduleDto = new scheduleDTO();
+		scheduleDto.setPage(pageNumber);
+		scheduleDto.setLimit(pageSize);
+		@SuppressWarnings("deprecation")
+		Pageable pageable  = new PageRequest(pageNumber-1,pageSize);
+		scheduleDto.setListResult(scheduleService.findAll(pageable));
+		model.addAttribute("listSchedule", scheduleDto);
+		scheduleDto.setTotalItem(scheduleService.getToTalItem());
+		scheduleDto.setTotalPage((int) Math.ceil((double) scheduleDto.getTotalItem() / scheduleDto.getLimit()));;
+		
+		long numOfSchedule = scheduleService.getToTalItem();
+		long numOfPage =  (long)(numOfSchedule/pageSize+1);
+		if(numOfSchedule%pageSize==0) numOfPage--;
+		
+		model.addAttribute("numOfPage", numOfPage);
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("numOfEntity", numOfSchedule);
+		model.addAttribute("pageSize", pageSize);
 		return "schedule/listSchedule";
 	}
 	@GetMapping("/admin/editSchedule")

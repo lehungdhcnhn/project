@@ -11,7 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.example.entities.schedule;
 
-public class scheduleDTO {
+public class scheduleDTO extends AbstractModel {
 	private Long id;
 	
 	

@@ -49,7 +49,7 @@
 		<div th:replace="Movie/list :: list-movie"></div>
 
 		<!-- footer -->
-		<div th:replace="common/admin/footer :: copy-footer-admin"></div>
+		<!-- <div th:replace="common/admin/footer :: copy-footer-admin"></div> -->
 		<!-- footer -->
 
 		<a href="#" id="btn-scroll-up"
@@ -81,7 +81,7 @@
 
 	<!-- page specific plugin scripts -->
 	<script th:src="@{/admin/assets/js/jquery-ui.min.js}"></script>
-	<script>
+	<script th:inline="javascript">
 	$(document).ready(function(){
 		document.getElementById("btnDelete").style.display = "none";
 	})
@@ -106,7 +106,12 @@
 	            url: "/deleteMovie/"+data,
 	            method: "GET",
 	            success: function (result) {
-	                window.location.href = "/admin/listMovie?success";
+	            	var page = /*[[${pageNumber}]]*/'';
+	            	var totalPages = /*[[${numOfPage}]]*/'';
+	      			var totalRooms = /*[[${numOfEntity}]]*/'';
+	      			var pageSize = /*[[${pageSize}]]*/'';
+	      			if(totalRooms%pageSize==1 && page == totalPages ) page = page - 1; 
+	                window.location.href = "/admin/Movie?success&page="+ page+"&limit="+ pageSize;
 	            },
 	            fail: function (err) {
 	                console.log(err);
@@ -175,6 +180,25 @@
 		            }
 		        });
 		}
+	</script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	    $(function () {
+	        window.pagObj = $('#pagination').twbsPagination({
+	            totalPages:/*[[ ${numOfPage}]]*/  '',
+	            visiblePages: 5,
+	            startPage:/*[[${pageNumber}]]*/ '' ,
+	            onPageClick: function (event, page) {
+	                console.info(page + ' (from options)');
+	            }
+	        }).on('page', function (event, page) {
+
+	        	/*$("#main-table").load("/api/admin/listRoom/"+page);*/
+	        	window.location.href="/admin/Movie?page="+page+"&limit="+/*[[${pageSize}]]*/ '' ;
+
+	        });
+	    });
+	 /*]]>*/
 	</script>
 </body>
 </html>
