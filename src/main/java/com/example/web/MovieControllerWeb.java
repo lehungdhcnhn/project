@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.example.converter.MovieConverter;
 import com.example.dto.MovieDTO;
 import com.example.entities.Movie;
+import com.example.entities.schedule;
 import com.example.repositories.MovieRepository;
+import com.example.repositories.ScheduleRepository;
 import com.example.service.ICategoryService;
 import com.example.service.IMovieService;
 import com.example.service.impl.ScheduleService;
@@ -29,7 +31,7 @@ public class MovieControllerWeb {
 	@Autowired
 	private MovieRepository movieRepository;
 	@Autowired
-	private ScheduleService scheduleService;
+	private ScheduleRepository scheduleRepository;
 	@Autowired
 	private MovieConverter movieConverter;
 	@RequestMapping(value="/",method = RequestMethod.GET)
@@ -68,7 +70,9 @@ public class MovieControllerWeb {
 			movieDto=movieConverter.convertToMovieDTO(item);
 			movieDto.setThumbnailImagePathVer("/thumbnail-pictures/"+movieDto.getId()+"/"+movieDto.getThumbnail());
 			dto.add(movieDto);
+			
 		}
+		
 		model.addAttribute("listMovie", dto);
 		
 		return "MovieWeb/ListMovie";
