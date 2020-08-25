@@ -28,10 +28,12 @@ import org.supercsv.prefs.CsvPreference;
 import com.example.converter.MovieConverter;
 import com.example.dto.MovieDTO;
 import com.example.entities.Movie;
+import com.example.helper.ExelHelper;
 import com.example.repositories.MovieRepository;
 import com.example.repositories.ScheduleRepository;
 import com.example.service.ICategoryService;
 import com.example.service.IMovieService;
+import com.example.service.impl.ExelService;
 
 @Controller
 public class MovieController {
@@ -45,6 +47,8 @@ public class MovieController {
 	private MovieConverter movieConverter;
 	@Autowired
 	private MovieRepository movieRepository;
+	@Autowired
+	private ExelService excelService;
 	@GetMapping("/admin/listMovie")
 	public String getViewMovieList(Model model) {
 		return "redirect:/admin/Movie?page=1&limit=4";
@@ -57,13 +61,12 @@ public class MovieController {
 		System.err.println(pageNumber+"|"+numOfPage);
 		
 		Slice<Movie> movie = movieService.findAll(pageNumber-1, pageSize);
-		model.addAttribute("listMovie", movie);
+		List<Movie> movieContent=movie.getContent();
+		model.addAttribute("listMovie", movieContent);
 		model.addAttribute("numOfPage", numOfPage);
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("numOfEntity", numOfRoom);
 		model.addAttribute("pageSize", pageSize);
-		
-	
 		return "Movie/listMovie";
 	}
 
@@ -133,7 +136,16 @@ public class MovieController {
 	}
 	///////////////////////
 	@RequestMapping(value = "/multipleMovieChange", method = RequestMethod.POST )
-	public String deleteRoomList(@RequestParam(value="movieId",required = false) long[] movieListId) {
+	public String deleteMovieList(@RequestParam(value="movieId",required = false) long[] movieListId,@RequestParam(value="file",required = false) MultipartFile file) {
+		String fileName= StringUtils.cleanPath(file.getOriginalFilename());
+		if(!fileName.equals(""))
+		{
+			 if (ExelHelper.hasExcelFormat(file)) {
+				  excelService.save(file);
+				  return "redirect:/admin/listMovie";
+			 }
+			 return "redirect:/admin/listMovie";
+		}
 		if(movieListId==null)
 		{
 			return "redirect:/admin/listMovie?error";

@@ -11,18 +11,28 @@
 <title>Movie Review</title>
 
 <!-- Loading third party fonts -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- Loading third party fonts -->
 <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|"
 	rel="stylesheet" type="text/css">
 <link th:href="@{/web/fonts/font-awesome.min.css}" rel="stylesheet"
 	type="text/css">
-
 <!-- Loading main css file -->
 <link th:href="@{/web/css/style.css}" rel="stylesheet" type="text/css">
-
 <!--[if lt IE 9]>
 		<script src="js/ie-support/html5.js"></script>
 		<script src="js/ie-support/respond.js"></script>
 		<![endif]-->
+<link th:href="@{/web/css/datepicker.min.css}" rel="stylesheet"
+	type="text/css">
+<script th:src="@{/web/js/datepicker.min.js}"></script>
+
+<!-- Include English language -->
 
 </head>
 <body>
@@ -35,7 +45,8 @@
 		<main class="main-content">
 			<div class="container">
 				<div class="page">
-					<form th:objet="movie">
+					<form th:action="@{/descriptionMovie/{id}(id=${movie.id})}"
+						id="formSubmit" method="POST">
 						<div class="breadcrumbs">
 							<a href="index.html">Home</a> <a href="review.html">Movie
 								Review</a> <span th:text="${movie.name}"></span>
@@ -89,16 +100,58 @@
 										class="btn btn-primary center">Trailer</button>
 								</span>
 							</div>
-							<div id="content" th:text="${movie.content}"></div>
+							<div id="content" th:text="${movie.content}"
+								style="margin-top: 30px; margin-bottom: 30px"></div>
+							<div style="margin-top: 30px; margin-bottom: 30px">
+								<iframe id="youtube" width="560" height="315"
+									style="display: none"
+									th:src="@{https://www.youtube.com/embed/{url}(url=${movie.idYou})}"></iframe>
+							</div>
+						</div>
 
-							<iframe id="youtube" width="560" height="315"
-								style="display: none"
-								th:src="@{https://www.youtube.com/embed/{url}(url=${movie.idYou})}"></iframe>
+
+						<h3>Lịch chiếu</h3>
+						<div class="row">
+							<div class='col-sm-3'>
+								<div class="form-group">
+									<input type='text' id="startDate" name="startDate" value="startDate" onchange="myFunctionTest()"  class="datepicker-here" placeholder="Chọn ngày dạng dd/MM/yyyy" data-language='en' />
+								</div>
+							</div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-3">
+
+								<select id="room_id" name="room_id" style="height: 35px; width: 200px">
+									<option value="0">Chọn phòng</option>
+									<option th:each="room : ${listRoom}" th:text="${room.name}"
+										th:value="${room.id}"></option>
+								</select><span id="roomText"></span>
+							</div>
 
 						</div>
+						<div class="choose-container">
+
+							<div th:each="listSchedule,listTimeSchedule : ${listSchedule}">
+
+								<div class="time-select">
+									<div class="time-select__group ">
+										<div class="col-sm-4">
+											<p class="time-select__place" th:text="${listSchedule.name}"></p>
+										</div>
+										<ul class="col-sm-8 items-wrap">
+											<div th:each="listTime: ${listSchedule.schedule}">
+												<li class="time-select__item" th:text="${listTime.time}"></li>
+											</div>
+										</ul>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<!-- .container -->
 					</form>
 				</div>
-				<!-- .container -->
+			</div>
+
 		</main>
 		<!-- Footer -->
 		<div th:replace="common/web/footer :: copy-footer-web"></div>
@@ -118,8 +171,24 @@
 			document.getElementById("content").style.display = "none";
 		}
 	</script>
+	<script>
+	
+	$('#startDate').datepicker({
+	    language: 'en',
+	    minDate: new Date(),
+	    dateFormat: 'dd/mm/yyyy',
+	    onSelect: function onSelect() {
+	    	document.getElementById("formSubmit").submit();
+	    }
+	})
+		
+	
+	
+	</script>
+</body>
+	<script th:src="@{/web/js/datepicker.en.js}"></script>
 	<script th:src="@{/web/js/jquery-1.11.1.min.js}"></script>
 	<script th:src="@{/web/js/plugins.js}"></script>
 	<script th:src="@{/web/js/app.js}"></script>
-</body>
+	
 </html>

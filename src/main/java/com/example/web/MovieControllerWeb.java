@@ -1,9 +1,11 @@
 package com.example.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,15 +13,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.admin.RoomController;
 import com.example.converter.MovieConverter;
+import com.example.converter.RoomConverter;
 import com.example.dto.MovieDTO;
+import com.example.dto.RoomDTO;
 import com.example.entities.Movie;
+import com.example.entities.Room;
 import com.example.entities.schedule;
 import com.example.repositories.MovieRepository;
+import com.example.repositories.RoomRepository;
 import com.example.repositories.ScheduleRepository;
 import com.example.service.ICategoryService;
 import com.example.service.IMovieService;
+import com.example.service.impl.RoomService;
 import com.example.service.impl.ScheduleService;
 
 @Controller
@@ -34,6 +44,12 @@ public class MovieControllerWeb {
 	private ScheduleRepository scheduleRepository;
 	@Autowired
 	private MovieConverter movieConverter;
+	@Autowired
+	private RoomService roomService;
+	@Autowired
+	private RoomRepository roomRepository;
+	@Autowired
+	private RoomConverter roomConverter;
 	@RequestMapping(value="/",method = RequestMethod.GET)
 	public String viewHomePage(Model model) {
 		List<Movie> movie = new ArrayList<Movie>();
@@ -107,11 +123,45 @@ public class MovieControllerWeb {
 		}
 		return "/home/listMovie";
 	}
-	@GetMapping("/descriptionMovie/{id}")
-	public String viewDescriptionMovie(Model model,@PathVariable(value = "id") long id) {
+
+	@RequestMapping("/descriptionMovie/{id}")
+	public String viewDescriptionMovieGet(Model model,@PathVariable(value = "id") long id,
+			@RequestParam(value = "startDate",required = false) @DateTimeFormat(pattern="dd/MM/yyyy") Date startDate, @RequestParam(value = "room_id", required = false)  Long roomId) {
 		Movie movie = new Movie();
+		List<schedule> schedule = new ArrayList<schedule>();
+		List<RoomDTO> roomDTO = new ArrayList<RoomDTO>();
+		RoomDTO dto = new RoomDTO();
 		movie = movieService.findById(id);
 		model.addAttribute("movie", movie);
+		model.addAttribute("listRoom", roomService.getAllRoom());
+		List<Room> room = new ArrayList<Room>(); 
+		
+		if(startDate==null)
+		{
+			startDate=new Date();
+		}
+		System.out.println(startDate);
+		room = roomRepository.findRoomByMovieID(id,startDate);
+		if(roomId==null||roomId==0)
+		{
+		
+			for (Room item : room) {
+				dto= roomConverter.convertToRoomDTO(item);
+				schedule=scheduleRepository.findScheduleByDateAndRoom(startDate, dto.getId());
+				dto.setSchedule(schedule);
+				roomDTO.add(dto);
+			}
+		}
+		else {
+			
+			for (Room item : room) {
+				dto= roomConverter.convertToRoomDTO(item);
+				schedule=scheduleRepository.findScheduleByDateAndRoom(startDate, roomId);
+				dto.setSchedule(schedule);
+				roomDTO.add(dto);
+			}
+		}
+		model.addAttribute("listSchedule",roomDTO);
 		return "MovieWeb/DescriptionMovie";	
 	}
 }

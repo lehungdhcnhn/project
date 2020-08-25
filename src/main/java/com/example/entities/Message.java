@@ -33,4 +33,10 @@ public class Message {
 		this.content = content;
 	}
 
+	public Message( String content) {
+		super();
+		
+		this.content = content;
+	}
+	
 }

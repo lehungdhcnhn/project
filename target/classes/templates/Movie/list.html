@@ -25,29 +25,31 @@
 				</small>
 			</h1>
 		</div>
-		<form th:action="@{/multipleMovieChange}" id="formSubmit"
+		<form th:action="@{/multipleMovieChange}" id="formSubmit" name="myForm" enctype="multipart/form-data"
 			th:object="${listMovie}" method="post">
 			<div th:if="${param.success}">
 				<div class="alert alert-success" role="alert">Bạn đã xóa thành
 					công!</div>
 			</div>
-			
+
 
 			<div class="table-btn-controls">
-			
+
 				<div class="col-sm-2 col-md-2" style="margin-left: -15px;">
-					<form class="navbar-form" role="search">
+				<a class="navbar-form" role="search">
 						<div class="input-group">
-							<input type="text" class="form-control" id="searchMovie" placeholder="Tên phim">
+							<input type="text" class="form-control" id="searchMovie"
+								placeholder="Tên phim">
 							<div class="input-group-btn">
-								<button  class="btn btn-default" type="submit" onclick="searchFunction()">
+								<button class="btn btn-default" type="submit"
+									onclick="searchFunction()">
 									<i class="glyphicon glyphicon-search"></i>
 								</button>
 							</div>
 						</div>
-					</form>
+					</a>
 				</div>
-				
+
 				<div class="pull-right tableTools-container">
 					<div class="dt-buttons btn-overlap btn-group">
 						<a flag="info"
@@ -56,13 +58,23 @@
 							<span> <i class="fa fa-plus-circle bigger-110 purple"></i>
 						</span>
 						</a> <a id="btnDelete" onclick="return warningBeforeMultiDelete()"
-							name="action" value="deleteMovieList"
 							class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
 							data-toggle="tooltip" title='Xóa phim da chon'> <span>
 								<i class="fa fa-trash-o bigger-110 pink"></i>
 						</span>
-						</a> <a th:href="@{/movie/export}"><img
-							th:src="@{/pictures/iconcsv.png}" alt="Slide 1"></a>
+						</a> <a th:href="@{/movie/export}" class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"> <span><i
+								class="fa fa-cloud-download bigger-110 pink"></i></span>
+						</a>
+						</a> <a  class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"> <span>
+							 <input type="file" id="file" name="file" style="height: 20px; width: 150px"
+							  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+						</span>
+						</a>
+						 <button type="submit"
+							class="dt-button buttons-html5 btn btn-white btn-primary btn-bold">
+							<span><i class="fa fa-cloud-upload bigger-110 pink"></i></span>
+						
+						</button>
 					</div>
 				</div>
 
@@ -89,8 +101,8 @@
 
 				<tbody>
 					<tr th:each="movie : ${listMovie}">
-						<td class="center"><label class="pos-rel"> <input
-								type="checkbox" class="ace movieId" th:value="${movie.id}"
+						<td class="center"><label class="pos-rel"> 
+						<input type="checkbox" class="ace movieId" th:value="${movie.id}" name="movieId" id="movieId"
 								onclick="myFunction()" style="width: 3%" /> <span class="lbl"></span>
 						</label></td>
 
@@ -113,6 +125,7 @@
 									<input type="hidden" id="id" name="id" th:value=${movie.id}>
 									<i class="ace-icon fa fa-trash-o bigger-120"> </i>
 								</a>
+
 							</div>
 							<div class="hidden-md hidden-lg">
 								<div class="inline pos-rel">

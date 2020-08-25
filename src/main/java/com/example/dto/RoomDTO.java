@@ -6,14 +6,14 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.example.entities.Room;
-
+import com.example.entities.schedule;
 public class RoomDTO {
 	
 	
 	private String name;
 	private Long id;
 	private String code;
-	
+	private List<schedule> schedule;
 	@Valid
 	private List<Room> listRoom = new ArrayList<>();
 	public RoomDTO(List<Room> listRoom) {
@@ -52,5 +52,12 @@ public class RoomDTO {
 	public void setCode(String code) {
 		this.code = code;
 	}
+	public List<schedule> getSchedule() {
+		return schedule;
+	}
+	public void setSchedule(List<schedule> schedule) {
+		this.schedule = schedule;
+	}
+	
 }
 
