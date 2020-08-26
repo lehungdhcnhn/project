@@ -100,27 +100,33 @@
 										class="btn btn-primary center">Trailer</button>
 								</span>
 							</div>
-							<div id="content" th:text="${movie.content}"
-								style="margin-top: 30px; margin-bottom: 30px"></div>
+							
+								  <div th:utext="${movie.content}" style="margin-top: 30px; margin-bottom: 30px">Content</div>
 							<div style="margin-top: 30px; margin-bottom: 30px">
 								<iframe id="youtube" width="560" height="315"
 									style="display: none"
 									th:src="@{https://www.youtube.com/embed/{url}(url=${movie.idYou})}"></iframe>
 							</div>
 						</div>
-
-
+					</form>
+					<form th:action="@{/searchScheduleByRoom}" method="Get"
+						id="formSearchSchedule">
 						<h3>Lịch chiếu</h3>
 						<div class="row">
 							<div class='col-sm-3'>
 								<div class="form-group">
-									<input type='text' id="startDate" name="startDate" value="startDate" onchange="myFunctionTest()"  class="datepicker-here" placeholder="Chọn ngày dạng dd/MM/yyyy" data-language='en' />
+									<input type='text' id="startDate" name="startDate"
+										value="startDate" onchange="myFunctionTest()"
+										class="datepicker-here"
+										placeholder="Chọn ngày dạng dd/MM/yyyy" data-language='en' />
 								</div>
 							</div>
 							<div class="col-sm-2"></div>
 							<div class="col-sm-3">
-
-								<select id="room_id" name="room_id" style="height: 35px; width: 200px">
+								<input type="hidden" id="movieId" name="movieId"
+									th:value="${movie.id}" /> 
+									<select id="room_id"  onchange="changeFunc();"
+									style="height: 45px; width: 200px">
 									<option value="0">Chọn phòng</option>
 									<option th:each="room : ${listRoom}" th:text="${room.name}"
 										th:value="${room.id}"></option>
@@ -128,25 +134,7 @@
 							</div>
 
 						</div>
-						<div class="choose-container">
-
-							<div th:each="listSchedule,listTimeSchedule : ${listSchedule}">
-
-								<div class="time-select">
-									<div class="time-select__group ">
-										<div class="col-sm-4">
-											<p class="time-select__place" th:text="${listSchedule.name}"></p>
-										</div>
-										<ul class="col-sm-8 items-wrap">
-											<div th:each="listTime: ${listSchedule.schedule}">
-												<li class="time-select__item" th:text="${listTime.time}"></li>
-											</div>
-										</ul>
-									</div>
-								</div>
-
-							</div>
-						</div>
+						<div id="listScheduleSearch"></div>
 						<!-- .container -->
 					</form>
 				</div>
@@ -172,23 +160,32 @@
 		}
 	</script>
 	<script>
-	
-	$('#startDate').datepicker({
-	    language: 'en',
-	    minDate: new Date(),
-	    dateFormat: 'dd/mm/yyyy',
-	    onSelect: function onSelect() {
-	    	document.getElementById("formSubmit").submit();
-	    }
-	})
+		var movieId = document.getElementById("movieId").value;
+		var startDate="";
+		var roomId= 0;
+		function changeFunc() {
+			var id = document.getElementById("room_id");
+			roomId = id.options[id.selectedIndex].value;
+			var url = '/searchScheduleByRoom?movieId='+movieId+'&startDate='+startDate+'&room_id='+roomId;
+			$("#listScheduleSearch").load(url);
+		}
 		
-	
-	
+		$('#startDate').datepicker({
+			language : 'en',
+			minDate : new Date(),
+			dateFormat : 'dd/mm/yyyy',
+			onSelect : function onSelect(date) {
+				var url = '/searchScheduleByRoom?movieId='+movieId+'&startDate='+date+'&room_id='+roomId;
+				startDate=date;
+				$("#listScheduleSearch").load(url);
+			}
+		});
+		
 	</script>
 </body>
-	<script th:src="@{/web/js/datepicker.en.js}"></script>
-	<script th:src="@{/web/js/jquery-1.11.1.min.js}"></script>
-	<script th:src="@{/web/js/plugins.js}"></script>
-	<script th:src="@{/web/js/app.js}"></script>
-	
+<script th:src="@{/web/js/datepicker.en.js}"></script>
+<script th:src="@{/web/js/jquery-1.11.1.min.js}"></script>
+<script th:src="@{/web/js/plugins.js}"></script>
+<script th:src="@{/web/js/app.js}"></script>
+
 </html>

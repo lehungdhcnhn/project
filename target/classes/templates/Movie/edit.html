@@ -22,7 +22,7 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<form th:action="@{/saveMovie}" th:object="${movie}" method="POST"
-						onsubmit="return validate()" name="formSubmit"
+						onsubmit="return validateForm()" name="formSubmit"
 						class="form-horizontal" id="formSubmit"
 						enctype="multipart/form-data">
 
@@ -86,18 +86,20 @@
 								<input type="text" class="col-xs-10 col-sm-5" id="length"
 									name="length" th:field="*{length}" />
 								<p class="text-danger" th:if="${#fields.hasErrors('length')}"
-									th:errors="*{length}"></p>
+									th:errors="*{length}"></p><p id="validate"></p>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right "
 								for="form-field-1"> Id youtube: <span><p style="color: #ff4dd2">*</p></span> </label>
-
+								
 							<div class="col-sm-9">
 
 
 								<input type="text" class="col-xs-10 col-sm-5" id="idYou"
 									name="idYou" th:field="*{idYou}" />
+									<p class="text-danger" th:if="${#fields.hasErrors('idYou')}"
+									th:errors="idYou"></p>
 								
 							</div>
 

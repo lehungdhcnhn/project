@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -184,6 +185,42 @@ public class MovieControllerWeb {
 		model.addAttribute("listMovie", movieDto.getListResultMovie());
 		return "MovieWeb/ListMovie";
 		
+	}
+	@GetMapping("/searchScheduleByRoom")
+	public String viewDescriptionMovie(ModelMap model,@RequestParam(value = "movieId") long id,
+			@RequestParam(value = "startDate",required = false) @DateTimeFormat(pattern="dd/MM/yyyy") Date startDate, @RequestParam(value = "room_id", required = false)  Long roomId) {
+		Movie movie = new Movie();
+		List<schedule> schedule = new ArrayList<schedule>();
+		List<RoomDTO> roomDTO = new ArrayList<RoomDTO>();
+		RoomDTO dto = new RoomDTO();
+		movie = movieService.findById(id);
+		model.addAttribute("movie", movie);
+		model.addAttribute("listRoom", roomService.getAllRoom());
+		List<Room> room = new ArrayList<Room>(); 
+		
+		if(startDate==null)
+		{
+			startDate=new Date();
+		}
+		System.out.println(startDate);
+		room = roomRepository.findRoomByMovieID(id,startDate);
+		if(roomId==null||roomId==0)
+		{
+		
+			for (Room item : room) {
+				dto= roomConverter.convertToRoomDTO(item);
+				schedule=scheduleRepository.findScheduleByDateAndRoom(startDate, dto.getId());
+				dto.setSchedule(schedule);
+				roomDTO.add(dto);
+			}
+		}
+		else {
+				schedule=scheduleRepository.findScheduleByDateAndRoom(startDate, roomId);
+				dto.setSchedule(schedule);
+				roomDTO.add(dto);	
+		}
+		model.addAttribute("listSchedule",roomDTO);
+		return "MovieWeb/Schedule :: listScheduleSearch";	
 	}
 }
 

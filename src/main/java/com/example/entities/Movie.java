@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -36,7 +37,7 @@ public class Movie {
 	@Size(min=1, max=255, message= "Mô tả ngắn từ 1-255 ký tự")
 	@Column(name="member")
 	private String member;
-	
+
 	@NotNull(message="Không được để trống thời gian phim")
 	@Column(name="length")
 	private Long length;
@@ -53,7 +54,7 @@ public class Movie {
 	@Column(name="starttime")
 	private Date startTime;
 	
-	@NotNull
+	@NotNull(message="Không được để trống link You")
 	@Column
 	private String idYou;
 	

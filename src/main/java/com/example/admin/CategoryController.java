@@ -60,7 +60,6 @@ public class CategoryController {
 		model.addAttribute("category", category);
 		return "Category/editCategory";
 	}
-
 	@PostMapping("/saveCategory")
 	public String saveCategory(@ModelAttribute("category") Category category, @Valid Category categoryValid,
 			BindingResult bindingResult) {

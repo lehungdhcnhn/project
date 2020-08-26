@@ -1,47 +1,17 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0,maximum-scale=1">
-
-<title>Movie Review</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<!-- Loading third party fonts -->
-<link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|"
-	rel="stylesheet" type="text/css">
-<link th:href="@{/web/fonts/font-awesome.min.css}" rel="stylesheet"
-	type="text/css">
-<!-- Loading main css file -->
-<link th:href="@{/web/css/style.css}" rel="stylesheet" type="text/css">
-</head>
-<body>
-		<div class="choose-container">
-
-							<div th:each="listSchedule,listTimeSchedule : ${listSchedule}">
-
-								<div class="time-select">
-									<div class="time-select__group ">
-										<div class="col-sm-4">
-											<p class="time-select__place" th:text="${listSchedule.name}"></p>
-										</div>
-										<ul class="col-sm-8 items-wrap">
-											<div th:each="listTime: ${listSchedule.schedule}">
-												<li class="time-select__item" th:text="${listTime.time}"></li>
-											</div>
-										</ul>
-									</div>
-								</div>
-
-							</div>
-						</div>
-</body>
-</html>
+<div th:fragment="listScheduleSearch">
+<div class="choose-container">
+	<div th:each="listSchedule,listTimeSchedule : ${listSchedule}">
+		<div class="time-select">
+			<div class="time-select__group ">
+				<div class="col-sm-4">
+					<p class="time-select__place" th:text="${listSchedule.name}"></p>
+				</div>
+				<ul class="col-sm-8 items-wrap">
+					<div th:each="listTime: ${listSchedule.schedule}">
+						<li class="time-select__item" th:text="${listTime.time}"></li>
+					</div>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
