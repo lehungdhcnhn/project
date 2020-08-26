@@ -153,16 +153,37 @@ public class MovieControllerWeb {
 			}
 		}
 		else {
-			
-			for (Room item : room) {
-				dto= roomConverter.convertToRoomDTO(item);
 				schedule=scheduleRepository.findScheduleByDateAndRoom(startDate, roomId);
 				dto.setSchedule(schedule);
-				roomDTO.add(dto);
-			}
+				roomDTO.add(dto);	
 		}
 		model.addAttribute("listSchedule",roomDTO);
 		return "MovieWeb/DescriptionMovie";	
+	}
+	@PostMapping("/searchMovieWeb")
+	public String searchMovie(@RequestParam(value = "nameMovie") String searchMovie,Model model){
+		List<Movie> movie = new ArrayList<Movie>();
+		if(searchMovie=="")
+		{
+			return "MovieWeb/ListMovie";
+		}
+		movie = movieRepository.findMovieByName(searchMovie);
+		if(movie.isEmpty())
+		{
+			return "MovieWeb/ListMovie";
+		}
+		
+		List<MovieDTO> dto = new ArrayList<MovieDTO>();
+		MovieDTO movieDto = new MovieDTO();
+		for (Movie item : movie) {
+			movieDto=movieConverter.convertToMovieDTO(item);
+			dto.add(movieDto);
+		}
+		movieDto.setListResultMovie(dto);
+		
+		model.addAttribute("listMovie", movieDto.getListResultMovie());
+		return "MovieWeb/ListMovie";
+		
 	}
 }
 

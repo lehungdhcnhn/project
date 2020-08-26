@@ -87,10 +87,11 @@ public class MovieController {
 
 	
 	@PostMapping("/saveMovie")
-	public String saveMovie(@ModelAttribute("movie") Movie movie,@RequestParam("fileImage") MultipartFile multipartFile, @Valid Movie movieValid,BindingResult bindingResult) throws IOException
+	public String saveMovie(Model model,@ModelAttribute("movie") Movie movie,@RequestParam("fileImage") MultipartFile multipartFile, @Valid Movie movieValid,BindingResult bindingResult) throws IOException
 	{
 		if(bindingResult.hasErrors())
 		{
+			model.addAttribute("listCategory", categoryService.getAllCategory());
 			return "movie/editMovie";
 		}
 		String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -177,8 +178,8 @@ public class MovieController {
 			movie.add(entity);
 		}
 		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
-		String [] csvHeader= {"name","starttime","content","length","member"};
-		String [] nameMapping= {"name","starttime","content","length","member"};
+		String [] csvHeader= {"name","starttime","content","length","member","idYou"};
+		String [] nameMapping= {"name","starttime","content","length","member","idYou"};
 		csvWriter.writeHeader(csvHeader);
 		for (Movie item : movie ) {
 			csvWriter.write(item, nameMapping);
@@ -196,7 +197,12 @@ public class MovieController {
 			dto.add(movieDto);
 		}
 		movieDto.setListResultMovie(dto);
-		model.addAttribute("listMovie", movieDto);
+		model.addAttribute("listMovie", movieDto.getListResultMovie());
 		return "Movie/listMovie";
+	}
+	@RequestMapping("/searchMovie/editMovie")
+	public String editMovieSeach()
+	{
+		return "redirect:/admin/editMovie";
 	}
 }

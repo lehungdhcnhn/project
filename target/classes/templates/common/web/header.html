@@ -20,11 +20,13 @@
 							<li class="menu-item"><p sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></p></li>
 							<li class="menu-item"><p sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></p></li>
 						</ul> <!-- .menu -->
-
-						<form action="#" class="search-form">
-							<input type="text" placeholder="Search...">
-							<button><i class="fa fa-search"></i></button>
+						<li class="menu-item">
+							<form th:action="@{/searchMovieWeb}" id="form" name="Form"  method="post">
+							<input type="text" id="nameMovie" name="nameMovie" placeholder="Search..." style="height: 35px;">
+							<span><button type="submit"><i class="fa fa-search"></i></button></span>
 						</form>
+						</li>
+						
 					</div> <!-- .main-navigation -->
 
 					<div class="mobile-navigation"></div>

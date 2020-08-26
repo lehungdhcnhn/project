@@ -26,7 +26,7 @@
 					
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Chọn phim </label>
+								for="form-field-1"> Chọn phim: <p style="color: #ff4dd2">*</p> </label>
 
 							<div class="col-sm-9">
 								<select th:field="*{movieId}" th:required="true" style="width: 100px">
@@ -41,7 +41,7 @@
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Chọn phòng chiếu </label>
+								for="form-field-1"> Chọn phòng chiếu: <p style="color: #ff4dd2">*</p> </label>
 
 							<div class="col-sm-9">
 								<select th:field="*{roomId}" th:required="true" style="width: 100px">
@@ -56,12 +56,12 @@
 						
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Thời gian </label>
-
+								for="form-field-1"> Thời gian:<p style="color: #ff4dd2">*</p> </label>
+								
 							<div class="col-sm-2">
 
 								<div class='input-group date' id='datetimepicker1'>
-									<input type='text'  th:field="*{time}"/> <span
+									<input type='text'  th:field="*{time}" required="true"/> <span
 										class="input-group-addon"> <span
 										class="glyphicon glyphicon-calendar"></span>
 									</span>

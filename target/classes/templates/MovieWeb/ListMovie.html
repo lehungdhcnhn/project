@@ -51,11 +51,7 @@
 					<form th:action="@{/home/listMovie/CommingSoon}" id="formSubmit"
 						method="POST"></form>
 					<div class="filters">
-						<select name="#" id="#" placeholder="Choose Category">
-							<option value="">Thể loại</option>
-							<option th:each="category : ${listCategory}"
-								th:text="${category.name}" th:value="${category.id}"></option>
-						</select> <select id="selectBox" onchange="changeFunc();">
+						 <select id="selectBox" onchange="changeFunc();">
 							<option value="0">Phim</option>
 							<option value="1">Phim đang chiếu</option>
 							<option value="2">Phim sắp chiếu</option>

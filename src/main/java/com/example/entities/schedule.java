@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,7 +23,7 @@ public class schedule {
 	@Id
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Long id;
-	
+	@NotNull(message = "Không được để trống thời gian")
 	@Column(name="time")
 	@DateTimeFormat(pattern = "dd/MM/yyyy h:mm a")
 	private Date time;

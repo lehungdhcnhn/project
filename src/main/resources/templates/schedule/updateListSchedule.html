@@ -96,7 +96,7 @@
 								<td class="center">
 									<div class="col-sm-2">
 										<div class='input-group date datetimepicker1' >
-											<input type='text' th:field="*{listResult[__${itemStat.index}__].time}" /> <span
+											<input type='text' th:field="*{listResult[__${itemStat.index}__].time}" required="true" /> <span
 												class="input-group-addon"> <span
 												class="glyphicon glyphicon-calendar"></span>
 											</span>
@@ -119,10 +119,10 @@
 						<button class="btn btn-info" type="submit" id="btnAddOrUpdateNew">
 							<i class="ace-icon fa fa-check bigger-110"></i> Lưu lại
 						</button>
-						<!--  <a th:href="@{/admin/listRoom}"><button class="btn" type="button" >Quay về trang trước</button></a> 
-					<button class="btn" type="reset" >
-						<i class="ace-icon fa fa-undo bigger-110"></i> Quay lại dữ liệu ban đầu
-					</button>-->
+						<!--  <a th:href="@{/admin/listRoom}"><button class="btn" type="button" >Quay về trang trước</button></a> -->
+					<a th:href="@{/admin/listSchedule}" class="btn" >
+						<i class="ace-icon fa fa-undo bigger-110"></i>Hủy
+					</a>
 					</div>
 				</form>
 			</div>

@@ -34,12 +34,10 @@ public class CategoryController {
 			long numOfCategory = categoryService.getNumOfCategory();
 			long numOfPage = (long) ((numOfCategory-1) / pageSize + 1);
 			return "redirect:/admin/Category?page=" + numOfPage + "&limit=" + pageSize;
-
 		} else {
 			return "redirect:/admin/Category?page=1&limit=4";
 		}
 	}
-
 	@GetMapping("/admin/Category")
 	public String getViewCategoryPage(Model model, @RequestParam(value = "page") int pageNumber,
 			@RequestParam("limit") int pageSize) {

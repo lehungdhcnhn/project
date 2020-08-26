@@ -33,7 +33,6 @@ public class ExelHelper {
 
 		try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
 			Sheet sheet = workbook.createSheet(SHEET);
-
 			// Header
 			Row headerRow = sheet.createRow(0);
 
@@ -45,7 +44,6 @@ public class ExelHelper {
 			int rowIdx = 1;
 			for (Movie item : movie) {
 				Row row = sheet.createRow(rowIdx++);
-
 				row.createCell(0).setCellValue(item.getName());
 				row.createCell(1).setCellValue(item.getStartTime());
 				row.createCell(2).setCellValue(item.getContent());
@@ -64,7 +62,6 @@ public class ExelHelper {
 	public static List<Movie> excelToTutorials(InputStream is) {
 		try {
 			Workbook workbook = new XSSFWorkbook(is);
-
 			Sheet sheet = workbook.getSheet(SHEET);
 			Iterator<Row> rows = sheet.iterator();
 

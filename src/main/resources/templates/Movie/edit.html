@@ -28,7 +28,7 @@
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right "
-								for="form-field-1"> Tên phim </label>
+								for="form-field-1"> Tên phim: <span><p style="color: #ff4dd2">*</p></span> </label>
 
 							<div class="col-sm-9">
 
@@ -66,7 +66,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right "
-								for="form-field-1"> Nội dung </label>
+								for="form-field-1"> Nội dung: <span><p style="color: #ff4dd2">*</p></span> </label>
 
 							<div class="col-sm-9">
 
@@ -80,7 +80,7 @@
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right "
-								for="form-field-1"> Thời lượng phim: </label>
+								for="form-field-1"> Thời lượng phim: <span><p style="color: #ff4dd2">*</p></span></label>
 
 							<div class="col-sm-9">
 								<input type="text" class="col-xs-10 col-sm-5" id="length"
@@ -91,7 +91,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right "
-								for="form-field-1"> Id youtube </label>
+								for="form-field-1"> Id youtube: <span><p style="color: #ff4dd2">*</p></span> </label>
 
 							<div class="col-sm-9">
 
@@ -105,7 +105,7 @@
 						
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right "
-								for="form-field-1"> Thành viên </label>
+								for="form-field-1"> Thành viên: <p style="color: #ff4dd2">*</p> </label>
 
 							<div class="col-sm-9">
 
@@ -119,8 +119,9 @@
 						<div class="form-group">
 							<label for="categoryCode"
 								class="col-sm-3 control-label no-padding-right">Thể
-								loại:</label>
-							<div class="col-sm-9">
+								loại:<p style="color: #ff4dd2">*</p></label>
+								
+								<div class="col-sm-9">
 
 								<select id="category" name="category" th:field="*{categories}"
 									th:required="true" class="selectpicker" multiple
@@ -133,7 +134,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right"
-								for="form-field-1"> Hình ảnh </label>
+								for="form-field-1"> Hình ảnh: <span><p style="color: #ff4dd2">*</p></span> </label>
 
 							<div class="col-sm-9">
 								<input type="file" id="fileImage" name="fileImage"

@@ -34,7 +34,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> ,PagingAndSo
 	
 	@Transactional
 	@Modifying
-	@Query(value="SELECT movie.* FROM movie WHERE movie.name LIKE %?1% ",nativeQuery = true)
+	@Query(value="SELECT movie.* FROM movie WHERE movie.name  LIKE CONCAT('%',?1,'%')",nativeQuery = true)
 	List<Movie> findMovieByName(String name);
 	
 }
